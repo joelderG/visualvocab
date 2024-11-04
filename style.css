@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.calistoga-regular {
+    font-family: "Calistoga", serif;
+    font-weight: 400;
+    font-style: normal;
+}  
+
+#title {
+    font-family: "Calistoga", serif;
+    position: fixed;
+    top: 20px;  /* Abstand vom oberen Bildschirmrand */
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    color: #333;
+    margin: 0;
+    z-index: 1;  /* Stellt sicher, dass die Überschrift über anderen Elementen liegt */
+}
+
+#game-container {
+    width: 1200px;             /* Breite des Containers */
+    height: 550px;            /* Höhe des Containers */
+    margin-top: 80px;        /* Abstand nach oben, damit der Container mittig unter der Überschrift liegt */
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Leichter Schatteneffekt */
+    box-sizing: border-box;  /* Verhindert, dass Padding/Borders die Breite/Höhe beeinflussen */
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
