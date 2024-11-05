@@ -3,13 +3,16 @@ import * as THREE from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Grundlegende Initialisierung von Three.js
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
+    // Zuweisen des Canvas auf das in der index.html erstellte Element
     const canvas = document.getElementById("gameCanvas");
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
+    // Beleuchtung der Szene
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
@@ -17,72 +20,57 @@ document.addEventListener("DOMContentLoaded", () => {
     directionalLight.position.set(1, 1, 1);
     scene.add(directionalLight);
 
+    let sofaObject = null; // Referenz für das Sofa-Objekt
+
+    // Lade das GLTF-Modell und füge es zur Szene hinzu
     const loader = new GLTFLoader();
-    let model;  // Variable zum Speichern des geladenen Modells
-    loader.load(
-        'assets/my_armchair_glb/scene.glb',
-        (gltf) => {
-            model = gltf.scene;
-            scene.add(model);
-            model.scale.set(1, 1, 1);
-            model.position.set(0, 0, 0);
-        },
-        undefined,
-        (error) => {
-            console.error("Ein Fehler beim Laden des GLTF-Modells ist aufgetreten:", error);
-        }
-    );
+    loader.load('assets/interior_scene_gltf/scene.gltf', (gltf) => {
+        const model = gltf.scene;
+        scene.add(model);
 
-    camera.position.z = 4;
-
-    // Variablen für die Mausinteraktion
-    let isDragging = false;
-    let previousMousePosition = { x: 0, y: 0 };
-
-    // Event-Listener für die Maus
-    canvas.addEventListener("mousedown", (e) => {
-        if (e.button === 0) {  // Nur die linke Maustaste
-            isDragging = true;
-        }
+        // Suche nach dem Sofa-Objekt
+        model.traverse((node) => {
+            if (node.isMesh && node.name.includes("PM3D_sofa")) {
+                sofaObject = node; // Referenz für Sofa speichern
+                console.log("Sofa gefunden:", sofaObject);
+            }
+        });
     });
 
-    canvas.addEventListener("mousemove", (e) => {
-        if (isDragging && model) {
-            const deltaMove = {
-                x: e.clientX - previousMousePosition.x,
-                y: e.clientY - previousMousePosition.y
-            };
-
-            // Rotation in Abhängigkeit von Mausbewegung berechnen
-            const rotationSpeed = 0.01;
-            model.rotation.y += deltaMove.x * rotationSpeed;
-            model.rotation.x += deltaMove.y * rotationSpeed;
-
-            previousMousePosition = { x: e.clientX, y: e.clientY };
-        }
-    });
-
-    canvas.addEventListener("mouseup", (e) => {
-        if (e.button === 0) {
-            isDragging = false;
-        }
-    });
-
-    // Initiale Mausposition festlegen, wenn die Maus gedrückt wird
-    canvas.addEventListener("mousedown", (e) => {
-        previousMousePosition = { x: e.clientX, y: e.clientY };
-    });
+    camera.position.z = 5;
 
     function animate() {
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
     }
 
+    // Fenstergrößenanpassung
     window.addEventListener("resize", () => {
         renderer.setSize(canvas.clientWidth, canvas.clientHeight);
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
     });
 
+    // Klick-Interaktion hinzufügen
+    canvas.addEventListener("click", (event) => {
+        if (!sofaObject) return;
+    
+        // Raycaster für Klick-Events
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2(
+            (event.clientX / canvas.clientWidth) * 2 - 1,
+            -(event.clientY / canvas.clientHeight) * 2 + 1
+        );
+        raycaster.setFromCamera(mouse, camera);
+    
+        // Prüfen, ob das Sofa angeklickt wurde
+        const intersects = raycaster.intersectObject(sofaObject, true);
+        if (intersects.length > 0) {
+            console.log("Sofa wurde angeklickt!");
+            sofaObject.material.color.set(0x00ff00); // Setzt die Farbe des Sofas auf Grün
+        }
+    });
+
+    // Starten der Animation
     animate();
 });
