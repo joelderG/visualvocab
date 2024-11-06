@@ -13,10 +13,17 @@ export default class SceneSetup {
         window.addEventListener("resize", this.onWindowResize.bind(this));
     }
 
+    /**
+     * Configures the renderer's size to match the dimensions of the canvas element.
+    */
     setupRenderer() {
         this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
     }
 
+    /**
+     * Adds ambient and directional lighting to the scene for basic illumination.
+     * Ambient light is set with moderate intensity, while directional light is positioned.
+    */
     addLighting() {
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -25,12 +32,20 @@ export default class SceneSetup {
         this.scene.add(directionalLight);
     }
 
+    /**
+     * Adjusts renderer and camera aspect ratio to maintain correct scene proportions
+     * after window resizing.
+    */
     onWindowResize() {
         this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
         this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
         this.camera.updateProjectionMatrix();
     }
 
+    /**
+     * Initiates the rendering loop, repeatedly drawing the scene using the renderer
+     * and updating it with the camera view.
+    */
     startRendering() {
         const renderLoop = () => {
             requestAnimationFrame(renderLoop);

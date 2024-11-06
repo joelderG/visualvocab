@@ -11,10 +11,15 @@ export default class App {
         this.animation = new Animation(this.sceneSetup.renderer, this.sceneSetup.scene, this.sceneSetup.camera);
     }
 
+    /**
+     * Initializes the application by loading a model and setting up interactions.
+     * Specifies the model's file path and target object name.
+     * Starts the animation loop after setup.
+    */
     init() {
         this.modelLoader.loadModel('../assets/interior_scene_gltf/scene.gltf', "PM3D_sofa", (object) => {
             this.interactionHandler.setTargetObject(object);
         });
-        this.animation.start(); // starts the animation loop
+        this.animation.start();
     }
 }
