@@ -19,8 +19,29 @@ export default class App {
       this.sceneSetup.scene,
       this.sceneSetup.camera
     );
-    this.wordGenerator = new WordGenerator; 
-    this.languageHandler = new LanguageHandler("en", this.wordGenerator.word)
+    this.wordGenerator = new WordGenerator();
+    this.languageHandler = new LanguageHandler("en", this.wordGenerator.word);
+
+    // Callback für Wortänderungen setzen
+    this.wordGenerator.setOnWordChangeCallback((newWord) => {
+      this.onWordChange(newWord);
+      this.languageHandler.updateWord(newWord);
+    });
+  }
+
+  /**
+   * Reaktion auf Änderungen des Wortes im WordGenerator.
+   * Lädt ein neues Objekt und aktualisiert das TargetObject.
+   */
+  onWordChange(newWord) {
+    console.log(`Lade neues Modell für: ${newWord}`);
+    this.modelLoader.loadModel(
+      "../assets/blender/blender_test_04.gltf",
+      newWord,
+      (object) => {
+        this.interactionHandler.setTargetObject(object);
+      }
+    );
   }
 
   /**

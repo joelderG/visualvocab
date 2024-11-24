@@ -3,10 +3,13 @@ import translations from './translation.json';
 export default class LanguageHandler {
     constructor(languageCode, word) {
         this.languageCode = languageCode;
-        this.word = word
+        this.word = word;
 
-        document.getElementById("title").innerHTML = this.word;
-        document.getElementById("languageSelector").addEventListener("change", (event) =>  this.onLanguageSelected(event)) 
+        document.getElementById("title").innerHTML = this.getTranslation(this.word);
+
+        document
+            .getElementById("languageSelector")
+            .addEventListener("change", (event) => this.onLanguageSelected(event));
     }
 
     getTranslation(word) {
@@ -15,9 +18,16 @@ export default class LanguageHandler {
 
     onLanguageSelected(event) {
         this.languageCode = event.target.value;
-        console.log(this.languageCode)
-        let translatedWord = this.getTranslation(this.word);
+        this.updateTitle();
+    }
+
+    updateWord(word) {
+        this.word = word;
+        this.updateTitle();
+    }
+
+    updateTitle() {
+        const translatedWord = this.getTranslation(this.word);
         document.getElementById("title").innerHTML = translatedWord;
-        console.log(this.word)
     }
 }
