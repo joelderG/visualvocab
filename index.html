@@ -11,11 +11,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
   </head>
   <body>
+    <div id="language-select-container">
+      <select id="languageSelector">
+        <option value="en">English</option>
+        <option value="de">Deutsch</option>
+        <option value="es">Español</option>
+        <option value="fr">Francais</option>
+      </select>
+    </div>
     <h1 id="title">improve your vocabulary 3D</h1>
+    <button id="newWord">New Word</button>
     <div id="game-container">
       <!-- Canvas-Element für die 3D-Szene -->
       <canvas id="gameCanvas"></canvas>

@@ -1,9 +1,10 @@
 import * as THREE from "three";
 
 export default class InteractionHandler {
-  constructor(canvas, camera) {
+  constructor(canvas, camera, scene) {
     this.canvas = canvas;
     this.camera = camera;
+    this.scene = scene;
     this.targetObject = null;
 
     this.canvas.addEventListener("click", (event) => this.onClick(event));
@@ -27,15 +28,29 @@ export default class InteractionHandler {
    */
   onClick(event) {
     if (!this.targetObject) return;
+  
 
     const raycaster = new THREE.Raycaster();
+    const rect = this.canvas.getBoundingClientRect();
     const mouse = new THREE.Vector2(
-      (event.clientX / this.canvas.clientWidth) * 2 - 1,
-      -(event.clientY / this.canvas.clientHeight) * 2 + 1
+      ((event.clientX - rect.left) / rect.width) * 2 - 1,
+      -((event.clientY - rect.top) / rect.height) * 2 + 1
     );
-    raycaster.setFromCamera(mouse, this.camera);
 
-    const intersects = raycaster.intersectObject(this.targetObject, true);
+    raycaster.setFromCamera(mouse, this.camera);
+    const rayHelper = new THREE.ArrowHelper(
+      raycaster.ray.direction,
+      raycaster.ray.origin,
+      10, // Länge des Strahls
+      0xff0000 // Farbe des Pfeils
+    );
+    this.scene.add(rayHelper);
+
+    const intersects = raycaster.intersectObjects([this.targetObject], true);
+  
+    console.log(this.targetObject)
+    console.log(intersects)
+
     if (intersects.length > 0) {
       console.log("Objekt wurde angeklickt!");
       this.targetObject.material.color.set(0x00ff00); // sets the object color on green

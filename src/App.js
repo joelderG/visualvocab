@@ -2,6 +2,8 @@ import SceneSetup from "./SceneSetup.js";
 import ModelLoader from "./ModelLoader.js";
 import InteractionHandler from "./InteractionHandler.js";
 import Animation from "./Animation.js";
+import LanguageHandler from "./LanguageHandler.js";
+import WordGenerator from "./WordGenerator.js";
 
 export default class App {
   constructor() {
@@ -9,13 +11,16 @@ export default class App {
     this.modelLoader = new ModelLoader(this.sceneSetup.scene);
     this.interactionHandler = new InteractionHandler(
       this.sceneSetup.canvas,
-      this.sceneSetup.camera
+      this.sceneSetup.camera,
+      this.sceneSetup.scene
     );
     this.animation = new Animation(
       this.sceneSetup.renderer,
       this.sceneSetup.scene,
       this.sceneSetup.camera
     );
+    this.wordGenerator = new WordGenerator; 
+    this.languageHandler = new LanguageHandler("en", this.wordGenerator.word)
   }
 
   /**
@@ -25,8 +30,8 @@ export default class App {
    */
   init() {
     this.modelLoader.loadModel(
-      "../assets/interior_scene_gltf/scene.gltf",
-      "PM3D_sofa",
+      "../assets/blender/blender_test_04.gltf",
+      this.wordGenerator.word,
       (object) => {
         this.interactionHandler.setTargetObject(object);
       }

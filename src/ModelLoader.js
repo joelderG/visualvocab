@@ -20,9 +20,11 @@ export default class ModelLoader {
     this.loader.load(path, (gltf) => {
       const model = gltf.scene;
       this.scene.add(model);
+      console.log(model.children)
 
       // searching for a modell which contains the "objectName" in it
       model.traverse((node) => {
+        console.log(node.name)
         if (node.isMesh && node.name.includes(objectName)) {
           callback(node); // gives the object in a callback function
         }
