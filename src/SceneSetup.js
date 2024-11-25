@@ -17,7 +17,7 @@ export default class SceneSetup {
 
     this.setupRenderer();
     this.addLighting();
-    this.camera.position.z = 5;
+    this.camera.position.z = 10;
     window.addEventListener("resize", this.onWindowResize.bind(this));
   }
 
