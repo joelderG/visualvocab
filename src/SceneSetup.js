@@ -49,16 +49,4 @@ export default class SceneSetup {
     this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
     this.camera.updateProjectionMatrix();
   }
-
-  /**
-   * Initiates the rendering loop, repeatedly drawing the scene using the renderer
-   * and updating it with the camera view.
-   */
-  startRendering() {
-    const renderLoop = () => {
-      requestAnimationFrame(renderLoop);
-      this.renderer.render(this.scene, this.camera);
-    };
-    renderLoop();
-  }
 }
