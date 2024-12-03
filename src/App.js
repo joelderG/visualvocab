@@ -7,6 +7,9 @@ import WordGenerator from "./WordGenerator.js";
 
 export default class App {
   constructor() {
+    this.language = "en";
+    this.difficulty = "easy"; 
+    this.container = document.getElementById("game-container");
     this.sceneSetup = new SceneSetup();
     this.modelLoader = new ModelLoader(this.sceneSetup.scene);
     this.interactionHandler = new InteractionHandler(
@@ -20,13 +23,16 @@ export default class App {
       this.sceneSetup.camera
     );
     this.wordGenerator = new WordGenerator();
-    this.languageHandler = new LanguageHandler("en", this.wordGenerator.word);
+    
+    this.languageHandler = new LanguageHandler(this.language, this.wordGenerator.word);
 
     // Callback für Wortänderungen setzen
     this.wordGenerator.setOnWordChangeCallback((newWord) => {
       this.onWordChange(newWord);
       this.languageHandler.updateWord(newWord);
     });
+
+    
   }
 
   /**
@@ -40,8 +46,21 @@ export default class App {
       newWord,
       (object) => {
         this.interactionHandler.setTargetObject(object);
+         // Callback setzen, wenn das richtige Objekt geklickt wird
+         this.interactionHandler.setOnCorrectObjectClick(() => {
+          this.wordGenerator.onGenerateNewWord(); // Generiere neues Wort
+        });
       }
     );
+  }
+
+  show(config) {
+    this.language = config.language
+    console.log(this.language)
+    this.difficulty = config.difficulty
+    this.languageHandler = new LanguageHandler(this.language, this.wordGenerator.word);
+    this.container.style.display = "block";
+    this.init()
   }
 
   /**
@@ -55,6 +74,11 @@ export default class App {
       this.wordGenerator.word,
       (object) => {
         this.interactionHandler.setTargetObject(object);
+
+           // Verzögerte Wortgenerierung nach Objektklick
+           this.interactionHandler.setOnCorrectObjectClick(() => {
+            this.wordGenerator.onGenerateNewWord(); // Generiere neues Wort
+          });
       }
     );
     this.animation.start();

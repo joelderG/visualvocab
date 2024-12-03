@@ -27,26 +27,37 @@ body {
   z-index: 1; /* Stellt sicher, dass die Überschrift über anderen Elementen liegt */
 }
 
+#languageScreen {
+  position: absolute;
+  z-index: 1;
+}
+
+#difficultyScreen {
+  position: absolute;
+  z-index: 1;
+}
+
 #game-container {
   width: 1200px; /* Breite des Containers */
   height: 550px; /* Höhe des Containers */
   margin-top: 80px; /* Abstand nach oben, damit der Container mittig unter der Überschrift liegt */
   background-color: #ffffff;
   border: 1px solid #cccccc;
-  display: flex;
   align-items: center;
   justify-content: center;
+  display: block;
+  z-index: 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Leichter Schatteneffekt */
   box-sizing: border-box; /* Verhindert, dass Padding/Borders die Breite/Höhe beeinflussen */
 }
 
-canvas {
-  width: 100%;
+#gameCanvas {
+  width: 100%; /* Breite des Containers */
   height: 100%;
-  display: block;
+  display: flex;
 }
 
-#languageSelector, #newWord {
+select, #newWord {
   appearance: none;
   background-color: #f8f9fa;
   border: 2px solid #e0e0e0;
@@ -60,13 +71,13 @@ canvas {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#languageSelector:hover, #newWord:hover {
+select:hover, #newWord:hover {
   background-color: #e9ecef;
   border-color: #ced4da;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-#languageSelector:focus, #newWord:focus {
+select:focus, #newWord:focus {
   border-color: #4a90e2;
   box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
 }

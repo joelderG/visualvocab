@@ -14,19 +14,33 @@
       rel="stylesheet" />
   </head>
   <body>
-    <div id="language-select-container">
+    <div id="languageScreen" style="display: none">
+      <h1>Wähle deine Sprache</h1>
       <select id="languageSelector">
         <option value="en">English</option>
         <option value="de">Deutsch</option>
         <option value="es">Español</option>
-        <option value="fr">Francais</option>
+      </select>
+    </div>
+
+    <div id="difficultyScreen" style="display: none">
+      <h1>Wähle den Schwierigkeitsgrad</h1>
+      <select id="difficultySelector">
+        <option value="easy">Einfach</option>
+        <option value="medium">Mittel</option>
+        <option value="hard">Schwer</option>
       </select>
     </div>
     <h1 id="title">improve your vocabulary 3D</h1>
     <button id="newWord">New Word</button>
+
     <div id="game-container">
       <!-- Canvas-Element für die 3D-Szene -->
       <canvas id="gameCanvas"></canvas>
+    </div>
+    <div id="gameCompleteScreen" style="display: none">
+      <h1>Wähle den Schwierigkeitsgrad</h1>
+      <h1>Game completed!</h1>
     </div>
     <!-- Lade das Skript am Ende des Body -->
     <script type="module" src="main.js"></script>

@@ -49,6 +49,16 @@ export default class InteractionHandler {
     this.targetObject = object;
   }
 
+    /**
+   * Fügt eine Callback-Funktion hinzu, die ausgeführt wird,
+   * wenn das Zielobjekt korrekt geklickt wird.
+   * 
+   * @param {Function} callback - Die Callback-Funktion
+   */
+    setOnCorrectObjectClick(callback) {
+      this.onCorrectObjectClick = callback;
+    }
+
   /**
    * Handles click events on the canvas. Uses raycasting to determine if the target
    * object was clicked and changes its color if it was.
@@ -86,6 +96,13 @@ export default class InteractionHandler {
     if (intersects.length > 0) {
       console.log(`Object was clicked!`);
       this.targetObject.material.color.set(0x00ff00); // sets the object color on green
+    }
+
+    if (this.onCorrectObjectClick) {
+      // 3 Sekunden warten, bevor der Callback ausgeführt wird
+      setTimeout(() => {
+        this.onCorrectObjectClick();
+      }, 1000);
     }
   }
 
