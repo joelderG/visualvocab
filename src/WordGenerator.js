@@ -1,7 +1,10 @@
 import { call } from "three/webgpu";
+import LanguageHandler from "./LanguageHandler";
 
 export default class WordGenerator {
-    constructor() {
+    constructor(config) {
+        this.config = config; 
+        this.languageHandler = new LanguageHandler(this.config.language); 
         this.wordArray = ["Sphere", "Cone", "Cube", "Cylinder"];
         this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
 
@@ -11,6 +14,11 @@ export default class WordGenerator {
 
         // Event-Listener für Button
         document.getElementById("newWord").addEventListener("click", this.onGenerateNewWord.bind(this));
+    }
+
+    generateRandomWord() {
+        let word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
+        return this.languageHandler.getTranslation(word); 
     }
 
     onGenerateNewWord() {

@@ -1,9 +1,9 @@
-import App from "/src/App.js";
-import ScreenManager from "./src/ScreenManager";
+import App from "/src/App_new.js";
+import Configuration from "./src/Configuration.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  const screenManager = new ScreenManager();
-  console.log("helloS");
-  screenManager.nextScreen();
+  const configuration = new Configuration(); 
+  const app = new App(configuration);
+  app.start(); 
 });

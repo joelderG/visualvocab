@@ -1,15 +1,12 @@
-import LanguageScreen from "./LanguageScreen";
-import DifficultyScreen from "./DifficultyScreen";
-import App from "./App";
+import StartScreen from "./StartScreen";
+import SceneSelectionScreen from "./SceneSelectionScreen"
+import GameScreen from "./GameScreen";
 
 export default class ScreenManager {
 
-    constructor() {
+    constructor(configuration) {
         this.currentScreen = null;
-        this.config = {
-            language: null,
-            difficulty: null
-        };
+        this.config = configuration;
     }
 
     // Wechselt den aktuellen Screen
@@ -19,17 +16,17 @@ export default class ScreenManager {
         }
 
         this.currentScreen = newScreen;
-        this.currentScreen.show(this.config, () => this.nextScreen());
+        this.currentScreen.show(() => this.nextScreen());
     }
 
     // Wechselt zum nächsten Zustand basierend auf der Konfiguration
     nextScreen() {
-        if (!this.config.language) {
-            this.changeScreen(new LanguageScreen());
-        } else if (!this.config.difficulty) {
-            this.changeScreen(new DifficultyScreen());
+        if(!this.config.language && !this.config.difficulty){
+            this.changeScreen(new StartScreen(this.config));
+        } else if (!this.config.selectedScene) {
+            this.changeScreen(new SceneSelectionScreen(this.config));
         } else {
-            this.changeScreen(new App());
+            this.changeScreen(new GameScreen(this.config))
         }
     }
 }
