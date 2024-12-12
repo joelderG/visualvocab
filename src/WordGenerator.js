@@ -13,9 +13,9 @@ export default class WordGenerator {
         this.onGameCompletedCallback = false; 
 
         // Event-Listener für Button
-        document.getElementById("newWord").addEventListener("click", this.onGenerateNewWord.bind(this));
+        
     }
-
+        
     generateRandomWord() {
         let word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
         return this.languageHandler.getTranslation(word); 

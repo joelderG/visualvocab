@@ -49,7 +49,6 @@ background-color: #DF8314;
 position: fixed;
 bottom: 20px;
 left: 60px;
-z-index: 2;
 }
 
 .calistoga-regular {
@@ -58,41 +57,20 @@ z-index: 2;
   font-style: normal;
 }
 
-#title {
-  font-family: "Calistoga", serif;
-  position: fixed;
-  top: 20px; /* Abstand vom oberen Bildschirmrand */
-  width: 100%;
-  text-align: center;
-  font-size: 2em;
-  color: #333;
-  margin: 0;
-  z-index: 1; /* Stellt sicher, dass die Überschrift über anderen Elementen liegt */
-}
-
 #language-selection {
   justify-items: center;
-  z-index: 2;
+ 
 }
 
 #difficulty-selection {
   justify-items: center;
-  z-index: 2;
 }
 
-#languageScreen {
+#gameScreen {
+  width: 80%;
+  height: auto;
   position: absolute;
-  z-index: 1;
-}
-
-#difficultyScreen {
-  position: absolute;
-  z-index: 1;
-}
-
-#game-screen {
-  width: 100%;
-  height: 100%;
+  z-index: -1;
 }
 
 #game-container {
@@ -113,6 +91,15 @@ z-index: 2;
   width: 100%; /* Breite des Containers */
   height: 100%;
   display: flex;
+}
+
+#prompt-container {
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 20px;
+  height: 100px;
+
 }
 
 select, #newWord {
