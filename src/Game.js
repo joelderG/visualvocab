@@ -34,6 +34,7 @@ export default class Game {
           this.wordGenerator.word,
           (object) => {
             this.interactionHandler.setTargetObject(object);
+            object.material = this.scene.shaderMaterial;
     
                // Verzögerte Wortgenerierung nach Objektklick
                this.interactionHandler.setOnCorrectObjectClick(() => {
@@ -50,6 +51,7 @@ export default class Game {
           "../assets/blender/blender_test_04.gltf",
           newWord,
           (object) => {
+            object.material = this.scene.shaderMaterial;
             this.interactionHandler.setTargetObject(object);
              // Callback setzen, wenn das richtige Objekt geklickt wird
              this.interactionHandler.setOnCorrectObjectClick(() => {

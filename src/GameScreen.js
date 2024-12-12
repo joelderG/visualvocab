@@ -3,7 +3,10 @@ import Game from "./Game.js"
 
 export default class GameScreen {
     constructor(config) {
-        this.container = document.getElementById("words");
+        this.container = document.getElementById("prompt-container");
+        this.prompt = document.getElementById("prompts"); 
+        this.screen = document.getElementById("gameScreen")
+
         this.config = config;
         this.languageHandler = new LanguageHandler(this.config.language);
         this.game = new Game(this.config); 
@@ -13,7 +16,8 @@ export default class GameScreen {
 
     show(onComplete) {
         this.container.style.display = "block";
-        this.container.innerHTML = this.languageHandler.getTranslation(this.game.wordGenerator.word); 
+        this.screen.style.zIndex = "0"; 
+        this.prompt.innerHTML = this.languageHandler.getTranslation(this.game.wordGenerator.word); 
 
         document
             .getElementById("sceneSelectionScreen")

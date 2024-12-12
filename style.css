@@ -102,6 +102,19 @@ left: 60px;
 
 }
 
+#progress {
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+}
+
+#par {
+  width: 1%;
+  height: 30px;
+  background-color: #bcba84;
+  border-radius: 5px;
+}
+
 select, #newWord {
   appearance: none;
   background-color: #f8f9fa;

@@ -1,12 +1,14 @@
 import * as THREE from "three";
 import ModelLoader from "./ModelLoader.js";
+import vertexShader from "./shaders/vertex.glsl.js"
+import fragmentShader from "./shaders/fragment.glsl.js";
 
 export default class Scene {
     constructor(sceneName) {
         this.sceneName = sceneName; 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(
-            75,
+            45,
             window.innerWidth / window.innerHeight,
             0.1,
             1000
@@ -17,10 +19,14 @@ export default class Scene {
             antialias: true,
           });
         this.modelLoader = new ModelLoader(this.scene)
+        this.shaderMaterial = new THREE.ShaderMaterial({
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader
+        });
       
           this.setupRenderer();
           this.addLighting();
-          this.camera.position.z = 10;
+          this.camera.position.z = 20;
           window.addEventListener("resize", this.onWindowResize.bind(this));
     }
 
