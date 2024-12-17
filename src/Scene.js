@@ -2,6 +2,7 @@ import * as THREE from "three";
 import ModelLoader from "./ModelLoader.js";
 import vertexShader from "./shaders/vertex.glsl.js"
 import fragmentShader from "./shaders/fragment.glsl.js";
+import forestTexture from "../assets/textures/fichtenwald_02.jpg"
 
 export default class Scene {
     constructor(sceneName) {
@@ -23,6 +24,10 @@ export default class Scene {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader
         });
+
+        this.shaderMaterial.uniforms.uTime = {value: 0};
+        this.shaderMaterial.uniforms.uRadius = {value: 0.5}
+        this.shaderMaterial.uTexture = {value: new THREE.TextureLoader().load(forestTexture)}
       
           this.setupRenderer();
           this.addLighting();

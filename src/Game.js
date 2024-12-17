@@ -17,7 +17,7 @@ export default class Game {
           );
           this.animation = new Animation(
             this.scene.renderer,
-            this.scene.scene,
+            this.scene,
             this.scene.camera
           );
         this.scoreCount = 0; 

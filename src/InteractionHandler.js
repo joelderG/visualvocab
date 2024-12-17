@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import vertexShader from "./shaders/vertex.glsl.js"
+import fragmentShader from "./shaders/fragment.glsl.js";
 
 export default class InteractionHandler {
   /**
@@ -22,6 +24,11 @@ export default class InteractionHandler {
     this.canvas.addEventListener("mousedown", (event) => this.onMouseDown(event));
     this.canvas.addEventListener("mouseup", (event) => this.onMouseUp(event));
     this.canvas.addEventListener("mouseleave", (event) => this.onMouseUp(event));
+
+    this.shaderMaterial = new THREE.ShaderMaterial({
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader
+  });
 
     // Add key detection for camera movement
     window.addEventListener('keydown', (event) => {
@@ -95,7 +102,7 @@ export default class InteractionHandler {
 
     if (intersects.length > 0) {
       console.log(`Object was clicked!`);
-      this.targetObject.material.color.set(0x00ff00); // sets the object color on green
+      this.targetObject.material = this.shaderMaterial; // sets the object color on green
     }
 
     if (this.onCorrectObjectClick) {
