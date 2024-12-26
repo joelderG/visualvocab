@@ -1,3 +1,5 @@
+import { handleCameraRotation } from "./CameraWithMouseRotation.js";
+
 export default class Animation {
   constructor(renderer, scene, camera) {
     this.renderer = renderer;
@@ -14,10 +16,14 @@ export default class Animation {
     const animate = () => {
       requestAnimationFrame(animate);
       this.renderer.render(this.scene.scene, this.camera);
-      this.time += 0.001; 
-      this.scene.shaderMaterial.uniforms.uTime.value = this.time; 
+      this.time += 0.001;
+      this.scene.shaderMaterial.uniforms.uTime.value = this.time;
+      handleCameraRotation(
+        this.scene.camera,
+        this.scene.cameraOrientationState
+      );
     };
-   
+
     animate();
   }
 }

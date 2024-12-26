@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import vertexShader from "./shaders/vertex.glsl.js"
-import fragmentShader from "./shaders/fragment.glsl.js";
+import vertexShader from "../shaders/vertex.glsl.js";
+import fragmentShader from "../shaders/fragment.glsl.js";
 
 export default class InteractionHandler {
   /**
@@ -17,29 +17,37 @@ export default class InteractionHandler {
     this.scene = scene;
     this.targetObject = null;
     this.isCPressed = false;
-    this.canvas.addEventListener("mousemove", (event) => this.onMouseMove(event));
+    this.canvas.addEventListener("mousemove", (event) =>
+      this.onMouseMove(event)
+    );
 
     this.canvas.addEventListener("click", (event) => this.onClick(event));
-    this.canvas.addEventListener("mousemove", (event) => this.onMouseMove(event));
-    this.canvas.addEventListener("mousedown", (event) => this.onMouseDown(event));
+    this.canvas.addEventListener("mousemove", (event) =>
+      this.onMouseMove(event)
+    );
+    this.canvas.addEventListener("mousedown", (event) =>
+      this.onMouseDown(event)
+    );
     this.canvas.addEventListener("mouseup", (event) => this.onMouseUp(event));
-    this.canvas.addEventListener("mouseleave", (event) => this.onMouseUp(event));
+    this.canvas.addEventListener("mouseleave", (event) =>
+      this.onMouseUp(event)
+    );
 
     this.shaderMaterial = new THREE.ShaderMaterial({
       vertexShader: vertexShader,
-      fragmentShader: fragmentShader
-  });
+      fragmentShader: fragmentShader,
+    });
 
     // Add key detection for camera movement
-    window.addEventListener('keydown', (event) => {
-      if (event.key === 'c') {
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "c") {
         console.log("c is pressed: Camera movement on");
         this.isCPressed = true;
       }
     });
 
-    window.addEventListener('keyup', (event) => {
-      if (event.key === 'c') {
+    window.addEventListener("keyup", (event) => {
+      if (event.key === "c") {
         this.isCPressed = false;
         console.log("c released: Camera movement off");
       }
@@ -56,15 +64,15 @@ export default class InteractionHandler {
     this.targetObject = object;
   }
 
-    /**
+  /**
    * Fügt eine Callback-Funktion hinzu, die ausgeführt wird,
    * wenn das Zielobjekt korrekt geklickt wird.
-   * 
+   *
    * @param {Function} callback - Die Callback-Funktion
    */
-    setOnCorrectObjectClick(callback) {
-      this.onCorrectObjectClick = callback;
-    }
+  setOnCorrectObjectClick(callback) {
+    this.onCorrectObjectClick = callback;
+  }
 
   /**
    * Handles click events on the canvas. Uses raycasting to determine if the target
@@ -82,23 +90,23 @@ export default class InteractionHandler {
     const raycaster = new THREE.Raycaster();
     const rect = this.canvas.getBoundingClientRect();
     const mouse = new THREE.Vector2(
-        ((event.clientX - rect.left) / rect.width) * 2 - 1,
-        -((event.clientY - rect.top) / rect.height) * 2 + 1
+      ((event.clientX - rect.left) / rect.width) * 2 - 1,
+      -((event.clientY - rect.top) / rect.height) * 2 + 1
     );
 
     raycaster.setFromCamera(mouse, this.camera);
     const rayHelper = new THREE.ArrowHelper(
-        raycaster.ray.direction,
-        raycaster.ray.origin,
-        10, // Ray length
-        0xff0000 // Ray color
+      raycaster.ray.direction,
+      raycaster.ray.origin,
+      10, // Ray length
+      0xff0000 // Ray color
     );
     this.scene.add(rayHelper);
 
     const intersects = raycaster.intersectObjects([this.targetObject], true);
 
-    console.log(this.targetObject)
-    console.log(intersects)
+    console.log(this.targetObject);
+    console.log(intersects);
 
     if (intersects.length > 0) {
       console.log(`Object was clicked!`);
@@ -119,13 +127,13 @@ export default class InteractionHandler {
    *
    * @param {MouseEvent} event - The mouse down event
    */
-  onMouseDown(event) {
+  /* onMouseDown(event) {
     // Only drag when 'c' key is pressed
     if (this.isCPressed) {
       this.isDragging = true;
       this.previousMousePosition = {
         x: event.clientX,
-        y: event.clientY
+        y: event.clientY,
       };
     }
   }
@@ -136,12 +144,12 @@ export default class InteractionHandler {
    *
    * @param {MouseEvent} event - The mouse move event
    */
-  onMouseMove(event) {
+  /*onMouseMove(event) {
     // Check for 'c' key and dragging
     if (this.isCPressed && this.isDragging) {
       const deltaMove = {
         x: event.clientX - this.previousMousePosition.x,
-        y: event.clientY - this.previousMousePosition.y
+        y: event.clientY - this.previousMousePosition.y,
       };
 
       this.camera.rotation.y -= deltaMove.x * 0.01;
@@ -149,7 +157,7 @@ export default class InteractionHandler {
 
       this.previousMousePosition = {
         x: event.clientX,
-        y: event.clientY
+        y: event.clientY,
       };
     }
   }
@@ -159,9 +167,11 @@ export default class InteractionHandler {
    *
    * @param {MouseEvent} event - The mouse up event
    */
-  onMouseUp(event) {
-    if (event.button === 0) { // Check for left mouse button
+  /*onMouseUp(event) {
+    if (event.button === 0) {
+      // Check for left mouse button
       this.isDragging = false;
     }
   }
+  */
 }
