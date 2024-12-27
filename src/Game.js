@@ -8,7 +8,7 @@ export default class Game {
         this.config = config;
         console.log(this.config);
         this.scene = new Scene(this.config.selectedScene);
-        console.log(this.scene)
+        this.currentObj = null; 
         this.wordGenerator = new WordGenerator(this.config); 
         this.interactionHandler = new InteractionHandler(
             this.scene.canvas,
@@ -33,6 +33,7 @@ export default class Game {
           `../assets/blender/blender_test_04.gltf`,
           this.wordGenerator.word,
           (object) => {
+            this.currentObj = object; 
             this.interactionHandler.setTargetObject(object);
             object.material = this.scene.shaderMaterial;
     
@@ -46,11 +47,12 @@ export default class Game {
       }
 
       onWordChange(newWord) {
+        this.currentObj.material = this.scene.defaulMaterial;
         console.log(`Lade neues Modell für: ${newWord}`);
-        this.scene.modelLoader.loadModel(
-          "../assets/blender/blender_test_04.gltf",
+        this.scene.modelLoader.updateModel(
           newWord,
           (object) => {
+            this.currentObj = object; 
             object.material = this.scene.shaderMaterial;
             this.interactionHandler.setTargetObject(object);
              // Callback setzen, wenn das richtige Objekt geklickt wird
@@ -59,6 +61,7 @@ export default class Game {
             });
           }
         );
+        console.log(this.scene)
       }
 
     update() {

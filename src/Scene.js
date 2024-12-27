@@ -20,6 +20,7 @@ export default class Scene {
             antialias: true,
           });
         this.modelLoader = new ModelLoader(this.scene)
+        this.defaulMaterial = new THREE.MeshStandardMaterial(); 
         this.shaderMaterial = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
             fragmentShader: fragmentShader

@@ -5,6 +5,7 @@ export default class ModelLoader {
   constructor(scene) {
     this.scene = scene;
     this.loader = new GLTFLoader();
+    this.model = null; 
   }
 
   /**
@@ -18,17 +19,27 @@ export default class ModelLoader {
    */
   loadModel(path, objectName, callback) {
     this.loader.load(path, (gltf) => {
-      const model = gltf.scene;
-      this.scene.add(model);
-      console.log(model.children)
+      this.model = gltf.scene;
+      this.scene.add(this.model);
+      console.log(this.model.children)
 
       // searching for a modell which contains the "objectName" in it
-      model.traverse((node) => {
+      this.model.traverse((node) => {
         console.log(node.name)
         if (node.isMesh && node.name.includes(objectName)) {
           callback(node); // gives the object in a callback function
         }
       });
+    });
+  }
+
+  updateModel(objectName, callback) {
+    // searching for a modell which contains the "objectName" in it
+    this.model.traverse((node) => {
+      console.log(node.name)
+      if (node.isMesh && node.name.includes(objectName)) {
+        callback(node); // gives the object in a callback function
+      }
     });
   }
 }
