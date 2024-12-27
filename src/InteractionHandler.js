@@ -16,7 +16,6 @@ export default class InteractionHandler {
     this.camera = camera;
     this.scene = scene;
     this.targetObject = null;
-    this.isCPressed = false;
     this.canvas.addEventListener("mousemove", (event) => this.onMouseMove(event));
 
     this.canvas.addEventListener("click", (event) => this.onClick(event));
@@ -24,26 +23,14 @@ export default class InteractionHandler {
     this.canvas.addEventListener("mousedown", (event) => this.onMouseDown(event));
     this.canvas.addEventListener("mouseup", (event) => this.onMouseUp(event));
     this.canvas.addEventListener("mouseleave", (event) => this.onMouseUp(event));
+    this.canvas.addEventListener("wheel", (event) => this.onMouseWheel(event));
 
     this.shaderMaterial = new THREE.ShaderMaterial({
       vertexShader: vertexShader,
       fragmentShader: fragmentShader
   });
 
-    // Add key detection for camera movement
-    window.addEventListener('keydown', (event) => {
-      if (event.key === 'c') {
-        console.log("c is pressed: Camera movement on");
-        this.isCPressed = true;
-      }
-    });
-
-    window.addEventListener('keyup', (event) => {
-      if (event.key === 'c') {
-        this.isCPressed = false;
-        console.log("c released: Camera movement off");
-      }
-    });
+  
   }
 
   /**
@@ -66,6 +53,27 @@ export default class InteractionHandler {
       this.onCorrectObjectClick = callback;
     }
 
+    /**
+   * Handles the mouse wheel event for zooming in and out.
+   *
+   * @param {WheelEvent} event - The mouse wheel event
+   */
+    onMouseWheel(event) {
+      const zoomSpeed = 0.1; // Adjust the zoom speed as needed
+  
+      if (this.camera.isPerspectiveCamera) {
+        // For Perspective Camera
+        this.camera.fov += event.deltaY * zoomSpeed;
+        this.camera.fov = Math.max(20, Math.min(100, this.camera.fov)); // Clamp FOV between 20 and 100
+        this.camera.updateProjectionMatrix();
+      } else if (this.camera.isOrthographicCamera) {
+        // For Orthographic Camera
+        this.camera.zoom -= event.deltaY * zoomSpeed;
+        this.camera.zoom = Math.max(0.5, Math.min(5, this.camera.zoom)); // Clamp zoom between 0.5 and 5
+        this.camera.updateProjectionMatrix();
+      }
+    }
+
   /**
    * Handles click events on the canvas. Uses raycasting to determine if the target
    * object was clicked and changes its color if it was.
@@ -74,10 +82,6 @@ export default class InteractionHandler {
    */
   onClick(event) {
     if (!this.targetObject) return;
-
-    if (this.isCPressed) {
-      return;
-    }
 
     const raycaster = new THREE.Raycaster();
     const rect = this.canvas.getBoundingClientRect();
@@ -120,48 +124,40 @@ export default class InteractionHandler {
    * @param {MouseEvent} event - The mouse down event
    */
   onMouseDown(event) {
-    // Only drag when 'c' key is pressed
-    if (this.isCPressed) {
-      this.isDragging = true;
-      this.previousMousePosition = {
-        x: event.clientX,
-        y: event.clientY
-      };
-    }
+    this.isMouseDown = true; 
+    this.isDragging = true;
+    this.previousMousePosition = {
+      x: event.clientX,
+      y: event.clientY
+    };
   }
-
-  /**
-   * Handles mouse move event for camera rotation.
-   * Rotates camera based on mouse movement when 'c' key is pressed.
-   *
-   * @param {MouseEvent} event - The mouse move event
-   */
+  
   onMouseMove(event) {
-    // Check for 'c' key and dragging
-    if (this.isCPressed && this.isDragging) {
+    // Überprüfe nur, ob Dragging aktiv ist
+    if (this.isDragging) {
       const deltaMove = {
         x: event.clientX - this.previousMousePosition.x,
         y: event.clientY - this.previousMousePosition.y
       };
-
+  
       this.camera.rotation.y -= deltaMove.x * 0.01;
-      this.camera.rotation.x -= deltaMove.y * 0.01;
-
+      this.camera.rotation.x = Math.max(
+        Math.min(this.camera.rotation.x, Math.PI / 2),
+        -Math.PI / 2
+      );
+  
       this.previousMousePosition = {
         x: event.clientX,
         y: event.clientY
       };
     }
   }
-
-  /**
-   * Handles mouse up event to stop camera movement.
-   *
-   * @param {MouseEvent} event - The mouse up event
-   */
+  
   onMouseUp(event) {
-    if (event.button === 0) { // Check for left mouse button
+    if (event.button === 0) { // Überprüfe die linke Maustaste
       this.isDragging = false;
     }
   }
+  
+
 }

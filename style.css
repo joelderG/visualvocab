@@ -66,54 +66,57 @@ left: 60px;
   justify-items: center;
 }
 
+/* Der gameScreen nimmt den gesamten Bildschirm ein */
 #gameScreen {
-  width: 80%;
-  height: auto;
+  width: 100%;
+  height: 100vh; /* Vollbildhöhe */
   position: absolute;
-  z-index: -1;
+  top: 0;
+  left: 0;
+  z-index: -2; /* Unter anderen Elementen */
 }
 
-#game-container {
-  width: 1200px; /* Breite des Containers */
-  height: 550px; /* Höhe des Containers */
-  margin-top: 80px; /* Abstand nach oben, damit der Container mittig unter der Überschrift liegt */
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  align-items: center;
-  justify-content: center;
-  display: block;
-  z-index: 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Leichter Schatteneffekt */
-  box-sizing: border-box; /* Verhindert, dass Padding/Borders die Breite/Höhe beeinflussen */
-}
-
+/* gameCanvas passt sich innerhalb von gameScreen an */
 #gameCanvas {
-  width: 100%; /* Breite des Containers */
+  width: 100%;
   height: 100%;
-  display: flex;
+  display: block;
 }
 
+/* Der prompt-container wird über gameScreen angezeigt */
 #prompt-container {
-  background-color: white;
-  border-radius: 20px;
-  padding: 20px;
-  margin-top: 20px;
-  height: 100px;
-
+  position: absolute; /* Positioniert den Container über dem gameScreen */
+  width: calc(100% - 40px);
+  height: auto;
+  top: 70%; /* Vertikale Mitte */
+  margin: 20px;
+  background-color: white; /* Hintergrundfarbe */
+  border-radius: 20px; /* Abgerundete Ecken */
+  padding: 20px; /* Innenabstand */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatten für mehr Sichtbarkeit */
+  z-index: 10; /* Über anderen Elementen */
+  box-sizing: border-box;
 }
 
+/* Fortschrittsleiste */
 #progress {
   width: 100%;
+  margin: 20px;
   background-color: white;
   border-radius: 5px;
+  position: absolute; /* Falls sie ebenfalls überlagern soll */
+  bottom: 20px; /* Abstand vom unteren Rand */
+  z-index: 5; /* Zwischen gameScreen und prompt-container */
 }
 
-#par {
+/* Fortschrittsbalken */
+#bar {
   width: 1%;
   height: 30px;
   background-color: #bcba84;
   border-radius: 5px;
 }
+
 
 select, #newWord {
   appearance: none;
