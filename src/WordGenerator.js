@@ -16,9 +16,12 @@ export default class WordGenerator {
         // Event-Listener für Button
         
     }
-        
+
+    setWordArray(array) {
+        this.wordArray = array; 
+    }
     generateRandomWord() {
-        return this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
+        this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
         //return this.languageHandler.getTranslation(word); 
     }
 

@@ -23,14 +23,16 @@ export default class Game {
           );
         this.scoreCount = 0; 
         this.scene.modelLoader  = new ModelLoader(this.scene.scene, this.wordGenerator)
-        this.wordGenerator.generateRandomWord(); 
+       
+        
             // Callback für Wortänderungen setzen
         this.wordGenerator.setOnWordChangeCallback((newWord) => {
             this.onWordChange(newWord);
       });
     }
 
-    init() {
+   async init() {
+     await this.setupWordArray();
         this.scene.modelLoader.loadModel(
           `../assets/blender_room/blender_room.gltf`,
           this.wordGenerator.word,
@@ -66,7 +68,16 @@ export default class Game {
         console.log(this.scene)
       }
 
-    update() {
-
+      async setupWordArray() {
+        try {
+            const array = await this.scene.modelLoader.getNodeNamesFromGLTF("../assets/blender_room/blender_room.gltf");
+            console.log("Node names for word array: ", array);
+            this.wordGenerator.setWordArray(array); 
+            this.wordGenerator.generateRandomWord();
+        } catch (error) {
+            console.error("Fehler beim Laden der Node-Namen:", error);
+        }
     }
+    
+    
 }
