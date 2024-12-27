@@ -17,8 +17,8 @@ export default class GameScreen {
     show(onComplete) {
         this.container.style.display = "block";
         this.screen.style.zIndex = "0"; 
-        this.prompt.innerHTML = this.languageHandler.getTranslation(this.game.wordGenerator.word); 
-
+        //this.prompt.innerHTML = this.languageHandler.getTranslation(this.game.wordGenerator.word); 
+        this.prompt.innerHTML = this.game.wordGenerator.word; 
         document
             .getElementById("sceneSelectionScreen")
             .addEventListener("click", (event) => {

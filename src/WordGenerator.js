@@ -5,8 +5,9 @@ export default class WordGenerator {
     constructor(config) {
         this.config = config; 
         this.languageHandler = new LanguageHandler(this.config.language); 
-        this.wordArray = ["Sphere", "Cone", "Cube", "Cylinder"];
-        this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
+        this.wordArray = [];
+        //this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
+        this.word = ""; 
 
         // Callback-Referenz für Änderungen
         this.onWordChangeCallback = null;
@@ -17,8 +18,8 @@ export default class WordGenerator {
     }
         
     generateRandomWord() {
-        let word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
-        return this.languageHandler.getTranslation(word); 
+        return this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
+        //return this.languageHandler.getTranslation(word); 
     }
 
     onGenerateNewWord() {

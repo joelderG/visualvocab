@@ -1,11 +1,13 @@
 // src/ModelLoader.js
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import WordGenerator from "./WordGenerator";
 
 export default class ModelLoader {
-  constructor(scene) {
+  constructor(scene, wordGenerator) {
     this.scene = scene;
     this.loader = new GLTFLoader();
     this.model = null; 
+    this.wordGenerator = wordGenerator; 
   }
 
   /**
@@ -25,7 +27,9 @@ export default class ModelLoader {
 
       // searching for a modell which contains the "objectName" in it
       this.model.traverse((node) => {
-        console.log(node.name)
+        console.log(node)
+       // node.material = this.scene.defaultMaterial; 
+        this.generateWordArray(node.name);
         if (node.isMesh && node.name.includes(objectName)) {
           callback(node); // gives the object in a callback function
         }
@@ -42,4 +46,8 @@ export default class ModelLoader {
       }
     });
   }
+
+  generateWordArray(nodeName) {
+    this.wordGenerator.wordArray.push(nodeName); 
+  } 
 }

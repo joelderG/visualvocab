@@ -91,13 +91,13 @@ export default class InteractionHandler {
     );
 
     raycaster.setFromCamera(mouse, this.camera);
-    const rayHelper = new THREE.ArrowHelper(
+    /*const rayHelper = new THREE.ArrowHelper(
         raycaster.ray.direction,
         raycaster.ray.origin,
         10, // Ray length
         0xff0000 // Ray color
     );
-    this.scene.add(rayHelper);
+    this.scene.add(rayHelper);*/
 
     const intersects = raycaster.intersectObjects([this.targetObject], true);
 
@@ -141,10 +141,7 @@ export default class InteractionHandler {
       };
   
       this.camera.rotation.y -= deltaMove.x * 0.01;
-      this.camera.rotation.x = Math.max(
-        Math.min(this.camera.rotation.x, Math.PI / 2),
-        -Math.PI / 2
-      );
+      this.camera.rotation.x -= deltaMove.y * 0.01;
   
       this.previousMousePosition = {
         x: event.clientX,

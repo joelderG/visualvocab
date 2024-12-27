@@ -2,11 +2,11 @@ import * as THREE from "three";
 import ModelLoader from "./ModelLoader.js";
 import vertexShader from "./shaders/vertex.glsl.js"
 import fragmentShader from "./shaders/fragment.glsl.js";
-import forestTexture from "../assets/textures/fichtenwald_02.jpg"
 
 export default class Scene {
     constructor(sceneName) {
         this.sceneName = sceneName; 
+        this.wordGenerator = this.wordGenerator;
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(
             45,
@@ -19,8 +19,8 @@ export default class Scene {
             canvas: this.canvas,
             antialias: true,
           });
-        this.modelLoader = new ModelLoader(this.scene)
-        this.defaulMaterial = new THREE.MeshStandardMaterial(); 
+        this.modelLoader = null; 
+        this.defaultMaterial = new THREE.MeshStandardMaterial(); 
         this.shaderMaterial = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
             fragmentShader: fragmentShader
@@ -28,11 +28,11 @@ export default class Scene {
 
         this.shaderMaterial.uniforms.uTime = {value: 0};
         this.shaderMaterial.uniforms.uRadius = {value: 0.5}
-        this.shaderMaterial.uTexture = {value: new THREE.TextureLoader().load(forestTexture)}
       
           this.setupRenderer();
           this.addLighting();
-          this.camera.position.z = 20;
+          this.camera.position.z = 5;
+          this.camera.position.y = 2; 
           window.addEventListener("resize", this.onWindowResize.bind(this));
     }
 
