@@ -8,6 +8,7 @@ export default class WordGenerator {
         this.wordArray = [];
         //this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
         this.word = ""; 
+        this.callbacks = []; // Liste von Callbacks
 
         // Callback-Referenz für Änderungen
         this.onWordChangeCallback = null;
@@ -45,14 +46,13 @@ export default class WordGenerator {
         console.log("Neues Wort:", this.currentWord);
         console.log("Verbleibende Wörter:", this.wordArray);
 
-        // Callback ausführen, wenn definiert
-        if (this.onWordChangeCallback) {
-            this.onWordChangeCallback(this.currentWord);
-        }
+    
+        this.callbacks.forEach((callback) => callback(this.currentWord));
+        
     }
 
     // Methode zum Setzen der Callback-Funktion
     setOnWordChangeCallback(callback) {
-        this.onWordChangeCallback = callback;
+        this.callbacks.push(callback); // Callback zur Liste hinzufügen
     }
 }

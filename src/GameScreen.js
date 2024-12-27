@@ -12,6 +12,10 @@ export default class GameScreen {
         this.game = new Game(this.config); 
         console.log(this.config)
         this.game.init();
+
+        this.game.wordGenerator.setOnWordChangeCallback((newWord) => {
+            this.updatePrompt(newWord);
+        });
     }
 
     show(onComplete) {
@@ -36,6 +40,9 @@ export default class GameScreen {
         this.container.style.display = "none"; 
     }
 
-
+    updatePrompt(newWord) {
+        this.prompt.innerHTML = newWord; 
+    }
+    
 
 }
