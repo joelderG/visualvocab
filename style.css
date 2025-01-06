@@ -98,6 +98,16 @@ left: 60px;
   box-sizing: border-box;
 }
 
+/* Score count */
+#score {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  padding: 10px; 
+  background-color: white;
+  border-radius: 20px;
+}
+
 /* Fortschrittsleiste */
 #progress {
   width: 100%;

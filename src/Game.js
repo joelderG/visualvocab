@@ -23,12 +23,15 @@ export default class Game {
           );
         this.scoreCount = 0; 
         this.scene.modelLoader  = new ModelLoader(this.scene.scene, this.wordGenerator)
+        this.scoreChangeCallback = null;
        
         
             // Callback für Wortänderungen setzen
         this.wordGenerator.setOnWordChangeCallback((newWord) => {
             this.onWordChange(newWord);
       });
+
+      this.setOnScoreCallback
     }
 
    async init() {
@@ -62,6 +65,7 @@ export default class Game {
             this.interactionHandler.setTargetObject(object);
              // Callback setzen, wenn das richtige Objekt geklickt wird
              this.interactionHandler.setOnCorrectObjectClick(() => {
+              this.incrementScore(); 
               this.wordGenerator.onGenerateNewWord(); // Generiere neues Wort
             });
           }
@@ -79,6 +83,18 @@ export default class Game {
             console.error("Fehler beim Laden der Node-Namen:", error);
         }
     }
+
+    setOnScoreChangeCallback(callback) {
+      this.scoreChangeCallback = callback;
+  }
+
+  incrementScore() {
+    this.scoreCount++;
+    console.log("Score updated in Game:", this.scoreCount);
+    if (this.scoreChangeCallback) {
+        this.scoreChangeCallback(this.scoreCount); // Callback aufrufen
+    }
+}
     
     
 }
