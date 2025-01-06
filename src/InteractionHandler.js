@@ -50,6 +50,7 @@ export default class InteractionHandler {
    * @param {Function} callback - Die Callback-Funktion
    */
     setOnCorrectObjectClick(callback) {
+      console.log("callback from onCorrectObj: ", callback)
       this.onCorrectObjectClick = callback;
     }
 
@@ -107,13 +108,12 @@ export default class InteractionHandler {
     if (intersects.length > 0) {
       console.log(`Object was clicked!`);
       this.targetObject.material = this.shaderMaterial; // sets the object color on green
-    }
-
-    if (this.onCorrectObjectClick) {
-      // 3 Sekunden warten, bevor der Callback ausgeführt wird
-      setTimeout(() => {
-        this.onCorrectObjectClick();
-      }, 1000);
+      if (this.onCorrectObjectClick) {
+        // 3 Sekunden warten, bevor der Callback ausgeführt wird
+        setTimeout(() => {
+          this.onCorrectObjectClick();
+        }, 1000);
+      }
     }
   }
 

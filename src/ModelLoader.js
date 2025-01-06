@@ -23,11 +23,11 @@ export default class ModelLoader {
     this.loader.load(path, (gltf) => {
       this.model = gltf.scene;
       this.scene.add(this.model);
-      console.log(this.model.children)
+    
 
       // searching for a modell which contains the "objectName" in it
       this.model.traverse((node) => {
-        console.log(node)
+  
        // node.material = this.scene.defaultMaterial; 
         if (node.isMesh && node.name.includes(objectName)) {
           callback(node); // gives the object in a callback function
@@ -39,7 +39,7 @@ export default class ModelLoader {
   updateModel(objectName, callback) {
     // searching for a modell which contains the "objectName" in it
     this.model.traverse((node) => {
-      console.log(node.name)
+
       if (node.isMesh && node.name.includes(objectName)) {
         callback(node); // gives the object in a callback function
       }

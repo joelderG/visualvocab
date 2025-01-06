@@ -38,6 +38,7 @@ export default class Game {
           this.wordGenerator.word,
           (object) => {
             this.currentObj = object; 
+            console.log("init() object: ", this.currentObj)
             this.interactionHandler.setTargetObject(object);
             //object.material = this.scene.shaderMaterial;
     
