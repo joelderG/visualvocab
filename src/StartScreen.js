@@ -25,15 +25,11 @@ export default class StartScreen {
                 if (clickedButton.hasAttribute('data-language')) {
                   this.config.language = clickedButton.getAttribute('data-language');
                   console.log('Language selected:', this.config.language);
-                } else if (clickedButton.hasAttribute('difficulty-level')) {
-                  this.config.difficulty = clickedButton.getAttribute('difficulty-level');
-                  console.log('Difficulty selected:', this.config.difficulty);
-
                 } else if (clickedButton.id == "nextBtn") {
-                    if(this.config.difficulty && this.config.language) {
+                    if(this.config.language) {
                         onComplete();
                     } else {
-                        alert("Select a language and a difficulty level!")
+                        alert("Select a languages!")
                     }
                 }
               }

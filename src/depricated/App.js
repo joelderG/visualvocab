@@ -1,14 +1,13 @@
-import SceneSetup from "./SceneSetup.js";
-import ModelLoader from "./ModelLoader.js";
-import InteractionHandler from "./InteractionHandler.js";
-import Animation from "./Animation.js";
-import LanguageHandler from "./LanguageHandler.js";
-import WordGenerator from "./WordGenerator.js";
+import SceneSetup from "../SceneSetup.js";
+import ModelLoader from "../ModelLoader.js";
+import InteractionHandler from "../InteractionHandler.js";
+import Animation from "../Animation.js";
+import LanguageHandler from "../LanguageHandler.js";
+import WordGenerator from "../WordGenerator.js";
 
 export default class App {
   constructor() {
     this.language = "en";
-    this.difficulty = "easy"; 
     this.container = document.getElementById("game-container");
     this.sceneSetup = new SceneSetup();
     this.modelLoader = new ModelLoader(this.sceneSetup.scene);

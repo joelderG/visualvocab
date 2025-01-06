@@ -21,7 +21,7 @@ export default class ScreenManager {
 
     // Wechselt zum nächsten Zustand basierend auf der Konfiguration
     nextScreen() {
-        if(!this.config.language && !this.config.difficulty){
+        if(!this.config.language){
             this.changeScreen(new StartScreen(this.config));
         } else if (!this.config.selectedScene) {
             this.changeScreen(new SceneSelectionScreen(this.config));
