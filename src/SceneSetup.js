@@ -17,7 +17,7 @@ export default class SceneSetup {
 
     this.setupRenderer();
     this.addLighting();
-    this.camera.position.z = 5;
+    this.camera.position.z = 10;
     window.addEventListener("resize", this.onWindowResize.bind(this));
   }
 
@@ -48,17 +48,5 @@ export default class SceneSetup {
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
     this.camera.aspect = this.canvas.clientWidth / this.canvas.clientHeight;
     this.camera.updateProjectionMatrix();
-  }
-
-  /**
-   * Initiates the rendering loop, repeatedly drawing the scene using the renderer
-   * and updating it with the camera view.
-   */
-  startRendering() {
-    const renderLoop = () => {
-      requestAnimationFrame(renderLoop);
-      this.renderer.render(this.scene, this.camera);
-    };
-    renderLoop();
   }
 }

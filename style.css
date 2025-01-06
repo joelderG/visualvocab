@@ -6,7 +6,49 @@ body {
   justify-content: center;
   height: 100vh;
   margin: 0;
-  background-color: #f0f0f0;
+  background-color: #F5F2EC;
+}
+
+h1 {
+  font-family: "Outfit", bold;
+  font-size: 70px;
+}
+
+h2 {
+  font-family: "Outfit";
+  font-size: 28px;
+
+}
+
+h3 {
+  font-family: "Zilla Slab";
+  font-size: 28px;
+}
+
+button {
+  font-family: "Zilla Slab";
+  font-size: 28px;
+  width: 300px;
+  height: 70px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 10px;
+  border-radius: 20px;
+  border-style: none;
+  background-color: #bcba84;
+}
+
+.selected {
+  background-color: #DF8314;
+}
+
+#nextBtn {
+background-color: #DF8314;
+position: fixed;
+bottom: 20px;
+left: 60px;
 }
 
 .calistoga-regular {
@@ -15,33 +57,102 @@ body {
   font-style: normal;
 }
 
-#title {
-  font-family: "Calistoga", serif;
-  position: fixed;
-  top: 20px; /* Abstand vom oberen Bildschirmrand */
+#language-selection {
+  justify-items: center;
+ 
+}
+
+#difficulty-selection {
+  justify-items: center;
+}
+
+/* Der gameScreen nimmt den gesamten Bildschirm ein */
+#gameScreen {
   width: 100%;
-  text-align: center;
-  font-size: 2em;
-  color: #333;
-  margin: 0;
-  z-index: 1; /* Stellt sicher, dass die Überschrift über anderen Elementen liegt */
+  height: 100vh; /* Vollbildhöhe */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -2; /* Unter anderen Elementen */
 }
 
-#game-container {
-  width: 1200px; /* Breite des Containers */
-  height: 550px; /* Höhe des Containers */
-  margin-top: 80px; /* Abstand nach oben, damit der Container mittig unter der Überschrift liegt */
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Leichter Schatteneffekt */
-  box-sizing: border-box; /* Verhindert, dass Padding/Borders die Breite/Höhe beeinflussen */
-}
-
-canvas {
+/* gameCanvas passt sich innerhalb von gameScreen an */
+#gameCanvas {
   width: 100%;
   height: 100%;
   display: block;
+}
+
+/* Der prompt-container wird über gameScreen angezeigt */
+#prompt-container {
+  position: absolute; /* Positioniert den Container über dem gameScreen */
+  width: calc(100% - 40px);
+  height: auto;
+  top: 70%; /* Vertikale Mitte */
+  margin: 20px;
+  background-color: white; /* Hintergrundfarbe */
+  border-radius: 20px; /* Abgerundete Ecken */
+  padding: 20px; /* Innenabstand */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatten für mehr Sichtbarkeit */
+  z-index: 10; /* Über anderen Elementen */
+  box-sizing: border-box;
+}
+
+/* Fortschrittsleiste */
+#progress {
+  width: 100%;
+  margin: 20px;
+  background-color: white;
+  border-radius: 5px;
+  position: absolute; /* Falls sie ebenfalls überlagern soll */
+  bottom: 20px; /* Abstand vom unteren Rand */
+  z-index: 5; /* Zwischen gameScreen und prompt-container */
+}
+
+/* Fortschrittsbalken */
+#bar {
+  width: 1%;
+  height: 30px;
+  background-color: #bcba84;
+  border-radius: 5px;
+}
+
+
+select, #newWord {
+  appearance: none;
+  background-color: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+select:hover, #newWord:hover {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+select:focus, #newWord:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+#language-select-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+#newWord {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2;
 }

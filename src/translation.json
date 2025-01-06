@@ -1,0 +1,31 @@
+{
+    "en": {
+      "Cone": "Cone",
+      "Cube": "Cube",
+      "Cylinder": "Cylinder",
+      "Sphere": "Sphere",
+      "complete": "Game complete!"
+    },
+    "de": {
+        "Cone": "Kegel",
+        "Cube": "Würfel",
+        "Cylinder": "Zylinder",
+        "Sphere": "Kugel",
+        "complete": "Game complete!"
+    },
+    "es": {
+        "Cone": "Cono",
+        "Cube": "Cubo",
+        "Cylinder": "Cilindro",
+        "Sphere": "Bola",
+        "complete": "Game complete!"
+    },
+    "fr": {
+        "Cone": "Quille",
+        "Cube": "Dé",
+        "Cylinder": "Cylindre",
+        "Sphere": "Boule",
+        "complete": "Game complete!"
+    }
+  }
+  
