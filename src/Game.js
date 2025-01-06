@@ -34,7 +34,7 @@ export default class Game {
    async init() {
      await this.setupWordArray();
         this.scene.modelLoader.loadModel(
-          `../assets/blender_room/blender_room.gltf`,
+          `../assets/living-room/living-room.glb`,
           this.wordGenerator.word,
           (object) => {
             this.currentObj = object; 
@@ -71,7 +71,7 @@ export default class Game {
 
       async setupWordArray() {
         try {
-            const array = await this.scene.modelLoader.getNodeNamesFromGLTF("../assets/blender_room/blender_room.gltf");
+            const array = await this.scene.modelLoader.getNodeNamesFromGLTF("../assets/living-room/living-room.glb");
             console.log("Node names for word array: ", array);
             this.wordGenerator.setWordArray(array); 
             this.wordGenerator.generateRandomWord();
