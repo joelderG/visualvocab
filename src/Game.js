@@ -34,25 +34,30 @@ export default class Game {
       this.setOnScoreCallback
     }
 
-   async init() {
-     await this.setupWordArray();
-        this.scene.modelLoader.loadModel(
+    async init() {
+      await this.setupWordArray();
+      if (this.wordGenerator.wordArray.length > 0) {
+          this.wordGenerator.generateRandomWord();
+      }
+  
+      this.scene.modelLoader.loadModel(
           `../assets/blender_room/blender_room.gltf`,
           this.wordGenerator.word,
           (object) => {
-            this.currentObj = object; 
-            console.log("init() object: ", this.currentObj)
-            this.interactionHandler.setTargetObject(object);
-            //object.material = this.scene.shaderMaterial;
-    
-               // Verzögerte Wortgenerierung nach Objektklick
-               this.interactionHandler.setOnCorrectObjectClick(() => {
-                this.wordGenerator.onGenerateNewWord(); // Generiere neues Wort
+              this.currentObj = object;
+              console.log("init() object: ", this.currentObj);
+              this.interactionHandler.setTargetObject(object);
+  
+              // Verzögerte Wortgenerierung nach Objektklick
+              this.interactionHandler.setOnCorrectObjectClick(() => {
+                  this.incrementScore();
+                  this.wordGenerator.onGenerateNewWord(); // Generiere neues Wort
               });
           }
-        );
-        this.animation.start();
-      }
+      );
+      this.animation.start();
+  }
+  
 
       onWordChange(newWord) {
         //this.currentObj.material = this.scene.defaultMaterial;

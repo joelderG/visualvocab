@@ -8,18 +8,23 @@ export default class GameScreen {
         this.screen = document.getElementById("gameScreen");
         this.score = document.getElementById("score");
         this.scoreCount = 0;
-
+    
         this.config = config;
         this.languageHandler = new LanguageHandler(this.config.language);
         this.game = new Game(this.config);
+    
         console.log(this.config);
-        this.game.init();
-
+    
+        // Initialisierung des Spiels und Prompts sicherstellen
+        this.game.init().then(() => {
+            this.updatePrompt(this.game.wordGenerator.word);
+        });
+    
         // Callback für Wortänderungen
         this.game.wordGenerator.setOnWordChangeCallback((newWord) => {
             this.updatePrompt(newWord);
         });
-
+    
         // Callback für Score-Änderungen
         this.game.setOnScoreChangeCallback((newScore) => {
             this.updateScore(newScore);
@@ -49,7 +54,11 @@ export default class GameScreen {
     }
 
     updatePrompt(newWord) {
-        this.prompt.innerHTML = newWord;
+        if (newWord) {
+            this.prompt.innerHTML = newWord;
+        } else {
+            this.prompt.innerHTML = "Kein Wort verfügbar!";
+        }
     }
 
     updateScore(newScore) {

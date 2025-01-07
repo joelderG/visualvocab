@@ -75,7 +75,9 @@ getNodeNamesFromGLTF(url) {
                 const nodeNameArray = [];
                 gltf.scene.traverse((node) => {
                     if (node.name) {
+                      if (node.name != "Scene") {
                         nodeNameArray.push(node.name); // Nur Nodes mit Namen hinzufügen
+                      } 
                     }
                 });
                 resolve(nodeNameArray); // Ergebnis zurückgeben

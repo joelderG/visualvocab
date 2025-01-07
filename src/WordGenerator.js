@@ -20,7 +20,11 @@ export default class WordGenerator {
 
     setWordArray(array) {
         this.wordArray = array; 
+        if (this.wordArray.length > 0) {
+            this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
+        }
     }
+    
     generateRandomWord() {
         this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
         //return this.languageHandler.getTranslation(word); 
