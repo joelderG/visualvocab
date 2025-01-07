@@ -83,7 +83,6 @@ export default class Game {
             const array = await this.scene.modelLoader.getNodeNamesFromGLTF("../assets/blender_room/blender_room.gltf");
             console.log("Node names for word array: ", array);
             this.wordGenerator.setWordArray(array); 
-            this.wordGenerator.generateRandomWord();
         } catch (error) {
             console.error("Fehler beim Laden der Node-Namen:", error);
         }
