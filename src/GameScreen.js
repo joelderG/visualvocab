@@ -7,6 +7,7 @@ export default class GameScreen {
         this.prompt = document.getElementById("prompts");
         this.screen = document.getElementById("gameScreen");
         this.score = document.getElementById("score");
+        this.totalScore = document.getElementById("total");
         this.scoreCount = 0;
     
         this.config = config;
@@ -17,6 +18,7 @@ export default class GameScreen {
     
         // Initialisierung des Spiels und Prompts sicherstellen
         this.game.init().then(() => {
+            this.totalScore.innerHTML = this.game.wordGenerator.wordArray.length; 
             this.updatePrompt(this.game.wordGenerator.word);
         });
     
@@ -36,6 +38,7 @@ export default class GameScreen {
         this.screen.style.zIndex = "0";
         this.prompt.innerHTML = this.game.wordGenerator.word;
         this.score.innerHTML = this.scoreCount; // Initial Score setzen
+        
         document
             .getElementById("sceneSelectionScreen")
             .addEventListener("click", (event) => {
