@@ -8,11 +8,12 @@ export default class GameScreen {
         this.screen = document.getElementById("gameScreen")
 
         this.config = config;
-        this.languageHandler = new LanguageHandler(this.config.language);
-        this.game = new Game(this.config); 
-        console.log(this.config)
-        this.game.init();
+        console.log(this.config);
 
+        this.languageHandler = new LanguageHandler(this.config.language, this.config.path);
+
+        this.game = new Game(this.config); 
+        this.game.init(this.config.path);
         this.game.wordGenerator.setOnWordChangeCallback((newWord) => {
             this.updatePrompt(newWord);
         });

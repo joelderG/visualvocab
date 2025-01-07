@@ -31,10 +31,10 @@ export default class Game {
       });
     }
 
-   async init() {
-     await this.setupWordArray();
+   async init(path) {
+     await this.setupWordArray(path);
         this.scene.modelLoader.loadModel(
-          `../assets/living-room/living-room.glb`,
+          path,
           this.wordGenerator.word,
           (object) => {
             this.currentObj = object; 
@@ -69,9 +69,9 @@ export default class Game {
         console.log(this.scene)
       }
 
-      async setupWordArray() {
+      async setupWordArray(path) {
         try {
-            const array = await this.scene.modelLoader.getNodeNamesFromGLTF("../assets/living-room/living-room.glb");
+            const array = await this.scene.modelLoader.getNodeNamesFromGLTF(path);
             console.log("Node names for word array: ", array);
             this.wordGenerator.setWordArray(array); 
             this.wordGenerator.generateRandomWord();
