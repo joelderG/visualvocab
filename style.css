@@ -172,3 +172,44 @@ select:focus, #newWord:focus {
   right: 20px;
   z-index: 2;
 }
+
+#loadingScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(245, 242, 236, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.loader {
+  width: 200px;
+  height: 4px;
+  background-color: #bcba84;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loader-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: #DF8314;
+  transition: width 0.3s ease-in-out;
+}
+
+.loader-text {
+  font-family: "Zilla Slab";
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}

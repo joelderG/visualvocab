@@ -3,38 +3,76 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import WordGenerator from "./WordGenerator";
 
 export default class ModelLoader {
-  constructor(scene) {
+  constructor(scene, loadingManager) {
     this.scene = scene;
     this.loader = new GLTFLoader();
-    this.model = null; 
-    this.nodeNameArray = []; 
-  }
+    this.model = null;
+    this.loadingManager = loadingManager;
+}
 
-  /**
-   * Loads a GLTF model from the specified path, adds it to the scene, and finds
-   * a specific target object within the model based on the given object name.
-   * Passes the found object to the callback function for further use.
-   *
-   * @param {string} path - Path to the GLTF model file.
-   * @param {string} objectName - Name or identifier of the target object to locate.
-   * @param {function} callback - Callback function that receives the found object.
-   */
-  loadModel(path, objectName, callback) {
-    this.loader.load(path, (gltf) => {
-      this.model = gltf.scene;
-      this.scene.add(this.model);
-    
+loadModel(path, objectName, callback) {
+    if (!path || !objectName) {
+        console.error("Invalid path or objectName provided to loadModel");
+        return;
+    }
 
-      // searching for a modell which contains the "objectName" in it
-      this.model.traverse((node) => {
-  
-       // node.material = this.scene.defaultMaterial; 
-        if (node.isMesh && node.name.includes(objectName)) {
-          callback(node); // gives the object in a callback function
+    if (this.loadingManager) {
+        this.loadingManager.show(`Loading ${objectName}...`);
+    }
+
+    try {
+        this.loader.load(
+            path,
+            (gltf) => {
+                try {
+                    this.model = gltf.scene;
+                    this.scene.add(this.model);
+                    
+                    let objectFound = false;
+                    this.model.traverse((node) => {
+                        if (node.isMesh && node.name.includes(objectName)) {
+                            objectFound = true;
+                            callback(node);
+                        }
+                    });
+
+                    if (!objectFound) {
+                        console.warn(`Object with name ${objectName} not found in model`);
+                    }
+
+                    if (this.loadingManager) {
+                        this.loadingManager.hide();
+                    }
+                } catch (error) {
+                    console.error("Error processing loaded model:", error);
+                    if (this.loadingManager) {
+                        this.loadingManager.hide();
+                    }
+                }
+            },
+            (xhr) => {
+                const loadProgress = (xhr.loaded / xhr.total) * 100;
+                if (this.loadingManager) {
+                    this.loadingManager.setProgress(loadProgress);
+                    this.loadingManager.setMessage(
+                        `Loading Scene... ${Math.round(loadProgress)}%`
+                    );
+                }
+            },
+            (error) => {
+                console.error("Error loading model:", error);
+                if (this.loadingManager) {
+                    this.loadingManager.hide();
+                }
+            }
+        );
+    } catch (error) {
+        console.error("Critical error in model loading:", error);
+        if (this.loadingManager) {
+            this.loadingManager.hide();
         }
-      });
-    });
-  }
+    }
+}
 
   updateModel(objectName, callback) {
     // searching for a modell which contains the "objectName" in it
