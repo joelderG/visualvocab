@@ -13,7 +13,7 @@ export default class Configuration {
                 lookAt: { x: 0, y: 0, z: 0 }
             },
             scene2: {  // Bedroom
-                position: { x: 5, y: 5, z: 5 },
+                position: { x: -3, y: 5, z: 5 },
                 rotation: { x: 0, y: 0, z: 0 },
                 fov: 75,
                 near: 0.1,
@@ -39,7 +39,7 @@ export default class Configuration {
                 console.log("Loading living room scene");
                 break;
             case "scene2":
-                this.path = `../assets/bedroom/bedroom.glb`;
+                this.path = `../assets/test/witchs-house.glb`;
                 console.log("Loading bedroom scene");
                 break;
             case "scene3":
