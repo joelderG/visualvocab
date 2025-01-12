@@ -176,26 +176,6 @@ left: 60px;
   border-radius: 20px;
 }
 
-/* Fortschrittsleiste */
-#progress {
-  width: 100%;
-  margin: 20px;
-  background-color: white;
-  border-radius: 5px;
-  position: absolute; /* Falls sie ebenfalls überlagern soll */
-  bottom: 20px; /* Abstand vom unteren Rand */
-  z-index: 5; /* Zwischen gameScreen und prompt-container */
-}
-
-/* Fortschrittsbalken */
-#bar {
-  width: 1%;
-  height: 30px;
-  background-color: #bcba84;
-  border-radius: 5px;
-}
-
-
 select, #newWord {
   appearance: none;
   background-color: #f8f9fa;
@@ -274,4 +254,8 @@ select:focus, #newWord:focus {
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
+}
+
+#endScreen {
+  z-index: 20;
 }

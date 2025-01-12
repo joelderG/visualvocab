@@ -39,8 +39,9 @@ export default class GameScreen {
 
             if (this.game.setOnScoreChangeCallback) {
                 this.game.setOnScoreChangeCallback((newScore) => {
-                    if(this.scoreCount === 1) {
+                    if(newScore === 1) {
                         console.log("hello this game is over")
+                        this.config.scoreCount = newScore; 
                         this.config.gameFinished = true; 
                         this.onComplete()
                     }
@@ -69,6 +70,7 @@ export default class GameScreen {
     hide() {
         this.container.style.display = "none";
         this.gameCanvas.style.display = "none";
+        this.screen.style.zIndex = "-2";
     }
 
     updatePrompt(newWord) {
@@ -81,7 +83,5 @@ export default class GameScreen {
         if (this.score) {
             this.score.innerHTML = newScore;
         }
-        this.config.gameFinished = true; 
-        this.onComplete(); 
     }
 }

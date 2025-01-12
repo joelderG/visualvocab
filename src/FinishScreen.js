@@ -1,37 +1,36 @@
-export default class StartScreen {
-    constructor(config) {
+import Configuration from "./Configuration";
+
+export default class FinishScreen {
+    constructor(config, resetConfig) {
         this.container = document.getElementById("endScreen");
+        this.finalScore = document.getElementById("final-score");
+        this.hintCount = document.getElementById("hint-count");
+        this.wrongCount = document.getElementById("wrong-count"); 
         this.config = config; 
+        this.resetConfig = resetConfig; 
+
     }
 
     show(onComplete) {
         this.container.style.display = "block";
+        this.finalScore.innerHTML = `Your score: ${this.config.scoreCount}`;
 
-       /* document.querySelectorAll('.selection-container > div').forEach((container) => {
-            let previouslySelectedButton = null;
-          
-            container.addEventListener('click', (event) => {
-              if (event.target.tagName === 'BUTTON') {
-                const clickedButton = event.target;
-        
-                if (clickedButton.hasAttribute('data-language')) {
-                  this.config.language = clickedButton.getAttribute('data-language');
-                  console.log('Language selected:', this.config.language);
-                } else if (clickedButton.id == "nextBtn") {
-                    if(this.config.language) {
-                        onComplete();
-                    } else {
-                        alert("Select a languages!")
-                    }
+        this.container.addEventListener('click', (event) => {   
+            if (event.target.id == "newGame") {
+                    console.log("new game")
+                    this.resetConfig(); 
+                    onComplete(); 
                 }
-              }
             });
-          });*/
           
     
     }
 
     hide() {
+        console.log("hide", this.config)
         this.container.style.display = "none";
+        this.container.style.zIndex = "0"; 
+
+
     }
 }
