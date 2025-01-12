@@ -3,6 +3,7 @@ import Scene from "./Scene.js";
 import InteractionHandler from "./InteractionHandler.js";
 import Animation from "./Animation.js";
 import ModelLoader from "./ModelLoader.js";
+import LoadingManager from "./LoadingManager.js";
 
 export default class Game {
     constructor(config) {
@@ -12,6 +13,7 @@ export default class Game {
 
         try {
             this.config = config;
+            this.loadingManager = new LoadingManager();
             this.scene = new Scene(this.config.selectedScene, this.config);
             this.wordGenerator = new WordGenerator(this.config);
             
@@ -33,7 +35,7 @@ export default class Game {
 
             this.currentObj = null;
             this.scoreCount = 0;
-            this.scene.modelLoader = new ModelLoader(this.scene.scene);
+            this.scene.modelLoader = new ModelLoader(this.scene.scene, this.loadingManager);
             this.scoreChangeCallback = null;
             this.isInitialized = false;
 
@@ -62,18 +64,14 @@ export default class Game {
 
     async init() {
         try {
-            if (!this.config.path) {
-                throw new Error("No model path configured");
-            }
-
+            this.loadingManager.show("Initializing game...");
+            
             await this.setupWordArray(this.config.path);
             
-            if (this.wordGenerator.wordArray.length === 0) {
-                throw new Error("No words available for the game");
+            if (this.wordGenerator.wordArray.length > 0) {
+                this.wordGenerator.generateRandomWord();
             }
 
-            this.wordGenerator.generateRandomWord();
-            
             await new Promise((resolve, reject) => {
                 this.scene.modelLoader.loadModel(
                     this.config.path,
@@ -83,7 +81,6 @@ export default class Game {
                             this.currentObj = object;
                             this.interactionHandler.setTargetObject(object);
                             this.setupInteractionHandlers();
-                            this.isInitialized = true;
                             resolve();
                         } catch (error) {
                             reject(error);
@@ -95,7 +92,7 @@ export default class Game {
             this.animation.start();
         } catch (error) {
             console.error("Error initializing game:", error);
-            this.handleGameError(error);
+            this.loadingManager.hide();
         }
     }
 
