@@ -4,7 +4,7 @@ import Game from "./Game.js"
 export default class GameScreen {
     constructor(config) {
         this.gameCanvas = document.getElementById("gameCanvas")
-        this.container = document.getElementById("prompt-container");
+        this.container = document.getElementById("game-screen-ui-container");
         this.prompt = document.getElementById("prompts");
         this.screen = document.getElementById("gameScreen");
         this.scoreCountContainer = document.getElementById("score-count");
