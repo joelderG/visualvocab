@@ -56,6 +56,15 @@ export default class InteractionHandler {
     this.onCorrectObjectClick = callback;
   }
 
+  setOnWrongObjectClick(callback) {
+    console.log("callback from onWrongObj: ", callback)
+  }
+
+  setOnSkipClick(callback) {
+    this.onSkipClick = callback;
+    console.log("callback from onSkipObj: ", callback)
+  }
+
   onMouseWheel(event) {
     const zoomSpeed = 0.1;
 
@@ -109,6 +118,12 @@ export default class InteractionHandler {
         console.log(this.targetObject)
         //TODO: gegen richigen Shader austauschen 
         this.targetObject.material = this.shaderMaterial;
+
+              // Call the skip callback if defined
+              if (this.onSkipClick) {
+                this.onSkipClick();
+              }
+        
 
       } else {
         return 

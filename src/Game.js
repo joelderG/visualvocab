@@ -105,6 +105,14 @@ export default class Game {
                 console.error("Error in interaction handler:", error);
             }
         });
+
+        this.interactionHandler.setOnWrongObjectClick(() => {
+            this.wordGenerator.onGenerateNewWord();
+        })
+
+        this.interactionHandler.setOnSkipClick(() => {
+            this.wordGenerator.onGenerateNewWord();
+        })
     }
 
     async onWordChange(newWord) {
