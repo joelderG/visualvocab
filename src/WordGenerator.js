@@ -8,6 +8,7 @@ export default class WordGenerator {
         this.wordArray = [];
         //this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
         this.word = ""; 
+        this.currentWord = "";
         this.callbacks = []; // Liste von Callbacks
 
         // Callback-Referenz für Änderungen
@@ -20,33 +21,38 @@ export default class WordGenerator {
 
     setWordArray(array) {
         this.wordArray = array; 
+        if (this.wordArray.length > 0) {
+            this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
+        }
     }
+    
     generateRandomWord() {
         this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
+        this.currentWord = this.word; 
+        console.trace("generated new word!")
         //return this.languageHandler.getTranslation(word); 
     }
 
     onGenerateNewWord() {
       // Überprüfen, ob noch Wörter verfügbar sind
       if (this.wordArray.length === 0) {
-        this.currentWord = "complete!"
+        this.word = "complete!"
         return; // Beende die Methode, da keine Wörter mehr vorhanden sind
     }
-
-        // Aktuelles Wort aus der Liste entfernen
-        if (this.currentWord !== null) {
-            const index = this.wordArray.indexOf(this.currentWord);
-            if (index !== -1) {
-                this.wordArray.splice(index, 1);
-            }
+    if (this.currentWord !== null) {
+        const index = this.wordArray.indexOf(this.currentWord);
+        if (index !== -1) {
+            this.wordArray.splice(index, 1);
+            console.log("current word array", this.wordArray)
         }
-
+    }
+    console.log("current word", this.currentWord)
+    console.log("current array", this.wordArray)
         // Neues Wort zufällig auswählen
-        this.currentWord = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
-        console.log("Neues Wort:", this.currentWord);
+        this.generateRandomWord();
+        console.log("Neues Wort:", this.word);
         console.log("Verbleibende Wörter:", this.wordArray);
 
-    
         this.callbacks.forEach((callback) => callback(this.currentWord));
         
     }

@@ -25,6 +25,12 @@ h3 {
   font-size: 28px;
 }
 
+h4 {
+  font-family: "Zilla Slab";
+  font-size: 24px;
+  margin: 10px;
+}
+
 button {
   font-family: "Zilla Slab";
   font-size: 28px;
@@ -96,6 +102,16 @@ left: 60px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatten für mehr Sichtbarkeit */
   z-index: 10; /* Über anderen Elementen */
   box-sizing: border-box;
+}
+
+/* Score count */
+#score-count {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  padding: 10px; 
+  background-color: white;
+  border-radius: 20px;
 }
 
 /* Fortschrittsleiste */

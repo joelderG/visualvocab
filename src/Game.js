@@ -23,33 +23,41 @@ export default class Game {
           );
         this.scoreCount = 0; 
         this.scene.modelLoader  = new ModelLoader(this.scene.scene, this.wordGenerator)
+        this.scoreChangeCallback = null;
        
         
             // Callback für Wortänderungen setzen
         this.wordGenerator.setOnWordChangeCallback((newWord) => {
             this.onWordChange(newWord);
       });
+
+      this.setOnScoreCallback
     }
 
-   async init(path) {
-     await this.setupWordArray(path);
-        this.scene.modelLoader.loadModel(
-          path,
+    async init() {
+      await this.setupWordArray();
+      if (this.wordGenerator.wordArray.length > 0) {
+          this.wordGenerator.generateRandomWord();
+      }
+  
+      this.scene.modelLoader.loadModel(
+          `../assets/blender_room/blender_room.gltf`,
           this.wordGenerator.word,
           (object) => {
-            this.currentObj = object; 
-            console.log("init() object: ", this.currentObj)
-            this.interactionHandler.setTargetObject(object);
-            //object.material = this.scene.shaderMaterial;
-    
-               // Verzögerte Wortgenerierung nach Objektklick
-               this.interactionHandler.setOnCorrectObjectClick(() => {
-                this.wordGenerator.onGenerateNewWord(); // Generiere neues Wort
+              this.currentObj = object;
+              console.log("init() object: ", this.currentObj);
+              this.interactionHandler.setTargetObject(object);
+  
+              // Verzögerte Wortgenerierung nach Objektklick
+              this.interactionHandler.setOnCorrectObjectClick(() => {
+                  this.incrementScore();
+                  this.wordGenerator.onGenerateNewWord(); // Generiere neues Wort
               });
           }
-        );
-        this.animation.start();
-      }
+      );
+      this.animation.start();
+  }
+  
 
       onWordChange(newWord) {
         //this.currentObj.material = this.scene.defaultMaterial;
@@ -62,6 +70,7 @@ export default class Game {
             this.interactionHandler.setTargetObject(object);
              // Callback setzen, wenn das richtige Objekt geklickt wird
              this.interactionHandler.setOnCorrectObjectClick(() => {
+              this.incrementScore(); 
               this.wordGenerator.onGenerateNewWord(); // Generiere neues Wort
             });
           }
@@ -74,11 +83,22 @@ export default class Game {
             const array = await this.scene.modelLoader.getNodeNamesFromGLTF(path);
             console.log("Node names for word array: ", array);
             this.wordGenerator.setWordArray(array); 
-            this.wordGenerator.generateRandomWord();
         } catch (error) {
             console.error("Fehler beim Laden der Node-Namen:", error);
         }
     }
+
+    setOnScoreChangeCallback(callback) {
+      this.scoreChangeCallback = callback;
+  }
+
+  incrementScore() {
+    this.scoreCount++;
+    console.log("Score updated in Game:", this.scoreCount);
+    if (this.scoreChangeCallback) {
+        this.scoreChangeCallback(this.scoreCount); // Callback aufrufen
+    }
+}
     
     
 }
