@@ -12,35 +12,51 @@ export default class GameScreen {
         this.scoreCount = 0;
     
         this.config = config;
-        this.languageHandler = new LanguageHandler(this.config.language);
         this.game = new Game(this.config);
     
         console.log(this.config);
     
-        // Initialisierung des Spiels und Prompts sicherstellen
-        this.game.init().then(() => {
-            this.totalScore.innerHTML = this.game.wordGenerator.wordArray.length; 
-            this.updatePrompt(this.game.wordGenerator.word);
-        });
-    
-        // Callback für Wortänderungen
-        this.game.wordGenerator.setOnWordChangeCallback((newWord) => {
-            this.updatePrompt(newWord);
-        });
-    
-        // Callback für Score-Änderungen
-        this.game.setOnScoreChangeCallback((newScore) => {
-            this.updateScore(newScore);
-        });
+        // Initialisierung des Spiels und Prompts
+        this.initializeGame();
+    }
+
+    async initializeGame() {
+        try {
+            await this.game.init();
+            
+            if (this.game.wordGenerator && this.game.wordGenerator.wordArray) {
+                this.totalScore.innerHTML = this.game.wordGenerator.wordArray.length;
+                this.updatePrompt(this.game.wordGenerator.word);
+            }
+
+            // Callbacks setup
+            if (this.game.wordGenerator) {
+                this.game.wordGenerator.setOnWordChangeCallback((newWord) => {
+                    this.updatePrompt(newWord);
+                });
+            }
+
+            if (this.game.setOnScoreChangeCallback) {
+                this.game.setOnScoreChangeCallback((newScore) => {
+                    this.updateScore(newScore);
+                });
+            }
+        } catch (error) {
+            console.error("Error initializing game screen:", error);
+        }
     }
 
     show(onComplete) {
         this.container.style.display = "block";
         this.screen.style.zIndex = "0";
-        this.scoreCountContainer.style.display = "flex"; 
-        this.prompt.innerHTML = this.game.wordGenerator.word;
-        this.score.innerHTML = this.scoreCount; // Initial Score setzen
+        this.scoreCountContainer.style.display = "flex";
         
+        if (this.game.wordGenerator && this.game.wordGenerator.word) {
+            this.prompt.innerHTML = this.game.wordGenerator.word;
+        }
+        
+        this.score.innerHTML = this.scoreCount;
+
         document
             .getElementById("sceneSelectionScreen")
             .addEventListener("click", (event) => {
@@ -59,14 +75,14 @@ export default class GameScreen {
     }
 
     updatePrompt(newWord) {
-        if (newWord) {
-            this.prompt.innerHTML = newWord;
-        } else {
-            this.prompt.innerHTML = "Kein Wort verfügbar!";
+        if (this.prompt) {
+            this.prompt.innerHTML = newWord || "Kein Wort verfügbar!";
         }
     }
 
     updateScore(newScore) {
-        this.score.innerHTML = newScore; // Score im DOM aktualisieren
+        if (this.score) {
+            this.score.innerHTML = newScore;
+        }
     }
 }
