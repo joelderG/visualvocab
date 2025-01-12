@@ -78,9 +78,9 @@ export default class Game {
         console.log(this.scene)
       }
 
-      async setupWordArray() {
+      async setupWordArray(path) {
         try {
-            const array = await this.scene.modelLoader.getNodeNamesFromGLTF("../assets/blender_room/blender_room.gltf");
+            const array = await this.scene.modelLoader.getNodeNamesFromGLTF(path);
             console.log("Node names for word array: ", array);
             this.wordGenerator.setWordArray(array); 
         } catch (error) {
