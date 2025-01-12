@@ -107,6 +107,7 @@ export default class Game {
         });
 
         this.interactionHandler.setOnWrongObjectClick(() => {
+            console.log("not the right object")
             this.wordGenerator.onGenerateNewWord();
         })
 
