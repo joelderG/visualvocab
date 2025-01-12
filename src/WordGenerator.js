@@ -1,64 +1,76 @@
-import { call } from "three/webgpu";
-import LanguageHandler from "./LanguageHandler";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 export default class WordGenerator {
     constructor(config) {
-        this.config = config; 
-        this.languageHandler = new LanguageHandler(this.config.language); 
+        this.config = config;
         this.wordArray = [];
-        //this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
-        this.word = ""; 
+        this.word = "";
         this.currentWord = "";
-        this.callbacks = []; // Liste von Callbacks
-
-        // Callback-Referenz für Änderungen
+        this.callbacks = [];
         this.onWordChangeCallback = null;
-        this.onGameCompletedCallback = false; 
-
-        // Event-Listener für Button
-        
+        this.onGameCompletedCallback = false;
     }
 
     setWordArray(array) {
-        this.wordArray = array; 
+        if (!Array.isArray(array)) {
+            console.error("Invalid word array provided");
+            return;
+        }
+        this.wordArray = array;
         if (this.wordArray.length > 0) {
             this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
+            this.currentWord = this.word;
         }
     }
-    
+
     generateRandomWord() {
+        if (this.wordArray.length === 0) {
+            console.warn("No words available to generate");
+            return null;
+        }
         this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
-        this.currentWord = this.word; 
-        console.trace("generated new word!")
-        //return this.languageHandler.getTranslation(word); 
+        this.currentWord = this.word;
+        return this.word;
     }
 
     onGenerateNewWord() {
-      // Überprüfen, ob noch Wörter verfügbar sind
-      if (this.wordArray.length === 0) {
-        this.word = "complete!"
-        return; // Beende die Methode, da keine Wörter mehr vorhanden sind
-    }
-    if (this.currentWord !== null) {
-        const index = this.wordArray.indexOf(this.currentWord);
-        if (index !== -1) {
-            this.wordArray.splice(index, 1);
-            console.log("current word array", this.wordArray)
+        if (this.wordArray.length === 0) {
+            this.word = "complete!";
+            return;
+        }
+
+        if (this.currentWord !== null) {
+            const index = this.wordArray.indexOf(this.currentWord);
+            if (index !== -1) {
+                this.wordArray.splice(index, 1);
+            }
+        }
+
+        this.generateRandomWord();
+        
+        // Benachrichtige alle registrierten Callbacks
+        if (this.callbacks && this.callbacks.length > 0) {
+            this.callbacks.forEach(callback => {
+                if (typeof callback === 'function') {
+                    callback(this.currentWord);
+                }
+            });
         }
     }
-    console.log("current word", this.currentWord)
-    console.log("current array", this.wordArray)
-        // Neues Wort zufällig auswählen
-        this.generateRandomWord();
-        console.log("Neues Wort:", this.word);
-        console.log("Verbleibende Wörter:", this.wordArray);
 
-        this.callbacks.forEach((callback) => callback(this.currentWord));
-        
+    setOnWordChangeCallback(callback) {
+        if (typeof callback !== 'function') {
+            console.error("Invalid callback provided to setOnWordChangeCallback");
+            return;
+        }
+        this.callbacks.push(callback);
     }
 
-    // Methode zum Setzen der Callback-Funktion
-    setOnWordChangeCallback(callback) {
-        this.callbacks.push(callback); // Callback zur Liste hinzufügen
+    getCurrentWord() {
+        return this.currentWord;
+    }
+
+    getRemainingWords() {
+        return this.wordArray.length;
     }
 }

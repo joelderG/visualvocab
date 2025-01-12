@@ -5,81 +5,163 @@ import Animation from "./Animation.js";
 import ModelLoader from "./ModelLoader.js";
 
 export default class Game {
-  constructor(config) {
-      this.config = config;
-      console.log(this.config);
-      this.scene = new Scene(this.config.selectedScene, this.config);
-      this.currentObj = null;
-      this.wordGenerator = new WordGenerator(this.config);
-      this.interactionHandler = new InteractionHandler(
-          this.scene.canvas,
-          this.scene.camera,
-          this.scene.scene
-      );
-      this.animation = new Animation(
-          this.scene.renderer,
-          this.scene,
-          this.scene.camera
-      );
-      this.scoreCount = 0;
-      this.scene.modelLoader = new ModelLoader(this.scene.scene, this.wordGenerator);
-      this.scoreChangeCallback = null;
+    constructor(config) {
+        if (!config) {
+            throw new Error("Game configuration is required");
+        }
 
-      this.wordGenerator.setOnWordChangeCallback((newWord) => {
-          this.onWordChange(newWord);
-      });
-  }
+        try {
+            this.config = config;
+            this.scene = new Scene(this.config.selectedScene, this.config);
+            this.wordGenerator = new WordGenerator(this.config);
+            
+            if (!this.scene.canvas) {
+                throw new Error("Canvas element not found");
+            }
 
-  async init() {
-      // Übergebe den Pfad aus der Konfiguration
-      await this.setupWordArray(this.config.path);
-      if (this.wordGenerator.wordArray.length > 0) {
-          this.wordGenerator.generateRandomWord();
-      }
+            this.interactionHandler = new InteractionHandler(
+                this.scene.canvas,
+                this.scene.camera,
+                this.scene.scene
+            );
 
-      this.scene.modelLoader.loadModel(
-          this.config.path,  // Verwende den Pfad aus der Konfiguration
-          this.wordGenerator.word,
-          (object) => {
-              this.currentObj = object;
-              console.log("init() object: ", this.currentObj);
-              this.interactionHandler.setTargetObject(object);
+            this.animation = new Animation(
+                this.scene.renderer,
+                this.scene,
+                this.scene.camera
+            );
 
-              this.interactionHandler.setOnCorrectObjectClick(() => {
-                  this.incrementScore();
-                  this.wordGenerator.onGenerateNewWord();
-              });
-          }
-      );
-      this.animation.start();
-  }
+            this.currentObj = null;
+            this.scoreCount = 0;
+            this.scene.modelLoader = new ModelLoader(this.scene.scene);
+            this.scoreChangeCallback = null;
+            this.isInitialized = false;
 
-  onWordChange(newWord) {
-      console.log(`Lade neues Modell für: ${newWord}`);
-      this.scene.modelLoader.updateModel(
-          newWord,
-          (object) => {
-              this.currentObj = object;
-              this.interactionHandler.setTargetObject(object);
-              
-              this.interactionHandler.setOnCorrectObjectClick(() => {
-                  this.incrementScore();
-                  this.wordGenerator.onGenerateNewWord();
-              });
-          }
-      );
-      console.log(this.scene)
-  }
+            this.setupEventHandlers();
+        } catch (error) {
+            console.error("Error initializing game:", error);
+            this.handleGameError(error);
+        }
+    }
 
-  async setupWordArray(path) {
-      try {
-          const array = await this.scene.modelLoader.getNodeNamesFromGLTF(path);
-          console.log("Node names for word array: ", array);
-          this.wordGenerator.setWordArray(array);
-      } catch (error) {
-          console.error("Fehler beim Laden der Node-Namen:", error);
-      }
-  }
+    setupEventHandlers() {
+        this.wordGenerator.setOnWordChangeCallback((newWord) => {
+            try {
+                this.onWordChange(newWord);
+            } catch (error) {
+                console.error("Error in word change handler:", error);
+            }
+        });
+
+        // Globaler Error Handler für unerwartete Fehler
+        window.addEventListener('error', (event) => {
+            console.error("Global error:", event.error);
+            this.handleGameError(event.error);
+        });
+    }
+
+    async init() {
+        try {
+            if (!this.config.path) {
+                throw new Error("No model path configured");
+            }
+
+            await this.setupWordArray(this.config.path);
+            
+            if (this.wordGenerator.wordArray.length === 0) {
+                throw new Error("No words available for the game");
+            }
+
+            this.wordGenerator.generateRandomWord();
+            
+            await new Promise((resolve, reject) => {
+                this.scene.modelLoader.loadModel(
+                    this.config.path,
+                    this.wordGenerator.word,
+                    (object) => {
+                        try {
+                            this.currentObj = object;
+                            this.interactionHandler.setTargetObject(object);
+                            this.setupInteractionHandlers();
+                            this.isInitialized = true;
+                            resolve();
+                        } catch (error) {
+                            reject(error);
+                        }
+                    }
+                );
+            });
+
+            this.animation.start();
+        } catch (error) {
+            console.error("Error initializing game:", error);
+            this.handleGameError(error);
+        }
+    }
+
+    setupInteractionHandlers() {
+        this.interactionHandler.setOnCorrectObjectClick(() => {
+            try {
+                this.incrementScore();
+                this.wordGenerator.onGenerateNewWord();
+            } catch (error) {
+                console.error("Error in interaction handler:", error);
+            }
+        });
+    }
+
+    async onWordChange(newWord) {
+        if (!newWord) {
+            console.warn("Invalid word received in onWordChange");
+            return;
+        }
+
+        try {
+            this.scene.modelLoader.updateModel(
+                newWord,
+                (object) => {
+                    if (!object) {
+                        throw new Error("No object returned from model update");
+                    }
+                    this.currentObj = object;
+                    this.interactionHandler.setTargetObject(object);
+                    this.setupInteractionHandlers();
+                }
+            );
+        } catch (error) {
+            console.error("Error changing word:", error);
+            this.handleGameError(error);
+        }
+    }
+
+    async setupWordArray(path) {
+        if (!path) {
+            throw new Error("No path provided for word array setup");
+        }
+
+        try {
+            const array = await this.scene.modelLoader.getNodeNamesFromGLTF(path);
+            if (!array || array.length === 0) {
+                throw new Error("No valid nodes found in model");
+            }
+            this.wordGenerator.setWordArray(array);
+        } catch (error) {
+            console.error("Error setting up word array:", error);
+            throw error; // Weitergabe an übergeordneten Handler
+        }
+    }
+
+    handleGameError(error) {
+        // Hier könnte UI-Feedback implementiert werden
+        console.error("Game error occurred:", error);
+        
+        // Versuche grundlegende Wiederherstellung
+        if (!this.isInitialized) {
+            // Wenn der Fehler während der Initialisierung auftritt
+            console.log("Attempting to recover from initialization error...");
+            // Hier könnte ein Retry-Mechanismus implementiert werden
+        }
+    }
 
   setOnScoreChangeCallback(callback) {
       this.scoreChangeCallback = callback;
