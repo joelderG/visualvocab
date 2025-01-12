@@ -3,6 +3,7 @@ import Game from "./Game.js"
 
 export default class GameScreen {
     constructor(config) {
+        this.gameCanvas = document.getElementById("gameCanvas")
         this.container = document.getElementById("prompt-container");
         this.prompt = document.getElementById("prompts");
         this.screen = document.getElementById("gameScreen");
@@ -38,6 +39,11 @@ export default class GameScreen {
 
             if (this.game.setOnScoreChangeCallback) {
                 this.game.setOnScoreChangeCallback((newScore) => {
+                    if(this.scoreCount === 1) {
+                        console.log("hello this game is over")
+                        this.config.gameFinished = true; 
+                        this.onComplete()
+                    }
                     this.updateScore(newScore);
                 });
             }
@@ -57,21 +63,12 @@ export default class GameScreen {
         
         this.score.innerHTML = this.scoreCount;
 
-        document
-            .getElementById("sceneSelectionScreen")
-            .addEventListener("click", (event) => {
-                const buttonClicked = event.target;
-                if (buttonClicked.classList.contains("sceneBtn")) {
-                    this.config.selectedScene = event.target.value;
-                }
-                if (buttonClicked.id == "nextBtn") {
-                    onComplete();
-                }
-            });
+        this.onComplete = onComplete; 
     }
 
     hide() {
         this.container.style.display = "none";
+        this.gameCanvas.style.display = "none";
     }
 
     updatePrompt(newWord) {
@@ -84,5 +81,7 @@ export default class GameScreen {
         if (this.score) {
             this.score.innerHTML = newScore;
         }
+        this.config.gameFinished = true; 
+        this.onComplete(); 
     }
 }
