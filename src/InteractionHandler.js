@@ -5,14 +5,15 @@ import skipVertexShader from "./shaders/skip_vertex.glsl.js"
 import skipFragmentShader from "./shaders/skip_fragment.glsl.js";
 
 export default class InteractionHandler {
-  constructor(canvas, camera, scene) {
+  constructor(canvas, camera, scene, translationManager) {
     this.canvas = canvas;
     this.camera = camera;
     this.scene = scene;
-    this.targetObject = null;
+    this.translationManager = translationManager;
+    this.currentBaseId = null;  // Aktuelle Basis-ID (z.B. "tv" oder "book")
     this.time = 0;
 
-    // Standard Shader Material
+    // Shader Setup bleibt gleich
     this.shaderMaterial = new THREE.ShaderMaterial({
         vertexShader: vertexShader,
         fragmentShader: fragmentShader,
@@ -21,7 +22,6 @@ export default class InteractionHandler {
         }
     });
 
-    // Skip Shader Material
     this.skipShaderMaterial = new THREE.ShaderMaterial({
         vertexShader: skipVertexShader,
         fragmentShader: skipFragmentShader,
@@ -32,6 +32,22 @@ export default class InteractionHandler {
 
     this.setupEventListeners();
     this.startAnimation();
+}
+
+setTargetBaseId(baseId) {
+  console.log("Setting target base ID:", baseId);
+  this.currentBaseId = baseId;
+}
+
+// Findet alle Objekte einer Basis-ID in der Szene
+findObjectsByBaseId(baseId) {
+  const objects = [];
+  this.scene.traverse((node) => {
+      if (node.isMesh && this.translationManager.isObjectInGroup(node.name, baseId)) {
+          objects.push(node);
+      }
+  });
+  return objects;
 }
 
 setupEventListeners() {
@@ -63,20 +79,18 @@ setTargetObject(object) {
   this.targetObject = object;
 }
 
+  // Callback-Setter bleiben gleich
   setOnCorrectObjectClick(callback) {
-    console.log("callback from onCorrectObj: ", callback)
     this.onCorrectObjectClick = callback;
-  }
+}
 
-  setOnWrongObjectClick(callback) {
+setOnWrongObjectClick(callback) {
     this.onWrongObjectClick = callback;
-    console.log("callback from onWrongObj: ", callback)
-  }
+}
 
-  setOnSkipClick(callback) {
+setOnSkipClick(callback) {
     this.onSkipClick = callback;
-    console.log("callback from onSkipObj: ", callback)
-  }
+}
 
   onMouseWheel(event) {
     const zoomSpeed = 0.1;
@@ -93,8 +107,8 @@ setTargetObject(object) {
   }
 
   onClick(event) {
-    if (!this.targetObject) {
-        console.log("No target object set");
+    if (!this.currentBaseId) {
+        console.log("No target base ID set");
         return;
     }
 
@@ -111,17 +125,14 @@ setTargetObject(object) {
     if (intersects.length > 0) {
         const clickedObject = intersects[0].object;
         console.log("Clicked object:", clickedObject.name);
-        console.log("Target object:", this.targetObject.name);
+        console.log("Looking for objects in group:", this.currentBaseId);
 
-        const targetBaseName = this.normalizeObjectName(this.targetObject.name);
         let found = false;
         let currentObject = clickedObject;
 
+        // Traversiere die Hierarchie und prüfe auf Gruppenzugehörigkeit
         while (currentObject && !found) {
-            console.log("Checking object:", currentObject.name);
-            const currentBaseName = this.normalizeObjectName(currentObject.name);
-            
-            if (currentBaseName === targetBaseName) {
+            if (this.translationManager.isObjectInGroup(currentObject.name, this.currentBaseId)) {
                 found = true;
             } else {
                 currentObject = currentObject.parent;
@@ -130,8 +141,8 @@ setTargetObject(object) {
 
         if (found) {
             console.log("✅ Correct object clicked:", clickedObject.name);
-            // Wende den Shader auf alle verwandten Objekte an
-            this.applyShaderToGroup(targetBaseName, this.shaderMaterial);
+            // Färbe alle Objekte der Gruppe
+            this.applyShaderToGroup(this.currentBaseId, this.shaderMaterial);
             this.time = 0;
             
             if (this.onCorrectObjectClick) {
@@ -141,7 +152,6 @@ setTargetObject(object) {
             }
         } else {
             console.log("❌ Wrong object clicked:", clickedObject.name);
-            // Bei falschen Klicks könnten wir einen anderen Shader oder Effekt anwenden
             if (this.onWrongObjectClick) {
                 setTimeout(() => {
                     this.onWrongObjectClick();
@@ -161,14 +171,11 @@ normalizeObjectName(name) {
 handleBtnClick(event) {
   if (event.target.tagName === 'BUTTON') {
       if (event.target.id === 'hint-btn') {
-          console.log("Hint requested for:", this.targetObject.name);
-          const targetBaseName = this.normalizeObjectName(this.targetObject.name);
-          this.applyShaderToGroup(targetBaseName, this.shaderMaterial);
+          console.log("Hint requested for base ID:", this.currentBaseId);
+          this.applyShaderToGroup(this.currentBaseId, this.shaderMaterial);
       } else if (event.target.id === 'skip-btn') {
-          console.log("Skipping:", this.targetObject.name);
-          if (!this.targetObject) return;
-          const targetBaseName = this.normalizeObjectName(this.targetObject.name);
-          this.applyShaderToGroup(targetBaseName, this.skipShaderMaterial);
+          console.log("Skipping base ID:", this.currentBaseId);
+          this.applyShaderToGroup(this.currentBaseId, this.skipShaderMaterial);
 
           if (this.onSkipClick) {
               setTimeout(() => {
@@ -222,12 +229,11 @@ handleBtnClick(event) {
     return relatedObjects;
 }
 
-applyShaderToGroup(baseName, shader) {
-  const relatedObjects = this.findRelatedObjects(baseName);
-  relatedObjects.forEach(obj => {
-      if (obj.material) {
-          obj.material = shader;
-      }
+// Wendet den Shader auf alle Objekte einer Gruppe an
+applyShaderToGroup(baseId, shader) {
+  const objects = this.findObjectsByBaseId(baseId);
+  objects.forEach(obj => {
+      obj.material = shader.clone();
   });
 }
 

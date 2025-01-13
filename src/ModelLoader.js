@@ -17,83 +17,49 @@ export default class ModelLoader {
         return name.split('_')[0];
     }
 
-loadModel(path, objectName, callback) {
-    if (!path || !objectName) {
-        console.error("Invalid path or objectName provided to loadModel");
-        return;
-    }
+    loadModel(path, objectName, callback) {
+        if (!path) {
+            console.error("No path provided to loadModel");
+            return;
+        }
 
-    console.log("Loading model, searching for object:", objectName);
+        console.log("Attempting to load model from path:", path);
 
-    if (this.loadingManager) {
-        this.loadingManager.show(`Loading ${objectName}...`);
-    }
+        try {
+            this.loader.load(
+                path,
+                (gltf) => {
+                    try {
+                        console.log("Model loaded successfully:", gltf);
+                        this.model = gltf.scene;
+                        
+                        // Debug: Log scene hierarchy
+                        console.log("Scene hierarchy:");
+                        this.model.traverse((node) => {
+                            console.log("Node:", node.type, node.name);
+                        });
 
-    try {
-        this.loader.load(
-            path,
-            (gltf) => {
-                try {
-                    this.model = gltf.scene;
-                    this.scene.add(this.model);
-                    
-                    // Gruppiere zusammengehörige Meshes
-                    this.objectGroups.clear();
-                    this.model.traverse((node) => {
-                        if (node.isMesh) {
-                            const baseObjectName = this.getBaseObjectName(node.name);
-                            if (!this.objectGroups.has(baseObjectName)) {
-                                this.objectGroups.set(baseObjectName, []);
-                            }
-                            this.objectGroups.get(baseObjectName).push(node);
+                        this.scene.add(this.model);
+                        console.log("Model added to scene");
+
+                        if (callback) {
+                            callback(this.model);
                         }
-                    });
-
-                    // Suche nach dem passenden Objekt
-                    const baseSearchName = this.getBaseObjectName(objectName);
-                    const matchingObjects = this.objectGroups.get(baseSearchName);
-                    
-                    if (matchingObjects && matchingObjects.length > 0) {
-                        console.log(`Found ${matchingObjects.length} parts for object ${baseSearchName}`);
-                        // Gib das erste Mesh zurück, aber behalte die Gruppe für spätere Updates
-                        callback(matchingObjects[0]);
-                    } else {
-                        console.warn(`No matching objects found for ${baseSearchName}`);
+                    } catch (error) {
+                        console.error("Error processing loaded model:", error);
                     }
-
-                    if (this.loadingManager) {
-                        this.loadingManager.hide();
-                    }
-                } catch (error) {
-                    console.error("Error processing loaded model:", error);
-                    if (this.loadingManager) {
-                        this.loadingManager.hide();
-                    }
+                },
+                (progress) => {
+                    console.log("Loading progress:", (progress.loaded / progress.total * 100) + '%');
+                },
+                (error) => {
+                    console.error("Error loading model:", error);
                 }
-            },
-            (xhr) => {
-                if (this.loadingManager) {
-                    const loadProgress = (xhr.loaded / xhr.total) * 100;
-                    this.loadingManager.setProgress(loadProgress);
-                    this.loadingManager.setMessage(
-                        `Loading Scene... ${Math.round(loadProgress)}%`
-                    );
-                }
-            },
-            (error) => {
-                console.error("Error loading model:", error);
-                if (this.loadingManager) {
-                    this.loadingManager.hide();
-                }
-            }
-        );
-    } catch (error) {
-        console.error("Critical error in model loading:", error);
-        if (this.loadingManager) {
-            this.loadingManager.hide();
+            );
+        } catch (error) {
+            console.error("Critical error in model loading:", error);
         }
     }
-}
 
 updateModel(objectName, callback) {
     const baseObjectName = this.getBaseObjectName(objectName);

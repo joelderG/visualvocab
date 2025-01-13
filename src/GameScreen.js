@@ -3,7 +3,7 @@ import Game from "./Game.js"
 
 export default class GameScreen {
     constructor(config) {
-        this.gameCanvas = document.getElementById("gameCanvas")
+        this.gameCanvas = document.getElementById("gameCanvas");
         this.container = document.getElementById("game-screen-ui-container");
         this.prompt = document.getElementById("prompts");
         this.screen = document.getElementById("gameScreen");
@@ -14,36 +14,31 @@ export default class GameScreen {
     
         this.config = config;
         this.game = new Game(this.config);
-    
-        console.log(this.config);
-    
-        // Initialisierung des Spiels und Prompts
-        this.initializeGame();
     }
 
     async initializeGame() {
         try {
             await this.game.init();
             
-            if (this.game.wordGenerator && this.game.wordGenerator.wordArray) {
-                this.totalScore.innerHTML = this.game.wordGenerator.wordArray.length;
-                this.updatePrompt(this.game.wordGenerator.word);
+            // Setze initial den Total Score
+            if (this.game.wordGenerator) {
+                this.totalScore.innerHTML = this.game.wordGenerator.getRemainingWords();
             }
 
-            // Callbacks setup
+            // Callback für Wortänderungen
             if (this.game.wordGenerator) {
                 this.game.wordGenerator.setOnWordChangeCallback((newWord) => {
                     this.updatePrompt(newWord);
                 });
             }
 
+            // Callback für Score-Änderungen
             if (this.game.setOnScoreChangeCallback) {
                 this.game.setOnScoreChangeCallback((newScore) => {
                     if(newScore === 5) {
-                        console.log("hello this game is over")
                         this.config.scoreCount = newScore; 
                         this.config.gameFinished = true; 
-                        this.onComplete()
+                        this.onComplete();
                     }
                     this.updateScore(newScore);
                 });
@@ -57,14 +52,10 @@ export default class GameScreen {
         this.container.style.display = "block";
         this.screen.style.zIndex = "0";
         this.scoreCountContainer.style.display = "flex";
+        this.gameCanvas.style.display = "block";  // Make sure canvas is visible
         
-        if (this.game.wordGenerator && this.game.wordGenerator.word) {
-            this.prompt.innerHTML = this.game.wordGenerator.word;
-        }
-        
-        this.score.innerHTML = this.scoreCount;
-
-        this.onComplete = onComplete; 
+        this.onComplete = onComplete;
+        this.initializeGame();
     }
 
     hide() {
@@ -75,8 +66,10 @@ export default class GameScreen {
 
     updatePrompt(newWord) {
         if (this.prompt) {
-            // newWord ist bereits die Übersetzung
+            console.log("Updating prompt with:", newWord);  // Debug log
             this.prompt.innerHTML = newWord || "Kein Wort verfügbar!";
+        } else {
+            console.error("Prompt element not found!");  // Debug log
         }
     }
 
