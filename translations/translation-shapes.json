@@ -3,22 +3,19 @@
       "cube": "cube",
       "sphere": "sphere",
       "cone": "cone",
-      "cylinder": "cylinder",
-      "plane": "plane"
+      "cylinder": "cylinder"
     },
     "de": {
       "cube": "TRANSLATE_DE_cube",
       "sphere": "TRANSLATE_DE_sphere",
       "cone": "TRANSLATE_DE_cone",
-      "cylinder": "TRANSLATE_DE_cylinder",
-      "plane": "TRANSLATE_DE_plane"
+      "cylinder": "TRANSLATE_DE_cylinder"
     },
     "fr": {
       "cube": "TRANSLATE_FR_cube",
       "sphere": "TRANSLATE_FR_sphere",
       "cone": "TRANSLATE_FR_cone",
-      "cylinder": "TRANSLATE_FR_cylinder",
-      "plane": "TRANSLATE_FR_plane"
+      "cylinder": "TRANSLATE_FR_cylinder"
     },
     "mappings": {
       "cube": [
@@ -32,9 +29,6 @@
       ],
       "cylinder": [
         "Cylinder"
-      ],
-      "plane": [
-        "Plane"
       ]
     }
   }

@@ -1,4 +1,3 @@
-// TranslationManager.js
 import livingRoomTranslations from '../translations/translation-livingroom.json';
 import bedroomTranslations from '../translations/translation-bedroom.json';
 import shapesTranslations from '../translations/translation-shapes.json';
@@ -7,66 +6,70 @@ export default class TranslationManager {
     constructor(config) {
         this.config = config;
         this.translations = null;
-        this.objectGroups = new Map(); // Speichert zusammengehörige Objekte
     }
 
-    // Lädt die Übersetzungen für die ausgewählte Szene
-    async loadTranslations(sceneName) {
-        try {
-            // Hier würden wir die entsprechende JSON-Datei laden
-            // Beispiel: const response = await fetch(`translations-${sceneName}.json`);
-            // this.translations = await response.json();
-            
-            return true;
-        } catch (error) {
-            console.error('Error loading translations:', error);
+    // Lädt die entsprechende Übersetzungsdatei basierend auf der Szene
+    loadTranslations(sceneName) {
+        switch(sceneName) {
+            case 'scene1':
+                this.translations = livingRoomTranslations;
+                break;
+            case 'scene2':
+                this.translations = bedroomTranslations;
+                break;
+            case 'scene3':
+                this.translations = shapesTranslations;
+                break;
+            default:
+                console.error('Unknown scene:', sceneName);
+                return false;
+        }
+        return true;
+    }
+
+    // Gibt alle verfügbaren Basis-IDs zurück (für die Wortauswahl)
+    getAllBaseIds() {
+        return Object.keys(this.translations.mappings);
+    }
+
+    // Holt die Übersetzung für eine Basis-ID in der aktuellen Sprache
+    getTranslation(baseId) {
+        if (!this.translations || !this.config.language) {
+            return baseId;
+        }
+        return this.translations[this.config.language][baseId] || baseId;
+    }
+
+    // Prüft ob ein Objektname zu einer Basis-ID gehört
+    isObjectInGroup(objectName, baseId) {
+        if (!this.translations.mappings[baseId]) {
             return false;
         }
+        return this.translations.mappings[baseId]
+            .map(name => name.toLowerCase())
+            .includes(objectName.toLowerCase());
     }
 
-    // Normalisiert einen Objektnamen (entfernt Zahlen und Unterstriche am Ende)
-    normalizeObjectName(name) {
-        return name.split('_')[0].toLowerCase();
+    // Findet die Basis-ID für einen Objektnamen
+    findBaseIdForObject(objectName) {
+        const entries = Object.entries(this.translations.mappings);
+        const found = entries.find(([_, names]) => 
+            names.map(name => name.toLowerCase())
+                .includes(objectName.toLowerCase())
+        );
+        return found ? found[0] : null;
     }
 
-    // Gruppiert Objekte mit ähnlichen Namen
-    registerObject(object) {
-        if (!object.name) return;
-        
-        const baseName = this.normalizeObjectName(object.name);
-        
-        if (!this.objectGroups.has(baseName)) {
-            this.objectGroups.set(baseName, []);
-        }
-        
-        this.objectGroups.get(baseName).push(object);
-    }
-
-    // Prüft ob ein angeklicktes Objekt zu einer Gruppe gehört
-    isObjectInGroup(clickedObject, groupName) {
-        const group = this.objectGroups.get(this.normalizeObjectName(groupName));
-        return group && group.includes(clickedObject);
-    }
-
-    // Holt die Übersetzung für einen normalisierten Objektnamen
-    getTranslation(objectName) {
-        if (!this.translations || !this.config.language) {
-            return objectName;
-        }
-
-        const normalizedName = this.normalizeObjectName(objectName);
-        const languageTranslations = this.translations[this.config.language];
-        
-        return languageTranslations?.[normalizedName] || normalizedName;
-    }
-
-    // Holt alle verfügbaren Objektgruppen
-    getAvailableObjects() {
-        return Array.from(this.objectGroups.keys());
-    }
-
-    // Holt alle Objekte einer Gruppe
-    getObjectsInGroup(groupName) {
-        return this.objectGroups.get(this.normalizeObjectName(groupName)) || [];
+    // Debug-Methode
+    logAvailableObjects() {
+        console.log('Available objects for current scene:');
+        console.log('Base IDs:', this.getAllBaseIds());
+        console.log('Current language:', this.config.language);
+        this.getAllBaseIds().forEach(baseId => {
+            console.log(`${baseId}:`, {
+                translation: this.getTranslation(baseId),
+                mappings: this.translations.mappings[baseId]
+            });
+        });
     }
 }
