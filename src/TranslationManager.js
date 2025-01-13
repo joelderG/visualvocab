@@ -7,89 +7,66 @@ export default class TranslationManager {
     constructor(config) {
         this.config = config;
         this.translations = null;
-        this.currentScene = null;
+        this.objectGroups = new Map(); // Speichert zusammengehörige Objekte
     }
 
-    loadTranslations(scene) {
-        this.currentScene = scene;
-        this.translations = this.getTranslationFile(scene);
-        return true;
-    }
-
-    generateRandomWord() {
-        // Wählt zufälliges Wort aus dem Array
-        this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
-        this.translatedWord = this.translationManager.getTranslation(this.word);
-    }
-
-    getTranslationFile(scene) {
-        switch(scene) {
-            case 'scene1':
-                return livingRoomTranslations;
-            case 'scene2':
-                return bedroomTranslations;
-            case 'scene3':
-                return shapesTranslations;
-            default:
-                throw new Error(`Unknown scene: ${scene}`);
+    // Lädt die Übersetzungen für die ausgewählte Szene
+    async loadTranslations(sceneName) {
+        try {
+            // Hier würden wir die entsprechende JSON-Datei laden
+            // Beispiel: const response = await fetch(`translations-${sceneName}.json`);
+            // this.translations = await response.json();
+            
+            return true;
+        } catch (error) {
+            console.error('Error loading translations:', error);
+            return false;
         }
     }
 
-    getNodeNamesFromGLTF(url) {
-        return new Promise((resolve, reject) => {
-            this.loader.load(
-                url,
-                (gltf) => {
-                    const nodeNameArray = [];
-                    gltf.scene.traverse((node) => {
-                        if (node.name) {
-                          if (node.name != "Scene") {
-                            nodeNameArray.push(node.name); 
-                          } 
-                        }
-                    });
-                    resolve(nodeNameArray);
-                },
-                undefined,
-                (error) => {
-                    reject(error);
-                }
-            );
-        });
+    // Normalisiert einen Objektnamen (entfernt Zahlen und Unterstriche am Ende)
+    normalizeObjectName(name) {
+        return name.split('_')[0].toLowerCase();
     }
 
-    getTranslation(originalWord) {
+    // Gruppiert Objekte mit ähnlichen Namen
+    registerObject(object) {
+        if (!object.name) return;
+        
+        const baseName = this.normalizeObjectName(object.name);
+        
+        if (!this.objectGroups.has(baseName)) {
+            this.objectGroups.set(baseName, []);
+        }
+        
+        this.objectGroups.get(baseName).push(object);
+    }
+
+    // Prüft ob ein angeklicktes Objekt zu einer Gruppe gehört
+    isObjectInGroup(clickedObject, groupName) {
+        const group = this.objectGroups.get(this.normalizeObjectName(groupName));
+        return group && group.includes(clickedObject);
+    }
+
+    // Holt die Übersetzung für einen normalisierten Objektnamen
+    getTranslation(objectName) {
         if (!this.translations || !this.config.language) {
-            console.warn('Translations not loaded or language not set');
-            return originalWord;
+            return objectName;
         }
 
+        const normalizedName = this.normalizeObjectName(objectName);
         const languageTranslations = this.translations[this.config.language];
-        if (!languageTranslations) {
-            console.warn(`No translations found for language: ${this.config.language}`);
-            return originalWord;
-        }
-
-        return languageTranslations[originalWord] || originalWord;
+        
+        return languageTranslations?.[normalizedName] || normalizedName;
     }
 
-    getOriginalWord(translatedWord) {
-        if (!this.translations || !this.config.language) {
-            return translatedWord;
-        }
+    // Holt alle verfügbaren Objektgruppen
+    getAvailableObjects() {
+        return Array.from(this.objectGroups.keys());
+    }
 
-        const languageTranslations = this.translations[this.config.language];
-        if (!languageTranslations) {
-            return translatedWord;
-        }
-
-        // Suche nach dem Original-Wort
-        for (const [original, translation] of Object.entries(languageTranslations)) {
-            if (translation === translatedWord) {
-                return original;
-            }
-        }
-
-        return translatedWord;
+    // Holt alle Objekte einer Gruppe
+    getObjectsInGroup(groupName) {
+        return this.objectGroups.get(this.normalizeObjectName(groupName)) || [];
     }
 }

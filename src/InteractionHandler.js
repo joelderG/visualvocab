@@ -113,15 +113,15 @@ setTargetObject(object) {
         console.log("Clicked object:", clickedObject.name);
         console.log("Target object:", this.targetObject.name);
 
-        // Direkte Objektvergleichung
+        const targetBaseName = this.normalizeObjectName(this.targetObject.name);
         let found = false;
         let currentObject = clickedObject;
 
-        // Traversiere die Hierarchie nach oben
         while (currentObject && !found) {
             console.log("Checking object:", currentObject.name);
+            const currentBaseName = this.normalizeObjectName(currentObject.name);
             
-            if (currentObject === this.targetObject) {
+            if (currentBaseName === targetBaseName) {
                 found = true;
             } else {
                 currentObject = currentObject.parent;
@@ -130,7 +130,8 @@ setTargetObject(object) {
 
         if (found) {
             console.log("✅ Correct object clicked:", clickedObject.name);
-            this.targetObject.material = this.shaderMaterial;
+            // Wende den Shader auf alle verwandten Objekte an
+            this.applyShaderToGroup(targetBaseName, this.shaderMaterial);
             this.time = 0;
             
             if (this.onCorrectObjectClick) {
@@ -140,27 +141,20 @@ setTargetObject(object) {
             }
         } else {
             console.log("❌ Wrong object clicked:", clickedObject.name);
-            this.targetObject.material = this.shaderMaterial;
-
+            // Bei falschen Klicks könnten wir einen anderen Shader oder Effekt anwenden
             if (this.onWrongObjectClick) {
                 setTimeout(() => {
                     this.onWrongObjectClick();
                 }, 1000);
             }
         }
-    } else {
-        console.log("No object intersected");
-        if (this.onWrongObjectClick) {
-            setTimeout(() => {
-                this.onWrongObjectClick();
-            }, 1000);
-        }
     }
 }
 
 normalizeObjectName(name) {
-  // Entferne Zahlen und Unterstriche am Ende
-  return name.replace(/[_0-9]+$/, '');
+  // Entfernt Zahlen und Unterstriche am Ende
+  // "TV_1", "TV_2", "TV" werden alle zu "TV"
+  return name.split('_')[0];
 }
 
 
@@ -168,11 +162,13 @@ handleBtnClick(event) {
   if (event.target.tagName === 'BUTTON') {
       if (event.target.id === 'hint-btn') {
           console.log("Hint requested for:", this.targetObject.name);
-          this.targetObject.material = this.shaderMaterial;
+          const targetBaseName = this.normalizeObjectName(this.targetObject.name);
+          this.applyShaderToGroup(targetBaseName, this.shaderMaterial);
       } else if (event.target.id === 'skip-btn') {
           console.log("Skipping:", this.targetObject.name);
           if (!this.targetObject) return;
-          this.targetObject.material = this.skipShaderMaterial;
+          const targetBaseName = this.normalizeObjectName(this.targetObject.name);
+          this.applyShaderToGroup(targetBaseName, this.skipShaderMaterial);
 
           if (this.onSkipClick) {
               setTimeout(() => {
@@ -215,4 +211,24 @@ handleBtnClick(event) {
       this.isDragging = false;
     }
   }
+
+  findRelatedObjects(baseName) {
+    const relatedObjects = [];
+    this.scene.traverse((node) => {
+        if (node.name && this.normalizeObjectName(node.name) === baseName) {
+            relatedObjects.push(node);
+        }
+    });
+    return relatedObjects;
+}
+
+applyShaderToGroup(baseName, shader) {
+  const relatedObjects = this.findRelatedObjects(baseName);
+  relatedObjects.forEach(obj => {
+      if (obj.material) {
+          obj.material = shader;
+      }
+  });
+}
+
 }
