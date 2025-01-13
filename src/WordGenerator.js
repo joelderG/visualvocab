@@ -1,76 +1,88 @@
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 export default class WordGenerator {
-    constructor(config) {
-        this.config = config;
-        this.wordArray = [];
-        this.word = "";
-        this.currentWord = "";
-        this.callbacks = [];
-        this.onWordChangeCallback = null;
-        this.onGameCompletedCallback = false;
+  constructor(config, translationManager) {
+    this.config = config;
+    this.translationManager = translationManager;
+    this.availableBaseIds = []; // Verfügbare Basis-IDs aus den Mappings
+    this.currentBaseId = null; // Aktuelle Basis-ID (z.B. "tv", "book")
+    this.callbacks = []; // Callbacks für Wortänderungen
+  }
+
+  init() {
+    // Lade Übersetzungen für die ausgewählte Szene
+    this.translationManager.loadTranslations(this.config.selectedScene);
+    // Hole alle verfügbaren Basis-IDs aus den Mappings
+    this.availableBaseIds = this.translationManager.getAllBaseIds();
+  }
+
+  // Generiert ein neues zufälliges Wort
+  generateRandomWord() {
+    if (this.availableBaseIds.length === 0) {
+      console.log("No more words available");
+      this.currentBaseId = null;
+      this.notifyWordChange("complete");
+      return null;
     }
 
-    setWordArray(array) {
-        if (!Array.isArray(array)) {
-            console.error("Invalid word array provided");
-            return;
-        }
-        this.wordArray = array;
-        if (this.wordArray.length > 0) {
-            this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
-            this.currentWord = this.word;
-        }
+    // Wähle zufällige Basis-ID
+    const randomIndex = Math.floor(
+      Math.random() * this.availableBaseIds.length
+    );
+    this.currentBaseId = this.availableBaseIds[randomIndex];
+
+    // Hole übersetzte Version
+    const translatedWord = this.translationManager.getTranslation(
+      this.currentBaseId
+    );
+
+    console.log(`Generated word: ${this.currentBaseId} (${translatedWord})`);
+
+    // Informiere alle Listener über das neue Wort
+    this.notifyWordChange(translatedWord);
+
+    return translatedWord;
+  }
+
+  // Wird aufgerufen, wenn ein Wort erfolgreich gefunden wurde
+  onGenerateNewWord() {
+    // Entferne das aktuelle Wort aus den verfügbaren Wörtern
+    if (this.currentBaseId) {
+      const index = this.availableBaseIds.indexOf(this.currentBaseId);
+      if (index !== -1) {
+        this.availableBaseIds.splice(index, 1);
+      }
     }
 
-    generateRandomWord() {
-        if (this.wordArray.length === 0) {
-            console.warn("No words available to generate");
-            return null;
-        }
-        this.word = this.wordArray[Math.floor(Math.random() * this.wordArray.length)];
-        this.currentWord = this.word;
-        return this.word;
+    return this.generateRandomWord();
+  }
+
+  // Registriert einen Callback für Wortänderungen
+  setOnWordChangeCallback(callback) {
+    if (typeof callback === "function") {
+      this.callbacks.push(callback);
     }
+  }
 
-    onGenerateNewWord() {
-        if (this.wordArray.length === 0) {
-            this.word = "complete!";
-            return;
-        }
+  // Informiert alle registrierten Callbacks über Wortänderungen
+  notifyWordChange(word) {
+    this.callbacks.forEach((callback) => callback(word));
+  }
 
-        if (this.currentWord !== null) {
-            const index = this.wordArray.indexOf(this.currentWord);
-            if (index !== -1) {
-                this.wordArray.splice(index, 1);
-            }
-        }
+  // Getter für das aktuelle Wort
+  getCurrentBaseId() {
+    return this.currentBaseId;
+  }
 
-        this.generateRandomWord();
-        
-        // Benachrichtige alle registrierten Callbacks
-        if (this.callbacks && this.callbacks.length > 0) {
-            this.callbacks.forEach(callback => {
-                if (typeof callback === 'function') {
-                    callback(this.currentWord);
-                }
-            });
-        }
-    }
+  // Getter für die übersetzte Version des aktuellen Wortes
+  getCurrentTranslation() {
+    return this.currentBaseId
+      ? this.translationManager.getTranslation(this.currentBaseId)
+      : null;
+  }
 
-    setOnWordChangeCallback(callback) {
-        if (typeof callback !== 'function') {
-            console.error("Invalid callback provided to setOnWordChangeCallback");
-            return;
-        }
-        this.callbacks.push(callback);
-    }
-
-    getCurrentWord() {
-        return this.currentWord;
-    }
-
-    getRemainingWords() {
-        return this.wordArray.length;
-    }
+  // Gibt die Anzahl der noch verfügbaren Wörter zurück
+  getRemainingWords() {
+    return this.availableBaseIds.length;
+  }
 }

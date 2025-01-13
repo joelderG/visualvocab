@@ -1,88 +1,90 @@
 import LanguageHandler from "./LanguageHandler";
-import Game from "./Game.js"
+import Game from "./Game.js";
 
 export default class GameScreen {
-    constructor(config) {
-        this.container = document.getElementById("prompt-container");
-        this.prompt = document.getElementById("prompts");
-        this.screen = document.getElementById("gameScreen");
-        this.scoreCountContainer = document.getElementById("score-count");
-        this.score = document.getElementById("score");
-        this.totalScore = document.getElementById("total");
-        this.scoreCount = 0;
-    
-        this.config = config;
-        this.game = new Game(this.config);
-    
-        console.log(this.config);
-    
-        // Initialisierung des Spiels und Prompts
-        this.initializeGame();
+  constructor(config) {
+    this.gameCanvas = document.getElementById("gameCanvas");
+    this.container = document.getElementById("game-screen-ui-container");
+    this.prompt = document.getElementById("prompts");
+    this.screen = document.getElementById("gameScreen");
+    this.scoreCountContainer = document.getElementById("score-count");
+    this.score = document.getElementById("score");
+    this.totalScore = document.getElementById("total");
+    this.scoreCount = 0;
+
+    this.config = config;
+    this.game = new Game(this.config);
+  }
+
+  async initializeGame() {
+    try {
+      await this.game.init();
+
+      // Setze initial den Total Score
+      if (this.game.wordGenerator) {
+        this.totalScore.innerHTML = this.game.wordGenerator.getRemainingWords();
+      }
+
+      // Callback für Wortänderungen
+      if (this.game.wordGenerator) {
+        this.game.wordGenerator.setOnWordChangeCallback((newWord) => {
+          this.updatePrompt(newWord);
+        });
+      }
+
+      // Callback für Score-Änderungen
+      if (this.game.setOnScoreChangeCallback) {
+        this.game.setOnScoreChangeCallback((newScore) => {
+          if (newScore === 5) {
+            this.config.scoreCount = newScore;
+            this.config.gameFinished = true;
+            this.onComplete();
+          }
+          this.updateScore(newScore);
+        });
+      }
+    } catch (error) {
+      console.error("Error initializing game screen:", error);
     }
+  }
 
-    async initializeGame() {
-        try {
-            await this.game.init();
-            
-            if (this.game.wordGenerator && this.game.wordGenerator.wordArray) {
-                this.totalScore.innerHTML = this.game.wordGenerator.wordArray.length;
-                this.updatePrompt(this.game.wordGenerator.word);
-            }
+  async show(onComplete) {
+    this.container.style.display = "block";
+    this.screen.style.zIndex = "0";
+    this.scoreCountContainer.style.display = "flex";
+    this.gameCanvas.style.display = "block";
 
-            // Callbacks setup
-            if (this.game.wordGenerator) {
-                this.game.wordGenerator.setOnWordChangeCallback((newWord) => {
-                    this.updatePrompt(newWord);
-                });
-            }
+    this.onComplete = onComplete;
 
-            if (this.game.setOnScoreChangeCallback) {
-                this.game.setOnScoreChangeCallback((newScore) => {
-                    this.updateScore(newScore);
-                });
-            }
-        } catch (error) {
-            console.error("Error initializing game screen:", error);
-        }
+    // Warte auf Initialisierung
+    await this.initializeGame();
+
+    // Setze initialen Prompt auf das aktuelle Wort
+    if (this.game.wordGenerator) {
+      const currentTranslation =
+        this.game.wordGenerator.getCurrentTranslation();
+      this.updatePrompt(currentTranslation);
     }
+  }
 
-    show(onComplete) {
-        this.container.style.display = "block";
-        this.screen.style.zIndex = "0";
-        this.scoreCountContainer.style.display = "flex";
-        
-        if (this.game.wordGenerator && this.game.wordGenerator.word) {
-            this.prompt.innerHTML = this.game.wordGenerator.word;
-        }
-        
-        this.score.innerHTML = this.scoreCount;
+  hide() {
+    this.container.style.display = "none";
+    this.gameCanvas.style.display = "none";
+    this.screen.style.zIndex = "-2";
+  }
 
-        document
-            .getElementById("sceneSelectionScreen")
-            .addEventListener("click", (event) => {
-                const buttonClicked = event.target;
-                if (buttonClicked.classList.contains("sceneBtn")) {
-                    this.config.selectedScene = event.target.value;
-                }
-                if (buttonClicked.id == "nextBtn") {
-                    onComplete();
-                }
-            });
+  updatePrompt(newWord) {
+    if (this.prompt) {
+      console.log("Updating prompt with:", newWord); // Debug log
+      this.prompt.innerHTML = newWord || "Kein Wort verfügbar!";
+    } else {
+      console.error("Prompt element not found!"); // Debug log
     }
+  }
 
-    hide() {
-        this.container.style.display = "none";
+  updateScore(newScore) {
+    if (this.score) {
+      this.score.innerHTML = newScore;
     }
-
-    updatePrompt(newWord) {
-        if (this.prompt) {
-            this.prompt.innerHTML = newWord || "Kein Wort verfügbar!";
-        }
-    }
-
-    updateScore(newScore) {
-        if (this.score) {
-            this.score.innerHTML = newScore;
-        }
-    }
+  }
 }

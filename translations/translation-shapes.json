@@ -1,0 +1,34 @@
+{
+    "en": {
+      "cube": "cube",
+      "sphere": "sphere",
+      "cone": "cone",
+      "cylinder": "cylinder"
+    },
+    "de": {
+      "cube": "TRANSLATE_DE_cube",
+      "sphere": "TRANSLATE_DE_sphere",
+      "cone": "TRANSLATE_DE_cone",
+      "cylinder": "TRANSLATE_DE_cylinder"
+    },
+    "fr": {
+      "cube": "TRANSLATE_FR_cube",
+      "sphere": "TRANSLATE_FR_sphere",
+      "cone": "TRANSLATE_FR_cone",
+      "cylinder": "TRANSLATE_FR_cylinder"
+    },
+    "mappings": {
+      "cube": [
+        "Cube"
+      ],
+      "sphere": [
+        "Sphere"
+      ],
+      "cone": [
+        "Cone"
+      ],
+      "cylinder": [
+        "Cylinder"
+      ]
+    }
+  }

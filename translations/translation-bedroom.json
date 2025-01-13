@@ -1,0 +1,734 @@
+{
+    "en": {
+      "plane005": "plane005",
+      "witch's": "witch's",
+      "boden": "boden",
+      "regal": "regal",
+      "ofen": "ofen",
+      "raum": "raum",
+      "tisch": "tisch",
+      "cube008": "cube008",
+      "fensterbank": "fensterbank",
+      "stuhl": "stuhl",
+      "wandregal": "wandregal",
+      "holzfass": "holzfass",
+      "cylinder001": "cylinder001",
+      "cylinder004": "cylinder004",
+      "cylinder007": "cylinder007",
+      "cylinder010": "cylinder010",
+      "cylinder013": "cylinder013",
+      "holz": "holz",
+      "cylinder020": "cylinder020",
+      "blaue": "blaue",
+      "schwarze": "schwarze",
+      "schwarzer": "schwarzer",
+      "cylinder022": "cylinder022",
+      "schriftrolle": "schriftrolle",
+      "buch": "buch",
+      "cube011": "cube011",
+      "cube012": "cube012",
+      "cube013": "cube013",
+      "cube015": "cube015",
+      "cube016": "cube016",
+      "becher": "becher",
+      "cylinder027": "cylinder027",
+      "cube010": "cube010",
+      "cube014": "cube014",
+      "schriftrollenstapel": "schriftrollenstapel",
+      "cube018": "cube018",
+      "cube019": "cube019",
+      "cube020": "cube020",
+      "cube021": "cube021",
+      "pinke": "pinke",
+      "cylinder028": "cylinder028",
+      "cylinder029": "cylinder029",
+      "cylinder030": "cylinder030",
+      "cube022": "cube022",
+      "cube023": "cube023",
+      "cube024": "cube024",
+      "cube025": "cube025",
+      "cube026": "cube026",
+      "cube027": "cube027",
+      "cube028": "cube028",
+      "cube029": "cube029",
+      "cube030": "cube030",
+      "cube031": "cube031",
+      "cube032": "cube032",
+      "cube033": "cube033",
+      "cube034": "cube034",
+      "cube035": "cube035",
+      "großer": "großer",
+      "cylinder031": "cylinder031",
+      "kleine": "kleine",
+      "cylinder034": "cylinder034",
+      "cylinder035": "cylinder035",
+      "cylinder036": "cylinder036",
+      "cylinder037": "cylinder037",
+      "cylinder038": "cylinder038",
+      "pflanze": "pflanze",
+      "cylinder040": "cylinder040",
+      "cylinder041": "cylinder041",
+      "cylinder042": "cylinder042",
+      "cylinder043": "cylinder043",
+      "kerze": "kerze",
+      "cylinder044": "cylinder044",
+      "cylinder046": "cylinder046",
+      "cylinder048": "cylinder048",
+      "cylinder050": "cylinder050",
+      "cylinder052": "cylinder052",
+      "cylinder054": "cylinder054",
+      "große": "große",
+      "cylinder056": "cylinder056",
+      "cylinder058": "cylinder058",
+      "cylinder060": "cylinder060",
+      "cylinder062": "cylinder062",
+      "cube017": "cube017",
+      "cube036": "cube036",
+      "cube037": "cube037",
+      "cube038": "cube038",
+      "cube039": "cube039",
+      "cube040": "cube040",
+      "cube041": "cube041",
+      "kochtopf": "kochtopf",
+      "wasser": "wasser",
+      "oktopus": "oktopus",
+      "ranke": "ranke",
+      "nurbspath023": "nurbspath023",
+      "nurbspath024": "nurbspath024",
+      "maske": "maske"
+    },
+    "de": {
+      "plane005": "TRANSLATE_DE_plane005",
+      "witch's": "TRANSLATE_DE_witch's",
+      "boden": "TRANSLATE_DE_boden",
+      "regal": "TRANSLATE_DE_regal",
+      "ofen": "TRANSLATE_DE_ofen",
+      "raum": "TRANSLATE_DE_raum",
+      "tisch": "TRANSLATE_DE_tisch",
+      "cube008": "TRANSLATE_DE_cube008",
+      "fensterbank": "TRANSLATE_DE_fensterbank",
+      "stuhl": "TRANSLATE_DE_stuhl",
+      "wandregal": "TRANSLATE_DE_wandregal",
+      "holzfass": "TRANSLATE_DE_holzfass",
+      "cylinder001": "TRANSLATE_DE_cylinder001",
+      "cylinder004": "TRANSLATE_DE_cylinder004",
+      "cylinder007": "TRANSLATE_DE_cylinder007",
+      "cylinder010": "TRANSLATE_DE_cylinder010",
+      "cylinder013": "TRANSLATE_DE_cylinder013",
+      "holz": "TRANSLATE_DE_holz",
+      "cylinder020": "TRANSLATE_DE_cylinder020",
+      "blaue": "TRANSLATE_DE_blaue",
+      "schwarze": "TRANSLATE_DE_schwarze",
+      "schwarzer": "TRANSLATE_DE_schwarzer",
+      "cylinder022": "TRANSLATE_DE_cylinder022",
+      "schriftrolle": "TRANSLATE_DE_schriftrolle",
+      "buch": "TRANSLATE_DE_buch",
+      "cube011": "TRANSLATE_DE_cube011",
+      "cube012": "TRANSLATE_DE_cube012",
+      "cube013": "TRANSLATE_DE_cube013",
+      "cube015": "TRANSLATE_DE_cube015",
+      "cube016": "TRANSLATE_DE_cube016",
+      "becher": "TRANSLATE_DE_becher",
+      "cylinder027": "TRANSLATE_DE_cylinder027",
+      "cube010": "TRANSLATE_DE_cube010",
+      "cube014": "TRANSLATE_DE_cube014",
+      "schriftrollenstapel": "TRANSLATE_DE_schriftrollenstapel",
+      "cube018": "TRANSLATE_DE_cube018",
+      "cube019": "TRANSLATE_DE_cube019",
+      "cube020": "TRANSLATE_DE_cube020",
+      "cube021": "TRANSLATE_DE_cube021",
+      "pinke": "TRANSLATE_DE_pinke",
+      "cylinder028": "TRANSLATE_DE_cylinder028",
+      "cylinder029": "TRANSLATE_DE_cylinder029",
+      "cylinder030": "TRANSLATE_DE_cylinder030",
+      "cube022": "TRANSLATE_DE_cube022",
+      "cube023": "TRANSLATE_DE_cube023",
+      "cube024": "TRANSLATE_DE_cube024",
+      "cube025": "TRANSLATE_DE_cube025",
+      "cube026": "TRANSLATE_DE_cube026",
+      "cube027": "TRANSLATE_DE_cube027",
+      "cube028": "TRANSLATE_DE_cube028",
+      "cube029": "TRANSLATE_DE_cube029",
+      "cube030": "TRANSLATE_DE_cube030",
+      "cube031": "TRANSLATE_DE_cube031",
+      "cube032": "TRANSLATE_DE_cube032",
+      "cube033": "TRANSLATE_DE_cube033",
+      "cube034": "TRANSLATE_DE_cube034",
+      "cube035": "TRANSLATE_DE_cube035",
+      "großer": "TRANSLATE_DE_großer",
+      "cylinder031": "TRANSLATE_DE_cylinder031",
+      "kleine": "TRANSLATE_DE_kleine",
+      "cylinder034": "TRANSLATE_DE_cylinder034",
+      "cylinder035": "TRANSLATE_DE_cylinder035",
+      "cylinder036": "TRANSLATE_DE_cylinder036",
+      "cylinder037": "TRANSLATE_DE_cylinder037",
+      "cylinder038": "TRANSLATE_DE_cylinder038",
+      "pflanze": "TRANSLATE_DE_pflanze",
+      "cylinder040": "TRANSLATE_DE_cylinder040",
+      "cylinder041": "TRANSLATE_DE_cylinder041",
+      "cylinder042": "TRANSLATE_DE_cylinder042",
+      "cylinder043": "TRANSLATE_DE_cylinder043",
+      "kerze": "TRANSLATE_DE_kerze",
+      "cylinder044": "TRANSLATE_DE_cylinder044",
+      "cylinder046": "TRANSLATE_DE_cylinder046",
+      "cylinder048": "TRANSLATE_DE_cylinder048",
+      "cylinder050": "TRANSLATE_DE_cylinder050",
+      "cylinder052": "TRANSLATE_DE_cylinder052",
+      "cylinder054": "TRANSLATE_DE_cylinder054",
+      "große": "TRANSLATE_DE_große",
+      "cylinder056": "TRANSLATE_DE_cylinder056",
+      "cylinder058": "TRANSLATE_DE_cylinder058",
+      "cylinder060": "TRANSLATE_DE_cylinder060",
+      "cylinder062": "TRANSLATE_DE_cylinder062",
+      "cube017": "TRANSLATE_DE_cube017",
+      "cube036": "TRANSLATE_DE_cube036",
+      "cube037": "TRANSLATE_DE_cube037",
+      "cube038": "TRANSLATE_DE_cube038",
+      "cube039": "TRANSLATE_DE_cube039",
+      "cube040": "TRANSLATE_DE_cube040",
+      "cube041": "TRANSLATE_DE_cube041",
+      "kochtopf": "TRANSLATE_DE_kochtopf",
+      "wasser": "TRANSLATE_DE_wasser",
+      "oktopus": "TRANSLATE_DE_oktopus",
+      "ranke": "TRANSLATE_DE_ranke",
+      "nurbspath023": "TRANSLATE_DE_nurbspath023",
+      "nurbspath024": "TRANSLATE_DE_nurbspath024",
+      "maske": "TRANSLATE_DE_maske"
+    },
+    "fr": {
+      "plane005": "TRANSLATE_FR_plane005",
+      "witch's": "TRANSLATE_FR_witch's",
+      "boden": "TRANSLATE_FR_boden",
+      "regal": "TRANSLATE_FR_regal",
+      "ofen": "TRANSLATE_FR_ofen",
+      "raum": "TRANSLATE_FR_raum",
+      "tisch": "TRANSLATE_FR_tisch",
+      "cube008": "TRANSLATE_FR_cube008",
+      "fensterbank": "TRANSLATE_FR_fensterbank",
+      "stuhl": "TRANSLATE_FR_stuhl",
+      "wandregal": "TRANSLATE_FR_wandregal",
+      "holzfass": "TRANSLATE_FR_holzfass",
+      "cylinder001": "TRANSLATE_FR_cylinder001",
+      "cylinder004": "TRANSLATE_FR_cylinder004",
+      "cylinder007": "TRANSLATE_FR_cylinder007",
+      "cylinder010": "TRANSLATE_FR_cylinder010",
+      "cylinder013": "TRANSLATE_FR_cylinder013",
+      "holz": "TRANSLATE_FR_holz",
+      "cylinder020": "TRANSLATE_FR_cylinder020",
+      "blaue": "TRANSLATE_FR_blaue",
+      "schwarze": "TRANSLATE_FR_schwarze",
+      "schwarzer": "TRANSLATE_FR_schwarzer",
+      "cylinder022": "TRANSLATE_FR_cylinder022",
+      "schriftrolle": "TRANSLATE_FR_schriftrolle",
+      "buch": "TRANSLATE_FR_buch",
+      "cube011": "TRANSLATE_FR_cube011",
+      "cube012": "TRANSLATE_FR_cube012",
+      "cube013": "TRANSLATE_FR_cube013",
+      "cube015": "TRANSLATE_FR_cube015",
+      "cube016": "TRANSLATE_FR_cube016",
+      "becher": "TRANSLATE_FR_becher",
+      "cylinder027": "TRANSLATE_FR_cylinder027",
+      "cube010": "TRANSLATE_FR_cube010",
+      "cube014": "TRANSLATE_FR_cube014",
+      "schriftrollenstapel": "TRANSLATE_FR_schriftrollenstapel",
+      "cube018": "TRANSLATE_FR_cube018",
+      "cube019": "TRANSLATE_FR_cube019",
+      "cube020": "TRANSLATE_FR_cube020",
+      "cube021": "TRANSLATE_FR_cube021",
+      "pinke": "TRANSLATE_FR_pinke",
+      "cylinder028": "TRANSLATE_FR_cylinder028",
+      "cylinder029": "TRANSLATE_FR_cylinder029",
+      "cylinder030": "TRANSLATE_FR_cylinder030",
+      "cube022": "TRANSLATE_FR_cube022",
+      "cube023": "TRANSLATE_FR_cube023",
+      "cube024": "TRANSLATE_FR_cube024",
+      "cube025": "TRANSLATE_FR_cube025",
+      "cube026": "TRANSLATE_FR_cube026",
+      "cube027": "TRANSLATE_FR_cube027",
+      "cube028": "TRANSLATE_FR_cube028",
+      "cube029": "TRANSLATE_FR_cube029",
+      "cube030": "TRANSLATE_FR_cube030",
+      "cube031": "TRANSLATE_FR_cube031",
+      "cube032": "TRANSLATE_FR_cube032",
+      "cube033": "TRANSLATE_FR_cube033",
+      "cube034": "TRANSLATE_FR_cube034",
+      "cube035": "TRANSLATE_FR_cube035",
+      "großer": "TRANSLATE_FR_großer",
+      "cylinder031": "TRANSLATE_FR_cylinder031",
+      "kleine": "TRANSLATE_FR_kleine",
+      "cylinder034": "TRANSLATE_FR_cylinder034",
+      "cylinder035": "TRANSLATE_FR_cylinder035",
+      "cylinder036": "TRANSLATE_FR_cylinder036",
+      "cylinder037": "TRANSLATE_FR_cylinder037",
+      "cylinder038": "TRANSLATE_FR_cylinder038",
+      "pflanze": "TRANSLATE_FR_pflanze",
+      "cylinder040": "TRANSLATE_FR_cylinder040",
+      "cylinder041": "TRANSLATE_FR_cylinder041",
+      "cylinder042": "TRANSLATE_FR_cylinder042",
+      "cylinder043": "TRANSLATE_FR_cylinder043",
+      "kerze": "TRANSLATE_FR_kerze",
+      "cylinder044": "TRANSLATE_FR_cylinder044",
+      "cylinder046": "TRANSLATE_FR_cylinder046",
+      "cylinder048": "TRANSLATE_FR_cylinder048",
+      "cylinder050": "TRANSLATE_FR_cylinder050",
+      "cylinder052": "TRANSLATE_FR_cylinder052",
+      "cylinder054": "TRANSLATE_FR_cylinder054",
+      "große": "TRANSLATE_FR_große",
+      "cylinder056": "TRANSLATE_FR_cylinder056",
+      "cylinder058": "TRANSLATE_FR_cylinder058",
+      "cylinder060": "TRANSLATE_FR_cylinder060",
+      "cylinder062": "TRANSLATE_FR_cylinder062",
+      "cube017": "TRANSLATE_FR_cube017",
+      "cube036": "TRANSLATE_FR_cube036",
+      "cube037": "TRANSLATE_FR_cube037",
+      "cube038": "TRANSLATE_FR_cube038",
+      "cube039": "TRANSLATE_FR_cube039",
+      "cube040": "TRANSLATE_FR_cube040",
+      "cube041": "TRANSLATE_FR_cube041",
+      "kochtopf": "TRANSLATE_FR_kochtopf",
+      "wasser": "TRANSLATE_FR_wasser",
+      "oktopus": "TRANSLATE_FR_oktopus",
+      "ranke": "TRANSLATE_FR_ranke",
+      "nurbspath023": "TRANSLATE_FR_nurbspath023",
+      "nurbspath024": "TRANSLATE_FR_nurbspath024",
+      "maske": "TRANSLATE_FR_maske"
+    },
+    "mappings": {
+      "plane005": [
+        "Plane005"
+      ],
+      "witch's": [
+        "witch's_house",
+        "witch's_house096",
+        "witch's_house099",
+        "witch's_house102",
+        "witch's_house103",
+        "witch's_house104"
+      ],
+      "boden": [
+        "boden"
+      ],
+      "regal": [
+        "regal"
+      ],
+      "ofen": [
+        "ofen"
+      ],
+      "raum": [
+        "raum"
+      ],
+      "tisch": [
+        "tisch"
+      ],
+      "cube008": [
+        "Cube008",
+        "Cube008_1"
+      ],
+      "fensterbank": [
+        "fensterbank"
+      ],
+      "stuhl": [
+        "stuhl"
+      ],
+      "wandregal": [
+        "wandregal_1",
+        "wandregal_2"
+      ],
+      "holzfass": [
+        "holzfass_1",
+        "holzfass_2",
+        "holzfass_3",
+        "holzfass_4",
+        "holzfass_5"
+      ],
+      "cylinder001": [
+        "Cylinder001",
+        "Cylinder001_1",
+        "Cylinder001_2"
+      ],
+      "cylinder004": [
+        "Cylinder004",
+        "Cylinder004_1",
+        "Cylinder004_2"
+      ],
+      "cylinder007": [
+        "Cylinder007",
+        "Cylinder007_1",
+        "Cylinder007_2"
+      ],
+      "cylinder010": [
+        "Cylinder010",
+        "Cylinder010_1",
+        "Cylinder010_2"
+      ],
+      "cylinder013": [
+        "Cylinder013",
+        "Cylinder013_1",
+        "Cylinder013_2"
+      ],
+      "holz": [
+        "holz"
+      ],
+      "cylinder020": [
+        "Cylinder020",
+        "Cylinder020_1"
+      ],
+      "blaue": [
+        "blaue_flasche",
+        "blaue_flasche_2"
+      ],
+      "schwarze": [
+        "schwarze_flasche_",
+        "schwarze_flasche_2",
+        "schwarze_flasche_3",
+        "schwarze_flasche_4",
+        "schwarze_flasche_5",
+        "schwarze_flasche_6",
+        "schwarze_flasche_7",
+        "schwarze_flasche_8"
+      ],
+      "schwarzer": [
+        "schwarzer_becher"
+      ],
+      "cylinder022": [
+        "Cylinder022",
+        "Cylinder022_1",
+        "Cylinder022_2"
+      ],
+      "schriftrolle": [
+        "schriftrolle_1",
+        "schriftrolle_2",
+        "schriftrolle_3",
+        "schriftrolle_4"
+      ],
+      "buch": [
+        "buch_1",
+        "buch_2",
+        "buch_3",
+        "buch_4",
+        "buch_5",
+        "buch_6",
+        "buch_7",
+        "buch_8",
+        "buch_9",
+        "buch_10",
+        "buch_11",
+        "buch_12",
+        "buch_13",
+        "buch_14",
+        "buch_15",
+        "buch_16",
+        "buch_17",
+        "buch_18",
+        "buch_19",
+        "buch_20",
+        "buch_21",
+        "buch_22",
+        "buch_23",
+        "buch_24",
+        "buch_25",
+        "buch_26",
+        "buch_27",
+        "buch_28",
+        "buch_29",
+        "buch_30",
+        "buch_31",
+        "buch_32"
+      ],
+      "cube011": [
+        "Cube011",
+        "Cube011_1"
+      ],
+      "cube012": [
+        "Cube012",
+        "Cube012_1"
+      ],
+      "cube013": [
+        "Cube013",
+        "Cube013_1"
+      ],
+      "cube015": [
+        "Cube015",
+        "Cube015_1"
+      ],
+      "cube016": [
+        "Cube016",
+        "Cube016_1"
+      ],
+      "becher": [
+        "becher",
+        "becher_2",
+        "becher_3",
+        "becher_4",
+        "becher_5",
+        "becher_6",
+        "becher_7",
+        "becher_8",
+        "becher_9"
+      ],
+      "cylinder027": [
+        "Cylinder027",
+        "Cylinder027_1"
+      ],
+      "cube010": [
+        "Cube010",
+        "Cube010_1"
+      ],
+      "cube014": [
+        "Cube014",
+        "Cube014_1"
+      ],
+      "schriftrollenstapel": [
+        "schriftrollenstapel",
+        "schriftrollenstapel_2"
+      ],
+      "cube018": [
+        "Cube018",
+        "Cube018_1"
+      ],
+      "cube019": [
+        "Cube019",
+        "Cube019_1"
+      ],
+      "cube020": [
+        "Cube020",
+        "Cube020_1"
+      ],
+      "cube021": [
+        "Cube021",
+        "Cube021_1"
+      ],
+      "pinke": [
+        "pinke_flasche"
+      ],
+      "cylinder028": [
+        "Cylinder028",
+        "Cylinder028_1"
+      ],
+      "cylinder029": [
+        "Cylinder029",
+        "Cylinder029_1"
+      ],
+      "cylinder030": [
+        "Cylinder030",
+        "Cylinder030_1"
+      ],
+      "cube022": [
+        "Cube022",
+        "Cube022_1"
+      ],
+      "cube023": [
+        "Cube023",
+        "Cube023_1"
+      ],
+      "cube024": [
+        "Cube024",
+        "Cube024_1"
+      ],
+      "cube025": [
+        "Cube025",
+        "Cube025_1"
+      ],
+      "cube026": [
+        "Cube026",
+        "Cube026_1"
+      ],
+      "cube027": [
+        "Cube027",
+        "Cube027_1"
+      ],
+      "cube028": [
+        "Cube028",
+        "Cube028_1"
+      ],
+      "cube029": [
+        "Cube029",
+        "Cube029_1"
+      ],
+      "cube030": [
+        "Cube030",
+        "Cube030_1"
+      ],
+      "cube031": [
+        "Cube031",
+        "Cube031_1"
+      ],
+      "cube032": [
+        "Cube032",
+        "Cube032_1"
+      ],
+      "cube033": [
+        "Cube033",
+        "Cube033_1"
+      ],
+      "cube034": [
+        "Cube034",
+        "Cube034_1"
+      ],
+      "cube035": [
+        "Cube035",
+        "Cube035_1"
+      ],
+      "großer": [
+        "großer_pinker_becher"
+      ],
+      "cylinder031": [
+        "Cylinder031",
+        "Cylinder031_1"
+      ],
+      "kleine": [
+        "kleine_schwarze_flasche_1",
+        "kleine_schwarze_flasche_2"
+      ],
+      "cylinder034": [
+        "Cylinder034",
+        "Cylinder034_1"
+      ],
+      "cylinder035": [
+        "Cylinder035",
+        "Cylinder035_1"
+      ],
+      "cylinder036": [
+        "Cylinder036",
+        "Cylinder036_1"
+      ],
+      "cylinder037": [
+        "Cylinder037",
+        "Cylinder037_1"
+      ],
+      "cylinder038": [
+        "Cylinder038",
+        "Cylinder038_1"
+      ],
+      "pflanze": [
+        "pflanze_1",
+        "pflanze_2",
+        "pflanze_3",
+        "pflanze_4"
+      ],
+      "cylinder040": [
+        "Cylinder040",
+        "Cylinder040_1"
+      ],
+      "cylinder041": [
+        "Cylinder041",
+        "Cylinder041_1"
+      ],
+      "cylinder042": [
+        "Cylinder042",
+        "Cylinder042_1"
+      ],
+      "cylinder043": [
+        "Cylinder043",
+        "Cylinder043_1"
+      ],
+      "kerze": [
+        "kerze_1",
+        "kerze_2",
+        "kerze_3",
+        "kerze_4",
+        "kerze_5",
+        "kerze_6",
+        "kerze_7",
+        "kerze_8",
+        "kerze_9",
+        "kerze_10"
+      ],
+      "cylinder044": [
+        "Cylinder044",
+        "Cylinder044_1"
+      ],
+      "cylinder046": [
+        "Cylinder046",
+        "Cylinder046_1"
+      ],
+      "cylinder048": [
+        "Cylinder048",
+        "Cylinder048_1"
+      ],
+      "cylinder050": [
+        "Cylinder050",
+        "Cylinder050_1"
+      ],
+      "cylinder052": [
+        "Cylinder052",
+        "Cylinder052_1"
+      ],
+      "cylinder054": [
+        "Cylinder054",
+        "Cylinder054_1"
+      ],
+      "große": [
+        "große_blaue_flasche"
+      ],
+      "cylinder056": [
+        "Cylinder056",
+        "Cylinder056_1"
+      ],
+      "cylinder058": [
+        "Cylinder058",
+        "Cylinder058_1"
+      ],
+      "cylinder060": [
+        "Cylinder060",
+        "Cylinder060_1"
+      ],
+      "cylinder062": [
+        "Cylinder062",
+        "Cylinder062_1"
+      ],
+      "cube017": [
+        "Cube017",
+        "Cube017_1"
+      ],
+      "cube036": [
+        "Cube036",
+        "Cube036_1"
+      ],
+      "cube037": [
+        "Cube037",
+        "Cube037_1"
+      ],
+      "cube038": [
+        "Cube038",
+        "Cube038_1"
+      ],
+      "cube039": [
+        "Cube039",
+        "Cube039_1"
+      ],
+      "cube040": [
+        "Cube040",
+        "Cube040_1"
+      ],
+      "cube041": [
+        "Cube041",
+        "Cube041_1"
+      ],
+      "kochtopf": [
+        "kochtopf"
+      ],
+      "wasser": [
+        "wasser"
+      ],
+      "oktopus": [
+        "oktopus"
+      ],
+      "ranke": [
+        "ranke",
+        "ranke_2"
+      ],
+      "nurbspath023": [
+        "NurbsPath023",
+        "NurbsPath023_1"
+      ],
+      "nurbspath024": [
+        "NurbsPath024",
+        "NurbsPath024_1"
+      ],
+      "maske": [
+        "maske_1",
+        "maske_2"
+      ]
+    }
+  }
