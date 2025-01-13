@@ -54,22 +54,23 @@
     <div id="gameScreen">
       <!-- Canvas-Element für die 3D-Szene -->
       <canvas id="gameCanvas"></canvas>
-      <div id="prompt-container" style="display: none">
-        <h2 id="prompts">Hallo</h2>
+      <div id="game-screen-ui-container" style="display: none">
+        <div id="prompt-container">
+          <h2 id="prompts">Hallo</h2>
+        </div>
+        <div id="score-count" style="display: none">
+          <h4 id="score"></h3>
+          <h4>of</h3>
+          <h4 id="total"></h3>
+        </div>
+        <button id="skip-btn">Skip</button>
+        <button id="hint-btn">
+          <p>Hint</p>
+          <i class="fa-regular fa-lightbulb"></i>
+          </i>
+          <span class="tooltiptext">Get a hint</span>
+         </button>
       </div>
-      <div id="score-count" style="display: none">
-        <h4 id="score"></h3>
-        <h4>of</h3>
-        <h4 id="total"></h3>
-      </div>
-      <button id="skip-btn">Skip</button>
-      <button id="hint-btn">
-        <p>Hint</p>
-        <i class="fa-regular fa-lightbulb"></i>
-        </i>
-        <span class="tooltiptext">Get a hint</span>
-       </button>
-     
     </div>
 
     <div id="loadingScreen" style="display: none;">
@@ -77,6 +78,16 @@
       <div class="loader">
           <div class="loader-bar"></div>
       </div>
+    </div>
+
+    <div id="endScreen" style="display: none;">
+      <h1 id="final-score">Your score </h1>
+      <h4 id="hint-count">Hints needed: </h4>
+      <h4 id="wrong-count">Wrong words:</h4>
+
+        <button id="newGame">New Game</button>
+        <button id="repeatGame">Repeat wrong words</button>
+  
     </div>
 
     <!-- Lade das Skript am Ende des Body -->

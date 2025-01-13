@@ -29,6 +29,8 @@ export default class Configuration {
                 lookAt: { x: 0, y: 0, z: 0 }
             }
         };
+        this.scoreCount = 0; 
+        this.gameFinished = false; 
     }
 
     setPath(selectedScene) {

@@ -57,6 +57,7 @@ export default class InteractionHandler {
   }
 
   setOnWrongObjectClick(callback) {
+    this.onWrongObjectClick = callback;
     console.log("callback from onWrongObj: ", callback)
   }
 
@@ -104,8 +105,18 @@ export default class InteractionHandler {
           this.onCorrectObjectClick();
         }, 1000);
       }
+    } else {
+      console.log('wrong object')
+    this.targetObject.material = this.shaderMaterial;
+
+    if(this.onWrongObjectClick) {
+      setTimeout(() => {
+        this.onWrongObjectClick();
+      }, 1000);
     }
+
   }
+}
 
   handleBtnClick(event) {
     if (event.target.tagName === 'BUTTON') {
