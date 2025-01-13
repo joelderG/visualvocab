@@ -48,14 +48,22 @@ export default class GameScreen {
         }
     }
 
-    show(onComplete) {
+    async show(onComplete) {
         this.container.style.display = "block";
         this.screen.style.zIndex = "0";
         this.scoreCountContainer.style.display = "flex";
-        this.gameCanvas.style.display = "block";  // Make sure canvas is visible
+        this.gameCanvas.style.display = "block";
         
         this.onComplete = onComplete;
-        this.initializeGame();
+        
+        // Warte auf Initialisierung
+        await this.initializeGame();
+        
+        // Setze initialen Prompt auf das aktuelle Wort
+        if (this.game.wordGenerator) {
+            const currentTranslation = this.game.wordGenerator.getCurrentTranslation();
+            this.updatePrompt(currentTranslation);
+        }
     }
 
     hide() {
