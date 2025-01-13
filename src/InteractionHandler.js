@@ -10,19 +10,23 @@ export default class InteractionHandler {
     this.camera = camera;
     this.scene = scene;
     this.translationManager = translationManager;
-    this.currentBaseId = null;  // Aktuelle Basis-ID (z.B. "tv" oder "book")
+    this.currentBaseId = null;
     this.time = 0;
+    this.activeShaderObjects = new Set();
+    this.shaderStartTime = null;
 
-    // Shader Setup bleibt gleich
-    this.shaderMaterial = new THREE.ShaderMaterial({
+    // Shader für korrekte Auswahl (grün pulsierend)
+    this.correctShader = new THREE.ShaderMaterial({
         vertexShader: vertexShader,
         fragmentShader: fragmentShader,
         uniforms: {
-            uTime: { value: 0.0 }
+            uTime: { value: 0.0 },
+            uColor: { value: new THREE.Vector3(0.0, 1.0, 0.0) }
         }
     });
 
-    this.skipShaderMaterial = new THREE.ShaderMaterial({
+    // Shader für übersprungene Objekte (rot pulsierend)
+    this.skipShader = new THREE.ShaderMaterial({
         vertexShader: skipVertexShader,
         fragmentShader: skipFragmentShader,
         uniforms: {
@@ -39,7 +43,6 @@ setTargetBaseId(baseId) {
   this.currentBaseId = baseId;
 }
 
-// Findet alle Objekte einer Basis-ID in der Szene
 findObjectsByBaseId(baseId) {
   const objects = [];
   this.scene.traverse((node) => {
@@ -63,12 +66,21 @@ setupEventListeners() {
 startAnimation() {
   const animate = () => {
       requestAnimationFrame(animate);
-      this.time += 0.016;
-      if (this.shaderMaterial.uniforms) {
-          this.shaderMaterial.uniforms.uTime.value = this.time;
+      
+      const currentTime = Date.now() / 1000;
+      
+      // Update shader uniforms
+      if (this.correctShader.uniforms.uTime) {
+          this.correctShader.uniforms.uTime.value = currentTime;
       }
-      if (this.skipShaderMaterial.uniforms) {
-          this.skipShaderMaterial.uniforms.uTime.value = this.time;
+      if (this.skipShader.uniforms.uTime) {
+          this.skipShader.uniforms.uTime.value = currentTime;
+      }
+
+      // Prüfe Timer für Shader-Entfernung
+      if (this.shaderStartTime && (currentTime - this.shaderStartTime > 3)) {
+          this.resetShaders();
+          this.shaderStartTime = null;
       }
   };
   animate();
@@ -79,17 +91,16 @@ setTargetObject(object) {
   this.targetObject = object;
 }
 
-  // Callback-Setter bleiben gleich
-  setOnCorrectObjectClick(callback) {
-    this.onCorrectObjectClick = callback;
+setOnCorrectObjectClick(callback) {
+  this.onCorrectObjectClick = callback;
 }
 
 setOnWrongObjectClick(callback) {
-    this.onWrongObjectClick = callback;
+  this.onWrongObjectClick = callback;
 }
 
 setOnSkipClick(callback) {
-    this.onSkipClick = callback;
+  this.onSkipClick = callback;
 }
 
   onMouseWheel(event) {
@@ -127,28 +138,14 @@ setOnSkipClick(callback) {
         console.log("Clicked object:", clickedObject.name);
         console.log("Looking for objects in group:", this.currentBaseId);
 
-        let found = false;
-        let currentObject = clickedObject;
-
-        // Traversiere die Hierarchie und prüfe auf Gruppenzugehörigkeit
-        while (currentObject && !found) {
-            if (this.translationManager.isObjectInGroup(currentObject.name, this.currentBaseId)) {
-                found = true;
-            } else {
-                currentObject = currentObject.parent;
-            }
-        }
-
-        if (found) {
+        if (this.translationManager.isObjectInGroup(clickedObject.name, this.currentBaseId)) {
             console.log("✅ Correct object clicked:", clickedObject.name);
-            // Färbe alle Objekte der Gruppe
-            this.applyShaderToGroup(this.currentBaseId, this.shaderMaterial);
-            this.time = 0;
+            this.applyShaderToGroup(this.currentBaseId, this.correctShader);
             
             if (this.onCorrectObjectClick) {
                 setTimeout(() => {
                     this.onCorrectObjectClick();
-                }, 1000);
+                }, 3000);
             }
         } else {
             console.log("❌ Wrong object clicked:", clickedObject.name);
@@ -172,15 +169,15 @@ handleBtnClick(event) {
   if (event.target.tagName === 'BUTTON') {
       if (event.target.id === 'hint-btn') {
           console.log("Hint requested for base ID:", this.currentBaseId);
-          this.applyShaderToGroup(this.currentBaseId, this.shaderMaterial);
+          this.applyShaderToGroup(this.currentBaseId, this.correctShader);
       } else if (event.target.id === 'skip-btn') {
           console.log("Skipping base ID:", this.currentBaseId);
-          this.applyShaderToGroup(this.currentBaseId, this.skipShaderMaterial);
+          this.applyShaderToGroup(this.currentBaseId, this.skipShader);
 
           if (this.onSkipClick) {
               setTimeout(() => {
                   this.onSkipClick();
-              }, 1000);
+              }, 3000);
           }
       }
   }
@@ -229,12 +226,26 @@ handleBtnClick(event) {
     return relatedObjects;
 }
 
-// Wendet den Shader auf alle Objekte einer Gruppe an
 applyShaderToGroup(baseId, shader) {
+  this.resetShaders();
   const objects = this.findObjectsByBaseId(baseId);
+  
   objects.forEach(obj => {
+      obj.originalMaterial = obj.material;
       obj.material = shader.clone();
+      this.activeShaderObjects.add(obj);
   });
+
+  this.shaderStartTime = Date.now() / 1000;
+}
+
+resetShaders() {
+  this.activeShaderObjects.forEach(obj => {
+      if (obj.originalMaterial) {
+          obj.material = obj.originalMaterial;
+      }
+  });
+  this.activeShaderObjects.clear();
 }
 
 }
