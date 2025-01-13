@@ -39,7 +39,7 @@ export default class GameScreen {
 
             if (this.game.setOnScoreChangeCallback) {
                 this.game.setOnScoreChangeCallback((newScore) => {
-                    if(newScore === 1) {
+                    if(newScore === 5) {
                         console.log("hello this game is over")
                         this.config.scoreCount = newScore; 
                         this.config.gameFinished = true; 
@@ -75,6 +75,7 @@ export default class GameScreen {
 
     updatePrompt(newWord) {
         if (this.prompt) {
+            // newWord ist bereits die Übersetzung
             this.prompt.innerHTML = newWord || "Kein Wort verfügbar!";
         }
     }

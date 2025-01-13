@@ -26,24 +26,22 @@ export default class InteractionHandler {
         vertexShader: skipVertexShader,
         fragmentShader: skipFragmentShader,
         uniforms: {
-            uTime: { value: 0.0 },
-            cameraPosition: { value: this.camera.position }
+            uTime: { value: 0.0 }
         }
     });
 
-    // Event Listeners
     this.setupEventListeners();
     this.startAnimation();
 }
 
 setupEventListeners() {
-  this.canvas.addEventListener("mousemove", (event) => this.onMouseMove(event));
-  this.canvas.addEventListener("click", (event) => this.onClick(event));
-  this.canvas.addEventListener("mousedown", (event) => this.onMouseDown(event));
-  this.canvas.addEventListener("mouseup", (event) => this.onMouseUp(event));
-  this.canvas.addEventListener("mouseleave", (event) => this.onMouseUp(event));
-  this.canvas.addEventListener("wheel", (event) => this.onMouseWheel(event));
-  document.querySelector('#gameScreen').addEventListener('click', (event) => this.handleBtnClick(event));
+    this.canvas.addEventListener("mousemove", (event) => this.onMouseMove(event));
+    this.canvas.addEventListener("click", (event) => this.onClick(event));
+    this.canvas.addEventListener("mousedown", (event) => this.onMouseDown(event));
+    this.canvas.addEventListener("mouseup", (event) => this.onMouseUp(event));
+    this.canvas.addEventListener("mouseleave", (event) => this.onMouseUp(event));
+    this.canvas.addEventListener("wheel", (event) => this.onMouseWheel(event));
+    document.querySelector('#gameScreen').addEventListener('click', (event) => this.handleBtnClick(event));
 }
 
 startAnimation() {
@@ -55,15 +53,15 @@ startAnimation() {
       }
       if (this.skipShaderMaterial.uniforms) {
           this.skipShaderMaterial.uniforms.uTime.value = this.time;
-          this.skipShaderMaterial.uniforms.cameraPosition.value = this.camera.position;
       }
   };
   animate();
 }
 
-  setTargetObject(object) {
-    this.targetObject = object;
-  }
+setTargetObject(object) {
+  console.log("Setting target object:", object.name);
+  this.targetObject = object;
+}
 
   setOnCorrectObjectClick(callback) {
     console.log("callback from onCorrectObj: ", callback)
@@ -95,52 +93,85 @@ startAnimation() {
   }
 
   onClick(event) {
-    if (!this.targetObject) return;
+    if (!this.targetObject) {
+        console.log("No target object set");
+        return;
+    }
 
     const raycaster = new THREE.Raycaster();
     const rect = this.canvas.getBoundingClientRect();
     const mouse = new THREE.Vector2(
-      ((event.clientX - rect.left) / rect.width) * 2 - 1,
-      -((event.clientY - rect.top) / rect.height) * 2 + 1
+        ((event.clientX - rect.left) / rect.width) * 2 - 1,
+        -((event.clientY - rect.top) / rect.height) * 2 + 1
     );
 
     raycaster.setFromCamera(mouse, this.camera);
-    const intersects = raycaster.intersectObjects([this.targetObject], true);
+    const intersects = raycaster.intersectObjects(this.scene.children, true);
 
     if (intersects.length > 0) {
-      console.log(`Object was clicked!`);
-      // Shader Material zum geklickten Objekt hinzufügen
-      this.targetObject.material = this.shaderMaterial;
-      // Reset time für frischen Start der Animation
-      this.time = 0;
-      
-      if (this.onCorrectObjectClick) {
-        setTimeout(() => {
-          this.onCorrectObjectClick();
-        }, 1000);
-      }
+        const clickedObject = intersects[0].object;
+        console.log("Clicked object:", clickedObject.name);
+        console.log("Target object:", this.targetObject.name);
+
+        // Direkte Objektvergleichung
+        let found = false;
+        let currentObject = clickedObject;
+
+        // Traversiere die Hierarchie nach oben
+        while (currentObject && !found) {
+            console.log("Checking object:", currentObject.name);
+            
+            if (currentObject === this.targetObject) {
+                found = true;
+            } else {
+                currentObject = currentObject.parent;
+            }
+        }
+
+        if (found) {
+            console.log("✅ Correct object clicked:", clickedObject.name);
+            this.targetObject.material = this.shaderMaterial;
+            this.time = 0;
+            
+            if (this.onCorrectObjectClick) {
+                setTimeout(() => {
+                    this.onCorrectObjectClick();
+                }, 1000);
+            }
+        } else {
+            console.log("❌ Wrong object clicked:", clickedObject.name);
+            this.targetObject.material = this.shaderMaterial;
+
+            if (this.onWrongObjectClick) {
+                setTimeout(() => {
+                    this.onWrongObjectClick();
+                }, 1000);
+            }
+        }
     } else {
-      console.log('wrong object')
-    this.targetObject.material = this.shaderMaterial;
-
-    if(this.onWrongObjectClick) {
-      setTimeout(() => {
-        this.onWrongObjectClick();
-      }, 1000);
+        console.log("No object intersected");
+        if (this.onWrongObjectClick) {
+            setTimeout(() => {
+                this.onWrongObjectClick();
+            }, 1000);
+        }
     }
-
-  }
 }
+
+normalizeObjectName(name) {
+  // Entferne Zahlen und Unterstriche am Ende
+  return name.replace(/[_0-9]+$/, '');
+}
+
 
 handleBtnClick(event) {
   if (event.target.tagName === 'BUTTON') {
-      if(event.target.id === 'hint-btn') {
-          console.log("This is a hint!");
+      if (event.target.id === 'hint-btn') {
+          console.log("Hint requested for:", this.targetObject.name);
           this.targetObject.material = this.shaderMaterial;
-      } else if(event.target.id === 'skip-btn') {
-          console.log("Skip this one");
+      } else if (event.target.id === 'skip-btn') {
+          console.log("Skipping:", this.targetObject.name);
           if (!this.targetObject) return;
-          // Verwende den Skip-Shader
           this.targetObject.material = this.skipShaderMaterial;
 
           if (this.onSkipClick) {
