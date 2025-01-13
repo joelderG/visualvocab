@@ -17,6 +17,8 @@ export default class InteractionHandler {
     this.canvas.addEventListener("mouseup", (event) => this.onMouseUp(event));
     this.canvas.addEventListener("mouseleave", (event) => this.onMouseUp(event));
     this.canvas.addEventListener("wheel", (event) => this.onMouseWheel(event));
+    document.querySelector('#gameScreen').addEventListener('click', (event) => this.handleBtnClick(event));
+
 
     // Shader Material mit korrekten Uniforms
     this.shaderMaterial = new THREE.ShaderMaterial({
@@ -52,6 +54,15 @@ export default class InteractionHandler {
   setOnCorrectObjectClick(callback) {
     console.log("callback from onCorrectObj: ", callback)
     this.onCorrectObjectClick = callback;
+  }
+
+  setOnWrongObjectClick(callback) {
+    console.log("callback from onWrongObj: ", callback)
+  }
+
+  setOnSkipClick(callback) {
+    this.onSkipClick = callback;
+    console.log("callback from onSkipObj: ", callback)
   }
 
   onMouseWheel(event) {
@@ -95,6 +106,31 @@ export default class InteractionHandler {
       }
     }
   }
+
+  handleBtnClick(event) {
+    if (event.target.tagName === 'BUTTON') {
+      if(event.target.id === 'hint-btn') {
+        console.log("This is a hint!")
+        this.targetObject.material = this.shaderMaterial; 
+      } else if(event.target.id === 'skip-btn') {
+        console.log("Skip this one")
+        if (!this.targetObject) return; 
+        console.log(this.targetObject)
+        //TODO: gegen richigen Shader austauschen 
+        this.targetObject.material = this.shaderMaterial;
+
+              // Call the skip callback if defined
+              if (this.onSkipClick) {
+                this.onSkipClick();
+              }
+        
+
+      } else {
+        return 
+      }
+    }
+  }
+
 
   onMouseDown(event) {
     this.isMouseDown = true;
