@@ -62,7 +62,7 @@ export default class GameScreen {
 
     hide() {
         this.container.style.display = "none";
-        //this.gameCanvas.style.zIndex = "-3";
+        this.score.innerHTML = 0; 
         this.screen.style.zIndex = "-2";
     }
 
