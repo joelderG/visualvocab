@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import vertexShader from "./shaders/vertex.glsl.js"
 import fragmentShader from "./shaders/fragment.glsl.js";
+import skipVertexShader from "./shaders/skip_vertex.glsl.js"
+import skipFragmentShader from "./shaders/skip_fragment.glsl.js";
 
 export default class InteractionHandler {
   constructor(canvas, camera, scene) {
@@ -8,44 +10,56 @@ export default class InteractionHandler {
     this.camera = camera;
     this.scene = scene;
     this.targetObject = null;
-    this.time = 0;  // Zeit-Variable hinzufügen
+    this.time = 0;
 
-    // Event Listeners
-    this.canvas.addEventListener("mousemove", (event) => this.onMouseMove(event));
-    this.canvas.addEventListener("click", (event) => this.onClick(event));
-    this.canvas.addEventListener("mousedown", (event) => this.onMouseDown(event));
-    this.canvas.addEventListener("mouseup", (event) => this.onMouseUp(event));
-    this.canvas.addEventListener("mouseleave", (event) => this.onMouseUp(event));
-    this.canvas.addEventListener("wheel", (event) => this.onMouseWheel(event));
-    document.querySelector('#gameScreen').addEventListener('click', (event) => this.handleBtnClick(event));
-
-
-    // Shader Material mit korrekten Uniforms
+    // Standard Shader Material
     this.shaderMaterial = new THREE.ShaderMaterial({
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-      uniforms: {
-        uTime: { value: 0.0 },
-        cameraPosition: { value: this.camera.position }
-      }
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        uniforms: {
+            uTime: { value: 0.0 }
+        }
     });
 
-    // Animation Loop für Shader
-    this.startAnimation();
-  }
+    // Skip Shader Material
+    this.skipShaderMaterial = new THREE.ShaderMaterial({
+        vertexShader: skipVertexShader,
+        fragmentShader: skipFragmentShader,
+        uniforms: {
+            uTime: { value: 0.0 },
+            cameraPosition: { value: this.camera.position }
+        }
+    });
 
-  startAnimation() {
-    const animate = () => {
+    // Event Listeners
+    this.setupEventListeners();
+    this.startAnimation();
+}
+
+setupEventListeners() {
+  this.canvas.addEventListener("mousemove", (event) => this.onMouseMove(event));
+  this.canvas.addEventListener("click", (event) => this.onClick(event));
+  this.canvas.addEventListener("mousedown", (event) => this.onMouseDown(event));
+  this.canvas.addEventListener("mouseup", (event) => this.onMouseUp(event));
+  this.canvas.addEventListener("mouseleave", (event) => this.onMouseUp(event));
+  this.canvas.addEventListener("wheel", (event) => this.onMouseWheel(event));
+  document.querySelector('#gameScreen').addEventListener('click', (event) => this.handleBtnClick(event));
+}
+
+startAnimation() {
+  const animate = () => {
       requestAnimationFrame(animate);
-      // Zeit-Update für Pulsierung
-      this.time += 0.016; // ungefähr 60 FPS
+      this.time += 0.016;
       if (this.shaderMaterial.uniforms) {
-        this.shaderMaterial.uniforms.uTime.value = this.time;
-        this.shaderMaterial.uniforms.cameraPosition.value = this.camera.position;
+          this.shaderMaterial.uniforms.uTime.value = this.time;
       }
-    };
-    animate();
-  }
+      if (this.skipShaderMaterial.uniforms) {
+          this.skipShaderMaterial.uniforms.uTime.value = this.time;
+          this.skipShaderMaterial.uniforms.cameraPosition.value = this.camera.position;
+      }
+  };
+  animate();
+}
 
   setTargetObject(object) {
     this.targetObject = object;
@@ -118,29 +132,25 @@ export default class InteractionHandler {
   }
 }
 
-  handleBtnClick(event) {
-    if (event.target.tagName === 'BUTTON') {
+handleBtnClick(event) {
+  if (event.target.tagName === 'BUTTON') {
       if(event.target.id === 'hint-btn') {
-        console.log("This is a hint!")
-        this.targetObject.material = this.shaderMaterial; 
+          console.log("This is a hint!");
+          this.targetObject.material = this.shaderMaterial;
       } else if(event.target.id === 'skip-btn') {
-        console.log("Skip this one")
-        if (!this.targetObject) return; 
-        console.log(this.targetObject)
-        //TODO: gegen richigen Shader austauschen 
-        this.targetObject.material = this.shaderMaterial;
+          console.log("Skip this one");
+          if (!this.targetObject) return;
+          // Verwende den Skip-Shader
+          this.targetObject.material = this.skipShaderMaterial;
 
-              // Call the skip callback if defined
-              if (this.onSkipClick) {
-                this.onSkipClick();
-              }
-        
-
-      } else {
-        return 
+          if (this.onSkipClick) {
+              setTimeout(() => {
+                  this.onSkipClick();
+              }, 1000);
+          }
       }
-    }
   }
+}
 
 
   onMouseDown(event) {
