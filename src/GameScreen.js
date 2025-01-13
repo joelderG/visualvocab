@@ -36,6 +36,8 @@ export default class GameScreen {
             if (this.game.setOnScoreChangeCallback) {
                 this.game.setOnScoreChangeCallback((newScore) => {
                     if(newScore === 5) {
+                        this.game.endGame(); 
+                        console.log("game ended: ", this.game)
                         this.config.scoreCount = newScore; 
                         this.config.gameFinished = true; 
                         this.onComplete();
@@ -60,7 +62,7 @@ export default class GameScreen {
 
     hide() {
         this.container.style.display = "none";
-        this.gameCanvas.style.display = "none";
+        //this.gameCanvas.style.zIndex = "-3";
         this.screen.style.zIndex = "-2";
     }
 

@@ -8,9 +8,6 @@ export default class StartScreen {
       this.container.style.display = "block";
   
       // Entferne die 'selected'-Klasse von allen Buttons
-      document.querySelectorAll('.selection-container > div > button').forEach((button) => {
-          button.classList.remove('selected');
-      });
   
       let previouslySelectedButton = null;
   
@@ -48,6 +45,9 @@ export default class StartScreen {
   
 
     hide() {
+      document.querySelectorAll('.selection-container > div > button').forEach((button) => {
+        button.classList.remove('selected');
+    });
         this.container.style.display = "none";
     }
 }

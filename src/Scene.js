@@ -43,6 +43,7 @@ export default class Scene {
             );
         }
 
+        this.placeholder = document.getElementById("gameScreen-placeholder");
         this.canvas = document.getElementById("gameCanvas");
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
@@ -98,4 +99,49 @@ export default class Scene {
         this.camera.far = settings.far;
         this.camera.updateProjectionMatrix();
     }
+
+    disposeScene() {
+        this.scene.traverse((object) => {
+            if (object.geometry) {
+                object.geometry.dispose();
+            }
+            if (object.material) {
+                // Überprüfen, ob das Material ein Array ist
+                if (Array.isArray(object.material)) {
+                    object.material.forEach((material) => material.dispose());
+                } else {
+                    object.material.dispose();
+                }
+            }
+            if (object.texture) {
+                object.texture.dispose();
+            }
+        });
+
+        if (this.renderer) {
+            this.renderer.dispose(); // Ressourcen wie Texturen, Geometrien etc. freigeben
+        }
+
+        this.placeholder.parentNode.insertBefore(this.canvas, this.placeholder);
+        
+        if (this.canvas) {
+            const parent = this.canvas.parentElement;
+            if (parent) {
+                parent.removeChild(this.canvas); // Entferne das <canvas> aus dem DOM
+            }
+            this.canvas = null; // Verweis auf das Canvas aufheben
+        }
+
+        this.replaceCanvas(); 
+    
+    }
+
+    replaceCanvas() {
+        // Neues Canvas erstellen und dem DOM hinzufügen
+   
+        this.canvas = document.createElement("canvas");
+        this.canvas.id = "gameCanvas";
+        this.placeholder.replaceWith(this.canvas);
+    }
+    
 }

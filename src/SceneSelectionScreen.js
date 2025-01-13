@@ -2,8 +2,6 @@ export default class SceneSelectionScreen {
     constructor(config) {
         this.container = document.getElementById("sceneSelectionScreen");
         this.config = config; 
-        this.scenes = []
-        this.selectedScene = null; 
     }
 
     show(onComplete) {

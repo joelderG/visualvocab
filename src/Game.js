@@ -140,4 +140,11 @@ export default class Game {
             this.scoreChangeCallback(this.scoreCount);
         }
     }
+
+    endGame() {
+        this.scene.disposeScene(); 
+        this.scene.scene.clear();
+        this.scene.renderer.dispose(); 
+        console.log("scene cleared: ", this.scene.scene)
+    }
 }
