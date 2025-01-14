@@ -71,7 +71,7 @@ export default class InteractionHandler {
       }
 
       // Prüfe Timer für Shader-Entfernung
-      if (this.shaderStartTime && currentTime - this.shaderStartTime > 3) {
+      if (this.shaderStartTime && currentTime - this.shaderStartTime > 1) {
         this.resetShaders();
         this.shaderStartTime = null;
       }
