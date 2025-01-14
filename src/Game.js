@@ -40,6 +40,7 @@ export default class Game {
       );
 
       this.scoreCount = 0;
+      this.wrongCount = 0; 
       this.scene.modelLoader = new ModelLoader(
         this.scene.scene,
         this.loadingManager
@@ -113,6 +114,7 @@ export default class Game {
       try {
         this.incrementScore();
         this.wordGenerator.onGenerateNewWord();
+        this.interactionHandler.wrongCount = 0;
       } catch (error) {
         console.error("Error in interaction handler:", error);
       }
@@ -120,11 +122,17 @@ export default class Game {
 
     this.interactionHandler.setOnWrongObjectClick(() => {
       console.log("Wrong object clicked");
-      // Optional: Hier könnten wir Fehlversuche zählen
+      
+      if(this.interactionHandler.wrongCount > 5) {
+        this.wrongCount++; 
+        this.wordGenerator.onGenerateNewWord();
+        this.interactionHandler.wrongCount = 0; 
+      }
     });
 
     this.interactionHandler.setOnSkipClick(() => {
       this.wordGenerator.onGenerateNewWord();
+      this.interactionHandler.wrongCount = 0;
     });
   }
 
@@ -148,6 +156,7 @@ export default class Game {
     }
 
     endGame() {
+        this.wrongCount = this.wrongCount + this.interactionHandler.skipCount; 
         this.scene.disposeScene(); 
         this.scene.scene.clear();
         this.scene.renderer.dispose(); 

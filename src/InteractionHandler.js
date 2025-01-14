@@ -17,6 +17,7 @@ export default class InteractionHandler {
     this.activeShaderObjects = new Set();
     this.shaderStartTime = null;
     this.wrongCount  = 0; 
+    this.skipCount = 0; 
 
     // Shader für korrekte Auswahl (grün pulsierend)
     this.correctShader = new THREE.ShaderMaterial({
@@ -139,12 +140,15 @@ export default class InteractionHandler {
         if (this.onCorrectObjectClick) {
           setTimeout(() => {
             this.onCorrectObjectClick();
-          }, 3000);
+          }, 1000);
         }
       } else {
         console.log("❌ Wrong object clicked:", clickedObject.name);
         this.wrongCount++; 
         console.log(this.wrongCount);
+        if(this.wrongCount > 5) {
+          this.applyShaderToGroup(this.currentBaseId, this.skipShader);
+        }
         if (this.onWrongObjectClick) {
           setTimeout(() => {
             this.onWrongObjectClick();
@@ -162,6 +166,8 @@ export default class InteractionHandler {
       } else if (event.target.id === "skip-btn") {
         console.log("Skipping base ID:", this.currentBaseId);
         this.applyShaderToGroup(this.currentBaseId, this.skipShader);
+        this.skipCount++; 
+        console.log("skips: ", this.skipCount)
 
         if (this.onSkipClick) {
           setTimeout(() => {
@@ -275,9 +281,5 @@ export default class InteractionHandler {
       }
     });
     this.activeShaderObjects.clear();
-  }
-
-  getWrongCount() {
-    return this.wrongCount; 
   }
 }
