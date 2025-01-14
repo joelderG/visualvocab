@@ -37,6 +37,7 @@ export default class GameScreen {
                 this.game.setOnScoreChangeCallback((newScore) => {
                     if(newScore === 5) {
                         this.game.endGame(); 
+                        this.config.wrongCount = this.game.interactionHandler.getWrongCount(); 
                         console.log("game ended: ", this.game)
                         this.config.scoreCount = newScore; 
                         this.config.gameFinished = true; 

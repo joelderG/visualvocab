@@ -16,6 +16,7 @@ export default class InteractionHandler {
     this.time = 0;
     this.activeShaderObjects = new Set();
     this.shaderStartTime = null;
+    this.wrongCount  = 0; 
 
     // Shader für korrekte Auswahl (grün pulsierend)
     this.correctShader = new THREE.ShaderMaterial({
@@ -142,6 +143,8 @@ export default class InteractionHandler {
         }
       } else {
         console.log("❌ Wrong object clicked:", clickedObject.name);
+        this.wrongCount++; 
+        console.log(this.wrongCount);
         if (this.onWrongObjectClick) {
           setTimeout(() => {
             this.onWrongObjectClick();
@@ -272,5 +275,9 @@ export default class InteractionHandler {
       }
     });
     this.activeShaderObjects.clear();
+  }
+
+  getWrongCount() {
+    return this.wrongCount; 
   }
 }

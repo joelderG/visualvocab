@@ -4,7 +4,6 @@ export default class FinishScreen {
     constructor(config, resetConfig) {
         this.container = document.getElementById("endScreen");
         this.finalScore = document.getElementById("final-score");
-        this.hintCount = document.getElementById("hint-count");
         this.wrongCount = document.getElementById("wrong-count"); 
         this.config = config; 
         this.resetConfig = resetConfig; 
@@ -14,6 +13,7 @@ export default class FinishScreen {
     show(onComplete) {
         this.container.style.display = "block";
         this.finalScore.innerHTML = `Your score: ${this.config.scoreCount}`;
+        this.wrongCount.innerHTML = `Wrong words: ${this.config.wrongCount}`; 
 
         this.container.addEventListener('click', (event) => {   
             if (event.target.id == "newGame") {

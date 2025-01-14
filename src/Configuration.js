@@ -30,6 +30,7 @@ export default class Configuration {
             }
         };
         this.scoreCount = 0; 
+        this.wrongCount = 0; 
         this.gameFinished = false; 
     }
 
