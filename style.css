@@ -67,6 +67,11 @@ left: 60px;
   right: 10px;
 }
 
+#hint-btn:disabled {
+  background-color:#DF8314;
+  cursor: default;
+}
+
 #hint-btn {
   width: 140px;
   display: flex;
@@ -79,7 +84,7 @@ left: 60px;
   cursor: pointer; /* Zeigt an, dass es klickbar ist */
 }
 
-#hint-btn .tooltiptext {
+#hint-btn #tooltiptext {
   visibility: hidden;
   width: 120px;
   background-color: #555;
@@ -101,7 +106,7 @@ left: 60px;
 }
 
 /* Tooltip-Pfeil */
-#hint-btn .tooltiptext::after {
+#hint-btn #tooltiptext::after {
   content: "";
   position: absolute;
   bottom: 100%; /* Über dem Tooltip (zeigt nach oben) */
@@ -113,7 +118,7 @@ left: 60px;
 }
 
 /* Tooltip anzeigen bei Hover */
-#hint-btn:hover .tooltiptext {
+#hint-btn:hover #tooltiptext {
   visibility: visible;
   opacity: 1;
 }

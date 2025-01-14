@@ -18,6 +18,7 @@ export default class InteractionHandler {
     this.shaderStartTime = null;
     this.wrongCount  = 0; 
     this.skipCount = 0; 
+    this.hintCount = 0; 
 
     // Shader für korrekte Auswahl (grün pulsierend)
     this.correctShader = new THREE.ShaderMaterial({
@@ -162,7 +163,13 @@ export default class InteractionHandler {
     if (event.target.tagName === "BUTTON") {
       if (event.target.id === "hint-btn") {
         console.log("Hint requested for base ID:", this.currentBaseId);
-        this.applyShaderToGroup(this.currentBaseId, this.hintShader);
+        if(this.hintCount < 4) {
+          this.applyShaderToGroup(this.currentBaseId, this.hintShader);
+          this.hintCount++; 
+        } else {
+          document.getElementById("tooltiptext").innerHTML = "No more hints!"
+          document.getElementById("hint-btn").disabled = "disabled" 
+        }
       } else if (event.target.id === "skip-btn") {
         console.log("Skipping base ID:", this.currentBaseId);
         this.applyShaderToGroup(this.currentBaseId, this.skipShader);
