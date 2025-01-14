@@ -22,7 +22,7 @@ export default class GameScreen {
 
       // Setze initial den Total Score
       if (this.game.wordGenerator) {
-        this.totalScore.innerHTML = this.game.wordGenerator.getRemainingWords();
+        this.totalScore.innerHTML = this.game.totalScore;
       }
 
       // Callback für Wortänderungen
@@ -35,15 +35,15 @@ export default class GameScreen {
             // Callback für Score-Änderungen
             if (this.game.setOnScoreChangeCallback) {
                 this.game.setOnScoreChangeCallback((newScore) => {
-                    if(newScore === 5) {
+                    if(newScore === 0) {
                         this.game.endGame(); 
                         this.config.wrongCount = this.game.wrongCount; 
                         console.log("game ended: ", this.game)
-                        this.config.scoreCount = newScore; 
+                        this.config.scoreCount = this.game.scoreCount; 
                         this.config.gameFinished = true; 
                         this.onComplete();
                     }
-                    this.updateScore(newScore);
+                    this.updateScore(this.game.scoreCount);
                 });
             }
         } catch (error) {

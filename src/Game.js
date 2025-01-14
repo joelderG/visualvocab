@@ -41,6 +41,7 @@ export default class Game {
 
       this.scoreCount = 0;
       this.wrongCount = 0; 
+      this.totalScore = 10; 
       this.scene.modelLoader = new ModelLoader(
         this.scene.scene,
         this.loadingManager
@@ -115,6 +116,7 @@ export default class Game {
         this.incrementScore();
         this.wordGenerator.onGenerateNewWord();
         this.interactionHandler.wrongCount = 0;
+        this.decrementTotalScore();  
       } catch (error) {
         console.error("Error in interaction handler:", error);
       }
@@ -127,12 +129,14 @@ export default class Game {
         this.wrongCount++; 
         this.wordGenerator.onGenerateNewWord();
         this.interactionHandler.wrongCount = 0; 
+        this.decrementTotalScore();  
       }
     });
 
     this.interactionHandler.setOnSkipClick(() => {
       this.wordGenerator.onGenerateNewWord();
       this.interactionHandler.wrongCount = 0;
+      this.decrementTotalScore(); 
     });
   }
 
@@ -150,8 +154,12 @@ export default class Game {
     incrementScore() {
         this.scoreCount++;
         console.log("Score updated in Game:", this.scoreCount);
+    }
+
+    decrementTotalScore() {
+        this.totalScore--; 
         if (this.scoreChangeCallback) {
-            this.scoreChangeCallback(this.scoreCount);
+            this.scoreChangeCallback(this.totalScore);
         }
     }
 
