@@ -35,7 +35,7 @@ export default class GameScreen {
       // Callback für Score-Änderungen
       if (this.game.setOnScoreChangeCallback) {
         this.game.setOnScoreChangeCallback((newScore) => {
-          if (newScore === 5) {
+          if (newScore === 15) {
             this.config.scoreCount = newScore;
             this.config.gameFinished = true;
             this.onComplete();

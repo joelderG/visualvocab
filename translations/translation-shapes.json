@@ -6,16 +6,16 @@
       "cylinder": "cylinder"
     },
     "de": {
-      "cube": "TRANSLATE_DE_cube",
-      "sphere": "TRANSLATE_DE_sphere",
-      "cone": "TRANSLATE_DE_cone",
-      "cylinder": "TRANSLATE_DE_cylinder"
+      "cube": "Würfel",
+      "sphere": "Kugel",
+      "cone": "Kgel",
+      "cylinder": "Zylinder"
     },
     "fr": {
-      "cube": "TRANSLATE_FR_cube",
-      "sphere": "TRANSLATE_FR_sphere",
-      "cone": "TRANSLATE_FR_cone",
-      "cylinder": "TRANSLATE_FR_cylinder"
+      "cube": "cube",
+      "sphere": "Balle",
+      "cone": "cône",
+      "cylinder": "cylindre"
     },
     "mappings": {
       "cube": [

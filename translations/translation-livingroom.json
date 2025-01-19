@@ -1,78 +1,54 @@
 {
     "en": {
       "wall": "wall",
-      "tv": "tv",
-      "cupboard001": "cupboard001",
-      "cupboard002": "cupboard002",
-      "cupboard003": "cupboard003",
-      "cupboard004": "cupboard004",
+      "tv": "TV",
       "sofa": "sofa",
       "chair": "chair",
       "bookshelf": "bookshelf",
-      "book002": "book002",
-      "book001": "book001",
-      "book": "book",
+      "book": "Bbok",
       "picture": "picture",
       "table": "table",
       "plant": "plant",
-      "wallshelf": "wallshelf",
+      "wallshelf": "wall shelf",
       "carpet": "carpet",
-      "succulent": "succulent",
-      "succulent001": "succulent001",
+      "succulent": "succulent plant",
       "cupboard": "cupboard",
       "newspaper": "newspaper",
-      "mug": "mug",
-      "mug001": "mug001"
+      "mug": "mug"
     },
     "de": {
-      "wall": "TRANSLATE_DE_wall",
-      "tv": "TRANSLATE_DE_tv",
-      "cupboard001": "TRANSLATE_DE_cupboard001",
-      "cupboard002": "TRANSLATE_DE_cupboard002",
-      "cupboard003": "TRANSLATE_DE_cupboard003",
-      "cupboard004": "TRANSLATE_DE_cupboard004",
-      "sofa": "TRANSLATE_DE_sofa",
-      "chair": "TRANSLATE_DE_chair",
-      "bookshelf": "TRANSLATE_DE_bookshelf",
-      "book002": "TRANSLATE_DE_book002",
-      "book001": "TRANSLATE_DE_book001",
-      "book": "TRANSLATE_DE_book",
-      "picture": "TRANSLATE_DE_picture",
-      "table": "TRANSLATE_DE_table",
-      "plant": "TRANSLATE_DE_plant",
-      "wallshelf": "TRANSLATE_DE_wallshelf",
-      "carpet": "TRANSLATE_DE_carpet",
-      "succulent": "TRANSLATE_DE_succulent",
-      "succulent001": "TRANSLATE_DE_succulent001",
-      "cupboard": "TRANSLATE_DE_cupboard",
-      "newspaper": "TRANSLATE_DE_newspaper",
-      "mug": "TRANSLATE_DE_mug",
-      "mug001": "TRANSLATE_DE_mug001"
+      "wall": "Wand",
+      "tv": "Fernseher",
+      "sofa": "Sofa",
+      "chair": "Sessel",
+      "bookshelf": "Bücherregal",
+      "book": "Buch",
+      "picture": "Bild",
+      "table": "Tisch",
+      "plant": "Pflanze",
+      "wallshelf": "Wandregal",
+      "carpet": "Teppich",
+      "succulent": "Sukkulente",
+      "cupboard": "Schrank",
+      "newspaper": "Zeitung",
+      "mug": "Tasse"
     },
     "fr": {
-      "wall": "TRANSLATE_FR_wall",
-      "tv": "TRANSLATE_FR_tv",
-      "cupboard001": "TRANSLATE_FR_cupboard001",
-      "cupboard002": "TRANSLATE_FR_cupboard002",
-      "cupboard003": "TRANSLATE_FR_cupboard003",
-      "cupboard004": "TRANSLATE_FR_cupboard004",
-      "sofa": "TRANSLATE_FR_sofa",
-      "chair": "TRANSLATE_FR_chair",
-      "bookshelf": "TRANSLATE_FR_bookshelf",
-      "book002": "TRANSLATE_FR_book002",
-      "book001": "TRANSLATE_FR_book001",
-      "book": "TRANSLATE_FR_book",
-      "picture": "TRANSLATE_FR_picture",
-      "table": "TRANSLATE_FR_table",
-      "plant": "TRANSLATE_FR_plant",
-      "wallshelf": "TRANSLATE_FR_wallshelf",
-      "carpet": "TRANSLATE_FR_carpet",
-      "succulent": "TRANSLATE_FR_succulent",
-      "succulent001": "TRANSLATE_FR_succulent001",
-      "cupboard": "TRANSLATE_FR_cupboard",
-      "newspaper": "TRANSLATE_FR_newspaper",
-      "mug": "TRANSLATE_FR_mug",
-      "mug001": "TRANSLATE_FR_mug001"
+      "wall": "Mur",
+      "tv": "Télévision",
+      "sofa": "Canapé",
+      "chair": "Chaise",
+      "bookshelf": "Bibliothèque",
+      "book": "Livre",
+      "picture": "Tableau",
+      "table": "Table",
+      "plant": "Plante",
+      "wallshelf": "Étagère murale",
+      "carpet": "Tapis",
+      "succulent": "Plante succulente",
+      "cupboard": "Armoire",
+      "newspaper": "Journal",
+      "mug": "Tasse"
     },
     "mappings": {
       "wall": [
@@ -83,26 +59,6 @@
         "TV",
         "TV_1",
         "TV_2"
-      ],
-      "cupboard001": [
-        "Cupboard001",
-        "Cupboard001_1",
-        "Cupboard001_2"
-      ],
-      "cupboard002": [
-        "Cupboard002",
-        "Cupboard002_1",
-        "Cupboard002_2"
-      ],
-      "cupboard003": [
-        "Cupboard003",
-        "Cupboard003_1",
-        "Cupboard003_2"
-      ],
-      "cupboard004": [
-        "Cupboard004",
-        "Cupboard004_1",
-        "Cupboard004_2"
       ],
       "sofa": [
         "Sofa",
@@ -119,21 +75,6 @@
       "bookshelf": [
         "Bookshelf"
       ],
-      "book002": [
-        "Book002",
-        "Book002_1",
-        "Book002_2",
-        "Book002_3",
-        "Book002_4"
-      ],
-      "book001": [
-        "Book001",
-        "Book001_1",
-        "Book001_2",
-        "Book001_3",
-        "Book001_4",
-        "Book001_5"
-      ],
       "book": [
         "Book_stack",
         "Book_stack_1",
@@ -143,7 +84,18 @@
         "Book_1",
         "Book_2",
         "Book_3",
-        "Book_4"
+        "Book_4",
+        "Book001",
+        "Book001_1",
+        "Book001_2",
+        "Book001_3",
+        "Book001_4",
+        "Book001_5",
+        "Book002",
+        "Book002_1",
+        "Book002_2",
+        "Book002_3",
+        "Book002_4"
       ],
       "picture": [
         "Picture_2",
@@ -174,9 +126,7 @@
       "succulent": [
         "Succulent",
         "Succulent_1",
-        "Succulent_2"
-      ],
-      "succulent001": [
+        "Succulent_2",
         "Succulent001",
         "Succulent001_1",
         "Succulent001_2"
@@ -185,7 +135,19 @@
         "Cupboard",
         "Cupboard_1",
         "Cupboard_2",
-        "Cupboard_3"
+        "Cupboard_3",
+        "Cupboard001",
+        "Cupboard001_1",
+        "Cupboard001_2",
+        "Cupboard002",
+        "Cupboard002_1",
+        "Cupboard002_2",
+        "Cupboard003",
+        "Cupboard003_1",
+        "Cupboard003_2",
+        "Cupboard004",
+        "Cupboard004_1",
+        "Cupboard004_2"
       ],
       "newspaper": [
         "Newspaper",
@@ -195,9 +157,7 @@
       "mug": [
         "Mug",
         "Mug_1",
-        "Mug_2"
-      ],
-      "mug001": [
+        "Mug_2",
         "Mug001",
         "Mug001_1",
         "Mug001_2"
