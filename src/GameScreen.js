@@ -33,9 +33,11 @@ export default class GameScreen {
       }
 
       // Callback für Score-Änderungen
+      const totalWords = this.game.wordGenerator.getRemainingWords(); // Gesamtzahl = verbleibende + bereits gefundene
+      console.log("Total Words: " + totalWords);
       if (this.game.setOnScoreChangeCallback) {
         this.game.setOnScoreChangeCallback((newScore) => {
-          if (newScore === 15) {
+          if (newScore === totalWords) {
             this.config.scoreCount = newScore;
             this.config.gameFinished = true;
             this.onComplete();
