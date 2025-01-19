@@ -1,5 +1,5 @@
 import livingRoomTranslations from "../translations/translation-livingroom.json";
-import bedroomTranslations from "../translations/translation-bedroom.json";
+import bedroomTranslations from "../translations/translation-witch.json";
 import shapesTranslations from "../translations/translation-shapes.json";
 
 export default class TranslationManager {
