@@ -64,6 +64,7 @@ export default class Game {
       
       // Setze totalScore auf die tatsächliche Anzahl der verfügbaren Wörter
       this.totalScore = this.wordGenerator.getRemainingWords();
+      console.log("total score: ", this.totalScore)
 
       // Lade das 3D-Model
       await new Promise((resolve, reject) => {
@@ -171,6 +172,7 @@ export default class Game {
         this.scene.disposeScene(); 
         this.scene.scene.clear();
         this.scene.renderer.dispose(); 
+        this.interactionHandler.removeEventListeners();
         console.log("scene cleared: ", this.scene.scene)
     }
 }

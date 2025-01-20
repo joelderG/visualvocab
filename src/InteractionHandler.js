@@ -289,4 +289,22 @@ export default class InteractionHandler {
     });
     this.activeShaderObjects.clear();
   }
+
+  removeEventListeners() {
+    this.canvas.removeEventListener("mousemove", (event) =>
+      this.onMouseMove(event)
+    );
+    this.canvas.removeEventListener("click", (event) => this.onClick(event));
+    this.canvas.removeEventListener("mousedown", (event) =>
+      this.onMouseDown(event)
+    );
+    this.canvas.removeEventListener("mouseup", (event) => this.onMouseUp(event));
+    this.canvas.removeEventListener("mouseleave", (event) =>
+      this.onMouseUp(event)
+    );
+    this.canvas.removeEventListener("wheel", (event) => this.onMouseWheel(event));
+    document
+      .querySelector("#gameScreen")
+      .removeEventListener("click", (event) => this.handleBtnClick(event));
+  }
 }

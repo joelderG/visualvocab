@@ -164,6 +164,10 @@ export default class Scene {
         this.canvas = document.createElement("canvas");
         this.canvas.id = "gameCanvas";
         this.placeholder.replaceWith(this.canvas);
+        this.placeholder = document.createElement("div");
+        this.placeholder.id = "gameScreen-placeholder"
+        // Neues Placeholder-Element vor dem Canvas einfügen
+    this.canvas.insertAdjacentElement("beforebegin", this.placeholder);
     }
     
 }
