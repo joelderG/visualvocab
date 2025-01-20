@@ -179,7 +179,7 @@ export default class InteractionHandler {
         if (this.onSkipClick) {
           setTimeout(() => {
             this.onSkipClick();
-          }, 3000);
+          }, 1000);
         }
       }
     }

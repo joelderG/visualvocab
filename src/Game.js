@@ -41,7 +41,7 @@ export default class Game {
 
       this.scoreCount = 0;
       this.wrongCount = 0; 
-      this.totalScore = 10; 
+      this.totalScore = 0; // Initialisiere mit 0, wird in init() gesetzt
       this.scene.modelLoader = new ModelLoader(
         this.scene.scene,
         this.loadingManager
@@ -61,13 +61,16 @@ export default class Game {
 
       // Initialisiere WordGenerator
       this.wordGenerator.init();
+      
+      // Setze totalScore auf die tatsächliche Anzahl der verfügbaren Wörter
+      this.totalScore = this.wordGenerator.getRemainingWords();
 
       // Lade das 3D-Model
       await new Promise((resolve, reject) => {
         console.log("Loading model from path:", this.config.path);
         this.scene.modelLoader.loadModel(
           this.config.path,
-          null, // Kein spezifisches Startobjekt nötig
+          null,
           (model) => {
             console.log("Model loaded successfully");
             resolve();
