@@ -42,11 +42,11 @@ export default class Configuration {
                 console.log("Loading living room scene");
                 break;
             case "scene2":
-                this.path = `../assets/test/witchs-house.glb`;
+                this.path = `../assets/witch/witchs-house.glb`;
                 console.log("Loading bedroom scene");
                 break;
             case "scene3":
-                this.path = `../assets/blender/blender_test_04.gltf`;
+                this.path = `../assets/shapes/shapes.gltf`;
                 console.log("Loading shapes scene");
                 break;
             default:

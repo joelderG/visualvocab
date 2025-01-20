@@ -8,6 +8,7 @@ export default class Scene {
         this.sceneName = sceneName;
         this.config = config;  // Store config
         this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0x579BCF); // Hellblauer Himmel
         
         // Get camera settings for this scene
         const cameraSettings = this.config.getCameraSettings();
@@ -72,11 +73,32 @@ export default class Scene {
     }
 
     addLighting() {
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1);
+        // Sanftes Umgebungslicht für Schatten
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
         this.scene.add(ambientLight);
-        this.scene.add(directionalLight);
+    
+        // Hauptsonnenlicht
+        const sunLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        sunLight.position.set(50, 50, 10); // Sonnenlicht von oben-rechts
+        sunLight.castShadow = true;
+    
+        // Verbesserte Schattenqualität
+        sunLight.shadow.mapSize.width = 2048;
+        sunLight.shadow.mapSize.height = 2048;
+        sunLight.shadow.camera.near = 0.5;
+        sunLight.shadow.camera.far = 500;
+        sunLight.shadow.normalBias = 0.02;
+    
+        // Sekundäres Sonnenlicht für weichere Schatten
+        const secondarySunLight = new THREE.DirectionalLight(0xffd2a1, 0.5); // Wärmeres Licht
+        secondarySunLight.position.set(-30, 30, -10);
+    
+        this.scene.add(sunLight);
+        this.scene.add(secondarySunLight);
+    
+        // Aktiviere Schatten im Renderer
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     }
 
     onWindowResize() {
