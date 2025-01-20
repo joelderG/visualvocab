@@ -138,6 +138,7 @@ export default class Game {
     });
 
     this.interactionHandler.setOnSkipClick(() => {
+       this.incrementWrongCount();
         this.wordGenerator.onGenerateNewWord();
         this.interactionHandler.wrongCount = 0;
         this.decrementTotalScore();
