@@ -7,7 +7,7 @@ varying vec3 vWorldPosition;
 
 void main() {
     // Basis-Farbe (ein helles gelb für Hinweise)
-    vec3 baseColor = vec3(0.8, 0.8, 0.2);
+    vec3 baseColor = vec3(0.988, 0.792, 0.275);
     
     // Langsamere Pulsierung für Hinweise
     float pulseSpeed = 0.3;
