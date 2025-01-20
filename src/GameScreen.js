@@ -22,7 +22,7 @@ export default class GameScreen {
 
       // Setze initial den Total Score
       if (this.game.wordGenerator) {
-        this.totalScore.innerHTML = this.game.wordGenerator.getRemainingWords();
+        this.totalScore.innerHTML = this.game.totalScore;
       }
 
       // Callback für Wortänderungen
@@ -32,21 +32,24 @@ export default class GameScreen {
         });
       }
 
-      // Callback für Score-Änderungen
-      if (this.game.setOnScoreChangeCallback) {
-        this.game.setOnScoreChangeCallback((newScore) => {
-          if (newScore === 5) {
-            this.config.scoreCount = newScore;
-            this.config.gameFinished = true;
-            this.onComplete();
-          }
-          this.updateScore(newScore);
-        });
-      }
-    } catch (error) {
-      console.error("Error initializing game screen:", error);
+            // Callback für Score-Änderungen
+            if (this.game.setOnScoreChangeCallback) {
+                this.game.setOnScoreChangeCallback((newScore) => {
+                    if(newScore === 0) {
+                        this.game.endGame(); 
+                        this.config.wrongCount = this.game.wrongCount; 
+                        console.log("game ended: ", this.game)
+                        this.config.scoreCount = this.game.scoreCount; 
+                        this.config.gameFinished = true; 
+                        this.onComplete();
+                    }
+                    this.updateScore(this.game.scoreCount);
+                });
+            }
+        } catch (error) {
+            console.error("Error initializing game screen:", error);
+        }
     }
-  }
 
   async show(onComplete) {
     this.container.style.display = "block";
@@ -67,11 +70,11 @@ export default class GameScreen {
     }
   }
 
-  hide() {
-    this.container.style.display = "none";
-    this.gameCanvas.style.display = "none";
-    this.screen.style.zIndex = "-2";
-  }
+    hide() {
+        this.container.style.display = "none";
+        this.score.innerHTML = 0; 
+        this.screen.style.zIndex = "-2";
+    }
 
   updatePrompt(newWord) {
     if (this.prompt) {

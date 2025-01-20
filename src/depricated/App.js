@@ -41,7 +41,7 @@ export default class App {
   onWordChange(newWord) {
     console.log(`Lade neues Modell für: ${newWord}`);
     this.modelLoader.loadModel(
-      "../assets/blender/blender_test_04.gltf",
+      "../assets/shapes/shapes.gltf",
       newWord,
       (object) => {
         this.interactionHandler.setTargetObject(object);
@@ -69,7 +69,7 @@ export default class App {
    */
   init() {
     this.modelLoader.loadModel(
-      "../assets/blender/blender_test_04.gltf",
+      "../assets/shapes/shapes.gltf",
       this.wordGenerator.word,
       (object) => {
         this.interactionHandler.setTargetObject(object);

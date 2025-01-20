@@ -8,6 +8,7 @@ export default class Scene {
         this.sceneName = sceneName;
         this.config = config;  // Store config
         this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0x579BCF); // Hellblauer Himmel
         
         // Get camera settings for this scene
         const cameraSettings = this.config.getCameraSettings();
@@ -43,6 +44,7 @@ export default class Scene {
             );
         }
 
+        this.placeholder = document.getElementById("gameScreen-placeholder");
         this.canvas = document.getElementById("gameCanvas");
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
@@ -71,11 +73,32 @@ export default class Scene {
     }
 
     addLighting() {
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1, 1, 1);
+        // Sanftes Umgebungslicht für Schatten
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
         this.scene.add(ambientLight);
-        this.scene.add(directionalLight);
+    
+        // Hauptsonnenlicht
+        const sunLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        sunLight.position.set(50, 50, 10); // Sonnenlicht von oben-rechts
+        sunLight.castShadow = true;
+    
+        // Verbesserte Schattenqualität
+        sunLight.shadow.mapSize.width = 2048;
+        sunLight.shadow.mapSize.height = 2048;
+        sunLight.shadow.camera.near = 0.5;
+        sunLight.shadow.camera.far = 500;
+        sunLight.shadow.normalBias = 0.02;
+    
+        // Sekundäres Sonnenlicht für weichere Schatten
+        const secondarySunLight = new THREE.DirectionalLight(0xffd2a1, 0.5); // Wärmeres Licht
+        secondarySunLight.position.set(-30, 30, -10);
+    
+        this.scene.add(sunLight);
+        this.scene.add(secondarySunLight);
+    
+        // Aktiviere Schatten im Renderer
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     }
 
     onWindowResize() {
@@ -98,4 +121,49 @@ export default class Scene {
         this.camera.far = settings.far;
         this.camera.updateProjectionMatrix();
     }
+
+    disposeScene() {
+        this.scene.traverse((object) => {
+            if (object.geometry) {
+                object.geometry.dispose();
+            }
+            if (object.material) {
+                // Überprüfen, ob das Material ein Array ist
+                if (Array.isArray(object.material)) {
+                    object.material.forEach((material) => material.dispose());
+                } else {
+                    object.material.dispose();
+                }
+            }
+            if (object.texture) {
+                object.texture.dispose();
+            }
+        });
+
+        if (this.renderer) {
+            this.renderer.dispose(); // Ressourcen wie Texturen, Geometrien etc. freigeben
+        }
+
+        this.placeholder.parentNode.insertBefore(this.canvas, this.placeholder);
+        
+        if (this.canvas) {
+            const parent = this.canvas.parentElement;
+            if (parent) {
+                parent.removeChild(this.canvas); // Entferne das <canvas> aus dem DOM
+            }
+            this.canvas = null; // Verweis auf das Canvas aufheben
+        }
+
+        this.replaceCanvas(); 
+    
+    }
+
+    replaceCanvas() {
+        // Neues Canvas erstellen und dem DOM hinzufügen
+   
+        this.canvas = document.createElement("canvas");
+        this.canvas.id = "gameCanvas";
+        this.placeholder.replaceWith(this.canvas);
+    }
+    
 }

@@ -44,7 +44,7 @@
         <h2>Select a scene</h2>
         <div>
           <button class="sceneBtn" value="scene1">living Room</button>
-          <button class="sceneBtn" value="scene2">bedroom</button>
+          <button class="sceneBtn" value="scene2">witch's house</button>
           <button class="sceneBtn" value="scene3">shapes</button>
         </div>
         <button id="nextBtn">Next</button>
@@ -53,13 +53,14 @@
 
     <div id="gameScreen">
       <!-- Canvas-Element für die 3D-Szene -->
+       <div id="gameScreen-placeholder"></div>
       <canvas id="gameCanvas"></canvas>
       <div id="game-screen-ui-container" style="display: none">
         <div id="prompt-container">
           <h2 id="prompts">[word not initialized]</h2>
         </div>
         <div id="score-count" style="display: none">
-          <h4 id="score"></h3>
+          <h4 id="score">0</h3>
           <h4>of</h3>
           <h4 id="total"></h3>
         </div>
@@ -68,7 +69,7 @@
           <p>Hint</p>
           <i class="fa-regular fa-lightbulb"></i>
           </i>
-          <span class="tooltiptext">Get a hint</span>
+          <span id="tooltiptext">Get a hint</span>
          </button>
       </div>
     </div>
@@ -82,7 +83,6 @@
 
     <div id="endScreen" style="display: none;">
       <h1 id="final-score">Your score </h1>
-      <h4 id="hint-count">Hints needed: </h4>
       <h4 id="wrong-count">Wrong words:</h4>
 
         <button id="newGame">New Game</button>

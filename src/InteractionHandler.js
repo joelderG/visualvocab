@@ -3,6 +3,8 @@ import vertexShader from "./shaders/vertex.glsl.js";
 import fragmentShader from "./shaders/fragment.glsl.js";
 import skipVertexShader from "./shaders/skip_vertex.glsl.js";
 import skipFragmentShader from "./shaders/skip_fragment.glsl.js";
+import hintVertexShader from "./shaders/hint_vertex.glsl.js";
+import hintFragmentShader from "./shaders/hint_fragment.glsl.js";
 
 export default class InteractionHandler {
   constructor(canvas, camera, scene, translationManager) {
@@ -14,6 +16,9 @@ export default class InteractionHandler {
     this.time = 0;
     this.activeShaderObjects = new Set();
     this.shaderStartTime = null;
+    this.wrongCount  = 0; 
+    this.skipCount = 0; 
+    this.hintCount = 0; 
 
     // Shader für korrekte Auswahl (grün pulsierend)
     this.correctShader = new THREE.ShaderMaterial({
@@ -33,6 +38,16 @@ export default class InteractionHandler {
         uTime: { value: 0.0 },
       },
     });
+
+      // Shader für übersprungene Objekte (gelb pulsierend)
+      this.hintShader = new THREE.ShaderMaterial({
+        vertexShader: hintVertexShader,
+        fragmentShader: hintFragmentShader,
+        uniforms: {
+          uTime: { value: 0.0 },
+        },
+      });
+
 
     this.setupEventListeners();
     this.startAnimation();
@@ -71,7 +86,7 @@ export default class InteractionHandler {
       }
 
       // Prüfe Timer für Shader-Entfernung
-      if (this.shaderStartTime && currentTime - this.shaderStartTime > 3) {
+      if (this.shaderStartTime && currentTime - this.shaderStartTime > 1) {
         this.resetShaders();
         this.shaderStartTime = null;
       }
@@ -126,10 +141,15 @@ export default class InteractionHandler {
         if (this.onCorrectObjectClick) {
           setTimeout(() => {
             this.onCorrectObjectClick();
-          }, 3000);
+          }, 1000);
         }
       } else {
         console.log("❌ Wrong object clicked:", clickedObject.name);
+        this.wrongCount++; 
+        console.log(this.wrongCount);
+        if(this.wrongCount > 5) {
+          this.applyShaderToGroup(this.currentBaseId, this.skipShader);
+        }
         if (this.onWrongObjectClick) {
           setTimeout(() => {
             this.onWrongObjectClick();
@@ -143,15 +163,23 @@ export default class InteractionHandler {
     if (event.target.tagName === "BUTTON") {
       if (event.target.id === "hint-btn") {
         console.log("Hint requested for base ID:", this.currentBaseId);
-        this.applyShaderToGroup(this.currentBaseId, this.correctShader);
+        if(this.hintCount < 4) {
+          this.applyShaderToGroup(this.currentBaseId, this.hintShader);
+          this.hintCount++; 
+        } else {
+          document.getElementById("tooltiptext").innerHTML = "No more hints!"
+          document.getElementById("hint-btn").disabled = "disabled" 
+        }
       } else if (event.target.id === "skip-btn") {
         console.log("Skipping base ID:", this.currentBaseId);
         this.applyShaderToGroup(this.currentBaseId, this.skipShader);
+        this.skipCount++; 
+        console.log("skips: ", this.skipCount)
 
         if (this.onSkipClick) {
           setTimeout(() => {
             this.onSkipClick();
-          }, 3000);
+          }, 1000);
         }
       }
     }

@@ -40,6 +40,8 @@ export default class Game {
       );
 
       this.scoreCount = 0;
+      this.wrongCount = 0; 
+      this.totalScore = 0; // Initialisiere mit 0, wird in init() gesetzt
       this.scene.modelLoader = new ModelLoader(
         this.scene.scene,
         this.loadingManager
@@ -59,13 +61,16 @@ export default class Game {
 
       // Initialisiere WordGenerator
       this.wordGenerator.init();
+      
+      // Setze totalScore auf die tatsächliche Anzahl der verfügbaren Wörter
+      this.totalScore = this.wordGenerator.getRemainingWords();
 
       // Lade das 3D-Model
       await new Promise((resolve, reject) => {
         console.log("Loading model from path:", this.config.path);
         this.scene.modelLoader.loadModel(
           this.config.path,
-          null, // Kein spezifisches Startobjekt nötig
+          null,
           (model) => {
             console.log("Model loaded successfully");
             resolve();
@@ -113,6 +118,8 @@ export default class Game {
       try {
         this.incrementScore();
         this.wordGenerator.onGenerateNewWord();
+        this.interactionHandler.wrongCount = 0;
+        this.decrementTotalScore();  
       } catch (error) {
         console.error("Error in interaction handler:", error);
       }
@@ -120,11 +127,19 @@ export default class Game {
 
     this.interactionHandler.setOnWrongObjectClick(() => {
       console.log("Wrong object clicked");
-      // Optional: Hier könnten wir Fehlversuche zählen
+      
+      if(this.interactionHandler.wrongCount > 5) {
+        this.wrongCount++; 
+        this.wordGenerator.onGenerateNewWord();
+        this.interactionHandler.wrongCount = 0; 
+        this.decrementTotalScore();  
+      }
     });
 
     this.interactionHandler.setOnSkipClick(() => {
       this.wordGenerator.onGenerateNewWord();
+      this.interactionHandler.wrongCount = 0;
+      this.decrementTotalScore(); 
     });
   }
 
@@ -139,11 +154,23 @@ export default class Game {
     this.scoreChangeCallback = callback;
   }
 
-  incrementScore() {
-    this.scoreCount++;
-    console.log("Score updated in Game:", this.scoreCount);
-    if (this.scoreChangeCallback) {
-      this.scoreChangeCallback(this.scoreCount);
+    incrementScore() {
+        this.scoreCount++;
+        console.log("Score updated in Game:", this.scoreCount);
     }
-  }
+
+    decrementTotalScore() {
+        this.totalScore--; 
+        if (this.scoreChangeCallback) {
+            this.scoreChangeCallback(this.totalScore);
+        }
+    }
+
+    endGame() {
+        this.wrongCount = this.wrongCount + this.interactionHandler.skipCount; 
+        this.scene.disposeScene(); 
+        this.scene.scene.clear();
+        this.scene.renderer.dispose(); 
+        console.log("scene cleared: ", this.scene.scene)
+    }
 }
