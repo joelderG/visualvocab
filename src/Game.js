@@ -63,7 +63,7 @@ export default class Game {
       this.wordGenerator.init();
       
       // Setze totalScore auf die tatsächliche Anzahl der verfügbaren Wörter
-      this.totalScore = this.wordGenerator.getRemainingWords();
+      this.totalScore = (this.wordGenerator.getRemainingWords() < 10) ? this.wordGenerator.getRemainingWords() : 10;
       console.log("total score: ", this.totalScore)
 
       // Lade das 3D-Model

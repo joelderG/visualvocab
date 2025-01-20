@@ -4,14 +4,22 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   margin: 0;
-  background-color: #F5F2EC;
+  color: #fff ;
+  background-color: #233D4D;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+
 }
 
 h1 {
   font-family: "Outfit", bold;
-  font-size: 70px;
+  font-size: 170px;
+  line-height: 0%;
 }
 
 h2 {
@@ -21,18 +29,19 @@ h2 {
 }
 
 h3 {
-  font-family: "Zilla Slab";
+  font-family: "Outfit";
+  font-weight: normal;
   font-size: 28px;
 }
 
 h4 {
-  font-family: "Zilla Slab";
+  font-family: "Outfit";
   font-size: 24px;
   margin: 10px;
 }
 
 button {
-  font-family: "Zilla Slab";
+  font-family: "Outfit";
   font-size: 28px;
   width: 300px;
   height: 70px;
@@ -41,9 +50,9 @@ button {
   padding-top: 5px;
   padding-bottom: 5px;
   margin: 10px;
-  border-radius: 20px;
+  border-radius: 5px;
   border-style: none;
-  background-color: #bcba84;
+  background-color: #A1C181;
 }
 
 i {
@@ -51,14 +60,27 @@ i {
   font-family: "Font Awesome 6 Free";
 } 
 .selected {
-  background-color: #DF8314;
+  background-color: #619B8A;
+}
+
+#header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#header-title {
+display: inline-flex;
+width: fit-content;
+height: fit-content;
 }
 
 #nextBtn {
-background-color: #DF8314;
+background-color: #FE7F2D;
 position: fixed;
 bottom: 20px;
-left: 60px;
+left: 50%;
+transform: translateX(-50%);
 }
 
 #skip-btn {
@@ -131,12 +153,12 @@ left: 60px;
 }
 
 #language-selection {
-  justify-items: center;
- 
+  padding-top: 60px;
+  justify-items: center; 
 }
 
-#difficulty-selection {
-  justify-items: center;
+.selection-container {
+  justify-items: center; 
 }
 
 /* Der gameScreen nimmt den gesamten Bildschirm ein */
@@ -255,7 +277,7 @@ select:focus, #newWord:focus {
 }
 
 .loader-text {
-  font-family: "Zilla Slab";
+  font-family: "Outfit";
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
