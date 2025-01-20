@@ -54,6 +54,7 @@ button {
   border-radius: 5px;
   border-style: none;
   background-color: #A1C181;
+  cursor: pointer;
 }
 
 i {
@@ -87,8 +88,9 @@ transform: translateX(-50%);
 #skip-btn {
   width: fit-content;
   height: 100%;
-  margin: 0px;
   background-color: #FE7F2D;
+  margin: 0px;
+  cursor: pointer;
 }
 
 #hint-btn:disabled {
@@ -104,7 +106,6 @@ transform: translateX(-50%);
   justify-content: space-between;
   padding: 25px;
   margin: 0px;
-  cursor: pointer; /* Zeigt an, dass es klickbar ist */
   background-color: #FCCA46;
 }
 
@@ -326,4 +327,23 @@ select:focus, #newWord:focus {
 
 #endScreen {
   z-index: 20;
+}
+
+#newGame {
+  background-color: #FE7F2D;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+} 
+
+#final-score-container {
+  display: inline-flex;
+  width: fit-content;
+  height: fit-content;
+  gap: 30px;
+}
+
+#final-score {
+  color: #FE7F2D;
 }

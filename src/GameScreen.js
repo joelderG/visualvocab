@@ -46,6 +46,7 @@ export default class GameScreen {
                     this.onComplete();
                 }
                 this.updateScore(rightCount, wrongCount);
+                console.log("huhu")
             });
         }
     } catch (error) {
@@ -73,9 +74,14 @@ export default class GameScreen {
   }
 
     hide() {
-        this.container.style.display = "none";
-        this.score.innerHTML = 0; 
-        this.screen.style.zIndex = "-2";
+      this.score.innerHTML = 0; 
+      this.rightCount.innerHTML = 0;
+      this.wrongCount.innerHTML = 0;
+      document.getElementById("hint-btn").removeAttribute("disabled");
+      document.getElementById("tooltiptext").innerHTML = "Get a hint!"
+      this.container.style.display = "none"; 
+      this.screen.style.zIndex = "-2";
+      console.log("hide")
     }
 
   updatePrompt(newWord) {
