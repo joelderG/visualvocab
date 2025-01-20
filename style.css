@@ -32,6 +32,7 @@ h3 {
   font-family: "Outfit";
   font-weight: normal;
   font-size: 28px;
+  line-height: 20px;
 }
 
 h4 {
@@ -84,9 +85,10 @@ transform: translateX(-50%);
 }
 
 #skip-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 10px;
+  width: fit-content;
+  height: 100%;
+  margin: 0px;
+  background-color: #FE7F2D;
 }
 
 #hint-btn:disabled {
@@ -95,15 +97,15 @@ transform: translateX(-50%);
 }
 
 #hint-btn {
-  width: 140px;
+  width: fit-content;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 25px;
-  position: fixed;
-  top: 20px;
-  left: 10px;
+  margin: 0px;
   cursor: pointer; /* Zeigt an, dass es klickbar ist */
+  background-color: #FCCA46;
 }
 
 #hint-btn #tooltiptext {
@@ -180,27 +182,66 @@ transform: translateX(-50%);
 
 /* Der prompt-container wird über gameScreen angezeigt */
 #prompt-container {
+  display: flex;
   position: absolute; /* Positioniert den Container über dem gameScreen */
   width: calc(100% - 40px);
-  height: auto;
-  top: 70%; /* Vertikale Mitte */
+  height: 80px;
+  top: 5%; 
   margin: 20px;
-  background-color: white; /* Hintergrundfarbe */
-  border-radius: 20px; /* Abgerundete Ecken */
-  padding: 20px; /* Innenabstand */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatten für mehr Sichtbarkeit */
+  gap: 15px;
   z-index: 10; /* Über anderen Elementen */
   box-sizing: border-box;
+  justify-content: flex-end;
+  color: #000;
+  text-align: center;
+}
+
+#prompt-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white; /* Hintergrundfarbe */
+  border-radius: 5px; /* Abgerundete Ecken */
+  width: 100%;
+}
+
+#prompts {
+  font-family: "Outfit";
+  font-weight: 600;
+  font-size: 40px;
+}
+
+#stats-container {
+  display: flex;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  gap: 15px;
 }
 
 /* Score count */
-#score-count {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  padding: 10px; 
+.stats-display {
+  font-family: "Outfit";
+  display: flex;
+  width: fit-content;
+  padding-left: 15px; 
+  padding-right: 15px; 
   background-color: white;
-  border-radius: 20px;
+  border-radius: 5px;
+  color: #000;
+  font-size: 24px;
+  align-items: center;
+}
+
+#wrong-count {
+color:#FE7F2D;
+gap: 10px;
+}
+
+#right-count {
+color: #A1C181;
+gap: 10px;
+
 }
 
 select, #newWord {

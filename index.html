@@ -57,20 +57,31 @@
       <canvas id="gameCanvas"></canvas>
       <div id="game-screen-ui-container" style="display: none">
         <div id="prompt-container">
-          <h2 id="prompts">[word not initialized]</h2>
+          <div id="prompt-box"><span id="prompts">[word not initialized]</span></div>
+          <button id="hint-btn">
+            <i class="fa-regular fa-lightbulb"></i>
+            </i>
+            <span id="tooltiptext">Get a hint</span>
+           </button>
+           <button id="skip-btn">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
-        <div id="score-count" style="display: none">
+        <div id="stats-container">
+        <div class="stats-display" id="score-count" style="display: none">
           <h4 id="score">0</h3>
           <h4>of</h3>
           <h4 id="total"></h3>
         </div>
-        <button id="skip-btn">Skip</button>
-        <button id="hint-btn">
-          <p>Hint</p>
-          <i class="fa-regular fa-lightbulb"></i>
-          </i>
-          <span id="tooltiptext">Get a hint</span>
-         </button>
+        <div class="stats-display" id="wrong-count" >
+          <p>0</p>
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="stats-display" id="right-count">
+          <p>0</p>
+          <i class="fa-solid fa-check"></i>
+        </div>
+      </div>
       </div>
     </div>
 
