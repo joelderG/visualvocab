@@ -90,26 +90,10 @@ transform: translateX(-50%);
   height: 100%;
   background-color: #FE7F2D;
   margin: 0px;
-  cursor: pointer;
+  position: relative;
 }
 
-#hint-btn:disabled {
-  background-color:#DF8314;
-  cursor: default;
-}
-
-#hint-btn {
-  width: fit-content;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 25px;
-  margin: 0px;
-  background-color: #FCCA46;
-}
-
-#hint-btn #tooltiptext {
+#skip-btn #skip-tooltiptext {
   visibility: hidden;
   width: 120px;
   background-color: #555;
@@ -118,10 +102,10 @@ transform: translateX(-50%);
   padding: 5px 0;
   border-radius: 6px;
 
-  /* Positioniere den Tooltip relativ zum Button */
+  /* Tooltip relativ zum Button platzieren */
   position: absolute;
   z-index: 1;
-  top: 125%; /* Position unterhalb des Buttons */
+  top: 110%; /* Unterhalb des Buttons */
   left: 50%;
   transform: translateX(-50%);
   
@@ -131,7 +115,7 @@ transform: translateX(-50%);
 }
 
 /* Tooltip-Pfeil */
-#hint-btn #tooltiptext::after {
+#skip-btn #skip-tooltiptext::after {
   content: "";
   position: absolute;
   bottom: 100%; /* Über dem Tooltip (zeigt nach oben) */
@@ -143,17 +127,62 @@ transform: translateX(-50%);
 }
 
 /* Tooltip anzeigen bei Hover */
-#hint-btn:hover #tooltiptext {
+#skip-btn:hover #skip-tooltiptext {
   visibility: visible;
   opacity: 1;
 }
 
-
-.calistoga-regular {
-  font-family: "Calistoga", serif;
-  font-weight: 400;
-  font-style: normal;
+#hint-btn {
+  width: fit-content;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px;
+  margin: 0px;
+  background-color: #FCCA46;
+  position: relative; /* Wichtig, damit der Tooltip relativ zum Button positioniert wird */
 }
+
+#hint-btn #hint-tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Tooltip relativ zum Button platzieren */
+  position: absolute;
+  z-index: 1;
+  top: 110%; /* Unterhalb des Buttons */
+  left: 50%;
+  transform: translateX(-50%);
+  
+  /* Fade-In Effekt */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip-Pfeil */
+#hint-btn #hint-tooltiptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%; /* Über dem Tooltip (zeigt nach oben) */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #555 transparent;
+}
+
+/* Tooltip anzeigen bei Hover */
+#hint-btn:hover #hint-tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
 
 #language-selection {
   padding-top: 60px;
