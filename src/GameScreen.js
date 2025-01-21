@@ -20,6 +20,7 @@ export default class GameScreen {
 
   async initializeGame() {
     try {
+       this.resetScores(); 
         await this.game.init();
 
         // Setze initial den Total Score
@@ -46,7 +47,8 @@ export default class GameScreen {
                     this.onComplete();
                 }
                 this.updateScore(rightCount, wrongCount);
-                console.log("huhu")
+                console.log("updateScore");
+                console.trace(this.updateScore(rightCount, wrongCount));
             });
         }
     } catch (error) {
@@ -74,9 +76,6 @@ export default class GameScreen {
   }
 
     hide() {
-      this.score.innerHTML = 0; 
-      this.rightCount.innerHTML = 0;
-      this.wrongCount.innerHTML = 0;
       document.getElementById("hint-btn").removeAttribute("disabled");
       document.getElementById("tooltiptext").innerHTML = "Get a hint!"
       this.container.style.display = "none"; 
@@ -105,5 +104,11 @@ export default class GameScreen {
     if(this.score) {
       this.score.innerHTML = right + wrong; 
     }
+}
+
+resetScores() {
+  this.score.textContent = 0;
+  this.wrongCount.textContent = 0;
+  this.rightCount.textContent = 0;
 }
 }
