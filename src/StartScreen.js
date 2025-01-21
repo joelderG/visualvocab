@@ -6,7 +6,7 @@ export default class StartScreen {
     }
 
     show(onComplete) {
-      this.container.style.display = "block";
+      this.container.style.display = "flex";
       this.onComplete = onComplete; 
       // Entferne die 'selected'-Klasse von allen Buttons
   

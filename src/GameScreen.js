@@ -77,7 +77,7 @@ export default class GameScreen {
 
     hide() {
       document.getElementById("hint-btn").removeAttribute("disabled");
-      document.getElementById("tooltiptext").innerHTML = "Get a hint!"
+      document.getElementById("hint-tooltiptext").innerHTML = "Get a hint!"
       this.container.style.display = "none"; 
       this.screen.style.zIndex = "-2";
       console.log("hide")
