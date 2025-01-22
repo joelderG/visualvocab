@@ -1,23 +1,110 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://kit.fontawesome.com/947b9c5a1e.js" crossorigin="anonymous"></script>
     <title>Improve Your Vocabulary 3D</title>
 
     <!-- special font  -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/index-DWlGE82l.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-CZfu1fWi.css">
-</head>
-<body>
-    <h1 id="title">improve your vocabulary 3D</h1>
-    <div id="game-container">
-        <!-- Canvas-Element für die 3D-Szene -->
-        <canvas id="gameCanvas"></canvas>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
+      rel="stylesheet" />
+
+    <script type="module" crossorigin src="/assets/index-BbQZVULz.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C6-9SedM.css">
+  </head>
+  <body>
+    <div id="startScreen">
+      <div id="header">
+        <h3>learn a new language today</h3>
+        <div id="header-title">
+          <h1>visual</h1>
+          <h1 style="color: #FE7F2D">vocab.</h1>
+        </div>
+      </div>
+
+      <div class="selection-container">
+        <div id="language-selection">
+          <h2>Pick a language!</h2>
+          <button data-language="en">English</button>
+          <button data-language="de">Deutsch</button>
+          <button data-language="fr">Français</button>
+        </div>
+        <div><button id="nextBtn">Next</button></div>
+      </div>
     </div>
+
+    <div id="sceneSelectionScreen" style="display: none">
+      <div class="selection-container">
+        <h2>Select a scene</h2>
+        <div>
+          <button class="sceneBtn" value="scene1">living Room</button>
+          <button class="sceneBtn" value="scene2">witch's house</button>
+          <button class="sceneBtn" value="scene3">shapes</button>
+        </div>
+        <button id="nextBtn">Next</button>
+      </div>
+    </div>
+
+    <div id="gameScreen">
+      <!-- Canvas-Element für die 3D-Szene -->
+       <div id="gameScreen-placeholder"></div>
+      <canvas id="gameCanvas"></canvas>
+      <div id="game-screen-ui-container" style="display: none">
+        <div id="prompt-container">
+          <div id="prompt-box"><span id="prompts">[word not initialized]</span></div>
+          <button id="hint-btn">
+            <i class="fa-regular fa-lightbulb"></i>
+            </i>
+            <span id="hint-tooltiptext">Get a hint</span>
+           </button>
+           <button id="skip-btn">
+            <i class="fa-solid fa-xmark"></i>
+            <span id="skip-tooltiptext">Skip this word</span>
+          </button>
+        </div>
+        <div id="stats-container">
+        <div class="stats-display" id="score-count">
+          <h4 id="score">0</h4>
+          <h4>of</h3>
+          <h4 id="total"></h3>
+        </div>
+        <div class="stats-display" id="wrong-count" >
+          <div id="wrong">0</div>
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="stats-display" id="right-count">
+          <div id="right">0</div>
+          <i class="fa-solid fa-check"></i>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <div id="loadingScreen" style="display: none;">
+      <div class="loader-text">Loading Scene...</div>
+      <div class="loader">
+          <div class="loader-bar"></div>
+      </div>
+    </div>
+
+    <div id="endScreen" style="display: none;">
+      <div id="final-score-container">
+        <h1>Your score:  </h1>
+        <h1 id="final-score">0</h1>
+      </div>
+     
+
+        <button id="newGame">New Game</button>
+  
+    </div>
+
     <!-- Lade das Skript am Ende des Body -->
-</body>
+  </body>
 </html>
