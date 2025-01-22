@@ -38,4 +38,6 @@ Um das Projekt lokal zu starten, benötigst du Folgendes:
    ```bash
    npm run dev
    ```
+
+Derzeit läuft die Anwendung nur unter Anwendung von npm run dev.
    
