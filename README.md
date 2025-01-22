@@ -1,4 +1,4 @@
-# Improve Your Vocabulary 3D
+# visualvocab
 
 ## Projektbeschreibung
 Dieses Projekt ist eine interaktive Webanwendung, die Nutzer:innen ermöglicht, ihre Fremdsprachenkenntnisse auf spielerische Weise zu verbessern. Die Anwendung zeigt einen 3D-Raum, in dem Nutzer:innen aufgefordert werden, bestimmte Gegenstände auszuwählen. Das Ziel ist, das richtige Objekt im Raum zu finden und anzuklicken. Die richtige Auswahl färbt das Objekt grün, während eine falsche Auswahl rot markiert wird.
@@ -25,7 +25,7 @@ Um das Projekt lokal zu starten, benötigst du Folgendes:
 1. **Repository klonen**:
    Klone das Repository in dein lokales Verzeichnis.
    ```bash
-   git clone https://github.com/username/improve-your-vocabulary-3d.git
+   git clone https://github.com/joelderG/visualvocab.git
    cd improve-your-vocabulary-3d
    ```
 
