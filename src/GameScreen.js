@@ -6,6 +6,8 @@ export default class GameScreen {
     this.gameCanvas = document.getElementById("gameCanvas");
     this.container = document.getElementById("game-screen-ui-container");
     this.prompt = document.getElementById("prompts");
+    this.wrongCount = document.getElementById("wrong");
+    this.rightCount = document.getElementById("right"); 
     this.screen = document.getElementById("gameScreen");
     this.scoreCountContainer = document.getElementById("score-count");
     this.score = document.getElementById("score");
@@ -18,38 +20,41 @@ export default class GameScreen {
 
   async initializeGame() {
     try {
-      await this.game.init();
+       this.resetScores(); 
+        await this.game.init();
 
-      // Setze initial den Total Score
-      if (this.game.wordGenerator) {
-        this.totalScore.innerHTML = this.game.totalScore;
-      }
-
-      // Callback für Wortänderungen
-      if (this.game.wordGenerator) {
-        this.game.wordGenerator.setOnWordChangeCallback((newWord) => {
-          this.updatePrompt(newWord);
-        });
-      }
-
-            // Callback für Score-Änderungen
-            if (this.game.setOnScoreChangeCallback) {
-                this.game.setOnScoreChangeCallback((newScore) => {
-                    if(newScore === 0) {
-                        this.game.endGame(); 
-                        this.config.wrongCount = this.game.wrongCount; 
-                        console.log("game ended: ", this.game)
-                        this.config.scoreCount = this.game.scoreCount; 
-                        this.config.gameFinished = true; 
-                        this.onComplete();
-                    }
-                    this.updateScore(this.game.scoreCount);
-                });
-            }
-        } catch (error) {
-            console.error("Error initializing game screen:", error);
+        // Setze initial den Total Score
+        if (this.game.wordGenerator) {
+            this.totalScore.innerHTML = this.game.totalScore;
         }
+
+        // Callback für Wortänderungen
+        if (this.game.wordGenerator) {
+            this.game.wordGenerator.setOnWordChangeCallback((newWord) => {
+                this.updatePrompt(newWord);
+            });
+        }
+
+        // Callback für Score-Änderungen
+        if (this.game.setOnScoreChangeCallback) {
+            this.game.setOnScoreChangeCallback((totalScore, rightCount, wrongCount) => {
+                if (totalScore === 0) {
+                    this.game.endGame();
+                    this.config.wrongCount = wrongCount;
+                    console.log("game ended: ", this.game);
+                    this.config.scoreCount = rightCount;
+                    this.config.gameFinished = true;
+                    this.onComplete();
+                }
+                this.updateScore(rightCount, wrongCount);
+                console.log("updateScore");
+                console.trace(this.updateScore(rightCount, wrongCount));
+            });
+        }
+    } catch (error) {
+        console.error("Error initializing game screen:", error);
     }
+}
 
   async show(onComplete) {
     this.container.style.display = "block";
@@ -71,9 +76,11 @@ export default class GameScreen {
   }
 
     hide() {
-        this.container.style.display = "none";
-        this.score.innerHTML = 0; 
-        this.screen.style.zIndex = "-2";
+      document.getElementById("hint-btn").removeAttribute("disabled");
+      document.getElementById("tooltiptext").innerHTML = "Get a hint!"
+      this.container.style.display = "none"; 
+      this.screen.style.zIndex = "-2";
+      console.log("hide")
     }
 
   updatePrompt(newWord) {
@@ -85,9 +92,23 @@ export default class GameScreen {
     }
   }
 
-  updateScore(newScore) {
-    if (this.score) {
-      this.score.innerHTML = newScore;
+  updateScore(right, wrong) {
+    if (this.rightCount) {
+        this.rightCount.innerHTML = right;
     }
-  }
+
+    if (this.wrongCount) {
+        this.wrongCount.innerHTML = wrong;
+    }
+
+    if(this.score) {
+      this.score.innerHTML = right + wrong; 
+    }
+}
+
+resetScores() {
+  this.score.textContent = 0;
+  this.wrongCount.textContent = 0;
+  this.rightCount.textContent = 0;
+}
 }

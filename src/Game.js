@@ -63,7 +63,8 @@ export default class Game {
       this.wordGenerator.init();
       
       // Setze totalScore auf die tatsächliche Anzahl der verfügbaren Wörter
-      this.totalScore = this.wordGenerator.getRemainingWords();
+      this.totalScore = (this.wordGenerator.getRemainingWords() < 10) ? this.wordGenerator.getRemainingWords() : 10;
+      console.log("total score: ", this.totalScore)
 
       // Lade das 3D-Model
       await new Promise((resolve, reject) => {
@@ -115,33 +116,34 @@ export default class Game {
 
   setupInteractionHandlers() {
     this.interactionHandler.setOnCorrectObjectClick(() => {
-      try {
-        this.incrementScore();
-        this.wordGenerator.onGenerateNewWord();
-        this.interactionHandler.wrongCount = 0;
-        this.decrementTotalScore();  
-      } catch (error) {
-        console.error("Error in interaction handler:", error);
-      }
+        try {
+            this.incrementScore();
+            this.wordGenerator.onGenerateNewWord();
+            this.interactionHandler.wrongCount = 0;
+            this.decrementTotalScore();
+        } catch (error) {
+            console.error("Error in interaction handler:", error);
+        }
     });
 
     this.interactionHandler.setOnWrongObjectClick(() => {
-      console.log("Wrong object clicked");
-      
-      if(this.interactionHandler.wrongCount > 5) {
-        this.wrongCount++; 
-        this.wordGenerator.onGenerateNewWord();
-        this.interactionHandler.wrongCount = 0; 
-        this.decrementTotalScore();  
-      }
+        console.log("Wrong object clicked");
+
+        if (this.interactionHandler.wrongCount > 5) {
+            this.incrementWrongCount();
+            this.wordGenerator.onGenerateNewWord();
+            this.interactionHandler.wrongCount = 0;
+            this.decrementTotalScore();
+        }
     });
 
     this.interactionHandler.setOnSkipClick(() => {
-      this.wordGenerator.onGenerateNewWord();
-      this.interactionHandler.wrongCount = 0;
-      this.decrementTotalScore(); 
+       this.incrementWrongCount();
+        this.wordGenerator.onGenerateNewWord();
+        this.interactionHandler.wrongCount = 0;
+        this.decrementTotalScore();
     });
-  }
+}
 
   handleGameError(error) {
     console.error("Game error occurred:", error);
@@ -154,15 +156,28 @@ export default class Game {
     this.scoreChangeCallback = callback;
   }
 
-    incrementScore() {
-        this.scoreCount++;
-        console.log("Score updated in Game:", this.scoreCount);
+  incrementScore() {
+    this.scoreCount++;
+    console.log("Score updated in Game:", this.scoreCount);
+
+    if (this.scoreChangeCallback) {
+        this.scoreChangeCallback(this.totalScore, this.scoreCount, this.wrongCount);
     }
+}
+
+incrementWrongCount() {
+  this.wrongCount++;
+  console.log("Wrong count updated in Game:", this.wrongCount);
+
+  if (this.scoreChangeCallback) {
+      this.scoreChangeCallback(this.totalScore, this.scoreCount, this.wrongCount);
+  }
+}
 
     decrementTotalScore() {
         this.totalScore--; 
         if (this.scoreChangeCallback) {
-            this.scoreChangeCallback(this.totalScore);
+          this.scoreChangeCallback(this.totalScore, this.scoreCount, this.wrongCount);
         }
     }
 
@@ -171,6 +186,7 @@ export default class Game {
         this.scene.disposeScene(); 
         this.scene.scene.clear();
         this.scene.renderer.dispose(); 
+        this.interactionHandler.removeEventListeners();
         console.log("scene cleared: ", this.scene.scene)
     }
 }

@@ -24,7 +24,7 @@ varying vec3 vWorldPosition;
 
 void main() {
     // Basis-Farbe (ein dunkleres Grün)
-    vec3 baseColor = vec3(0.0, 0.7, 0.2);
+    vec3 baseColor = vec3(0.631, 0.757, 0.506);
     
     // Pulsierender Faktor basierend auf der Zeit
     float pulseSpeed = 0.5;

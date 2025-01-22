@@ -8,7 +8,7 @@ export default class Scene {
         this.sceneName = sceneName;
         this.config = config;  // Store config
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x579BCF); // Hellblauer Himmel
+        this.scene.background = new THREE.Color(0x233D4D); // Hellblauer Himmel
         
         // Get camera settings for this scene
         const cameraSettings = this.config.getCameraSettings();
@@ -164,6 +164,10 @@ export default class Scene {
         this.canvas = document.createElement("canvas");
         this.canvas.id = "gameCanvas";
         this.placeholder.replaceWith(this.canvas);
+        this.placeholder = document.createElement("div");
+        this.placeholder.id = "gameScreen-placeholder"
+        // Neues Placeholder-Element vor dem Canvas einfügen
+    this.canvas.insertAdjacentElement("beforebegin", this.placeholder);
     }
     
 }

@@ -7,7 +7,7 @@ varying vec3 vWorldPosition;
 
 void main() {
     // Basis-Farbe (ein helles Rot für übersprungene Objekte)
-    vec3 baseColor = vec3(0.8, 0.2, 0.2);
+    vec3 baseColor = vec3(0.996, 0.498, 0.176);
     
     // Langsamere Pulsierung für übersprungene Objekte
     float pulseSpeed = 0.3;

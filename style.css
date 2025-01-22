@@ -4,14 +4,22 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   margin: 0;
-  background-color: #F5F2EC;
+  color: #fff ;
+  background-color: #233D4D;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+
 }
 
 h1 {
   font-family: "Outfit", bold;
-  font-size: 70px;
+  font-size: 170px;
+  line-height: 0%;
 }
 
 h2 {
@@ -21,18 +29,20 @@ h2 {
 }
 
 h3 {
-  font-family: "Zilla Slab";
+  font-family: "Outfit";
+  font-weight: normal;
   font-size: 28px;
+  line-height: 20px;
 }
 
 h4 {
-  font-family: "Zilla Slab";
+  font-family: "Outfit";
   font-size: 24px;
   margin: 10px;
 }
 
 button {
-  font-family: "Zilla Slab";
+  font-family: "Outfit";
   font-size: 28px;
   width: 300px;
   height: 70px;
@@ -41,9 +51,10 @@ button {
   padding-top: 5px;
   padding-bottom: 5px;
   margin: 10px;
-  border-radius: 20px;
+  border-radius: 5px;
   border-style: none;
-  background-color: #bcba84;
+  background-color: #A1C181;
+  cursor: pointer;
 }
 
 i {
@@ -51,40 +62,38 @@ i {
   font-family: "Font Awesome 6 Free";
 } 
 .selected {
-  background-color: #DF8314;
+  background-color: #619B8A;
+}
+
+#header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#header-title {
+display: inline-flex;
+width: fit-content;
+height: fit-content;
 }
 
 #nextBtn {
-background-color: #DF8314;
+background-color: #FE7F2D;
 position: fixed;
 bottom: 20px;
-left: 60px;
+left: 50%;
+transform: translateX(-50%);
 }
 
 #skip-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 10px;
+  width: fit-content;
+  height: 100%;
+  background-color: #FE7F2D;
+  margin: 0px;
+  position: relative;
 }
 
-#hint-btn:disabled {
-  background-color:#DF8314;
-  cursor: default;
-}
-
-#hint-btn {
-  width: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 25px;
-  position: fixed;
-  top: 20px;
-  left: 10px;
-  cursor: pointer; /* Zeigt an, dass es klickbar ist */
-}
-
-#hint-btn #tooltiptext {
+#skip-btn #skip-tooltiptext {
   visibility: hidden;
   width: 120px;
   background-color: #555;
@@ -93,10 +102,10 @@ left: 60px;
   padding: 5px 0;
   border-radius: 6px;
 
-  /* Positioniere den Tooltip relativ zum Button */
+  /* Tooltip relativ zum Button platzieren */
   position: absolute;
   z-index: 1;
-  top: 125%; /* Position unterhalb des Buttons */
+  top: 110%; /* Unterhalb des Buttons */
   left: 50%;
   transform: translateX(-50%);
   
@@ -106,7 +115,7 @@ left: 60px;
 }
 
 /* Tooltip-Pfeil */
-#hint-btn #tooltiptext::after {
+#skip-btn #skip-tooltiptext::after {
   content: "";
   position: absolute;
   bottom: 100%; /* Über dem Tooltip (zeigt nach oben) */
@@ -118,25 +127,70 @@ left: 60px;
 }
 
 /* Tooltip anzeigen bei Hover */
-#hint-btn:hover #tooltiptext {
+#skip-btn:hover #skip-tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+#hint-btn {
+  width: fit-content;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px;
+  margin: 0px;
+  background-color: #FCCA46;
+  position: relative; /* Wichtig, damit der Tooltip relativ zum Button positioniert wird */
+}
+
+#hint-btn #hint-tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Tooltip relativ zum Button platzieren */
+  position: absolute;
+  z-index: 1;
+  top: 110%; /* Unterhalb des Buttons */
+  left: 50%;
+  transform: translateX(-50%);
+  
+  /* Fade-In Effekt */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip-Pfeil */
+#hint-btn #hint-tooltiptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%; /* Über dem Tooltip (zeigt nach oben) */
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #555 transparent;
+}
+
+/* Tooltip anzeigen bei Hover */
+#hint-btn:hover #hint-tooltiptext {
   visibility: visible;
   opacity: 1;
 }
 
 
-.calistoga-regular {
-  font-family: "Calistoga", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
 #language-selection {
-  justify-items: center;
- 
+  padding-top: 60px;
+  justify-items: center; 
 }
 
-#difficulty-selection {
-  justify-items: center;
+.selection-container {
+  justify-items: center; 
 }
 
 /* Der gameScreen nimmt den gesamten Bildschirm ein */
@@ -158,27 +212,66 @@ left: 60px;
 
 /* Der prompt-container wird über gameScreen angezeigt */
 #prompt-container {
+  display: flex;
   position: absolute; /* Positioniert den Container über dem gameScreen */
   width: calc(100% - 40px);
-  height: auto;
-  top: 70%; /* Vertikale Mitte */
+  height: 80px;
+  top: 5%; 
   margin: 20px;
-  background-color: white; /* Hintergrundfarbe */
-  border-radius: 20px; /* Abgerundete Ecken */
-  padding: 20px; /* Innenabstand */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatten für mehr Sichtbarkeit */
+  gap: 15px;
   z-index: 10; /* Über anderen Elementen */
   box-sizing: border-box;
+  justify-content: flex-end;
+  color: #000;
+  text-align: center;
+}
+
+#prompt-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white; /* Hintergrundfarbe */
+  border-radius: 5px; /* Abgerundete Ecken */
+  width: 100%;
+}
+
+#prompts {
+  font-family: "Outfit";
+  font-weight: 600;
+  font-size: 40px;
+}
+
+#stats-container {
+  display: flex;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  gap: 15px;
 }
 
 /* Score count */
-#score-count {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  padding: 10px; 
+.stats-display {
+  font-family: "Outfit";
+  display: flex;
+  width: fit-content;
+  padding-left: 15px; 
+  padding-right: 15px; 
   background-color: white;
-  border-radius: 20px;
+  border-radius: 5px;
+  color: #000;
+  font-size: 24px;
+  align-items: center;
+}
+
+#wrong-count {
+color:#FE7F2D;
+gap: 10px;
+}
+
+#right-count {
+color: #A1C181;
+gap: 10px;
+
 }
 
 select, #newWord {
@@ -255,7 +348,7 @@ select:focus, #newWord:focus {
 }
 
 .loader-text {
-  font-family: "Zilla Slab";
+  font-family: "Outfit";
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
@@ -263,4 +356,23 @@ select:focus, #newWord:focus {
 
 #endScreen {
   z-index: 20;
+}
+
+#newGame {
+  background-color: #FE7F2D;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+} 
+
+#final-score-container {
+  display: inline-flex;
+  width: fit-content;
+  height: fit-content;
+  gap: 30px;
+}
+
+#final-score {
+  color: #FE7F2D;
 }
