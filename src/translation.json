@@ -1,0 +1,27 @@
+{
+    "en": {
+      "Cone": "Cone",
+      "Cube": "Cube",
+      "Cylinder": "Cylinder",
+      "Sphere": "Sphere"
+    },
+    "de": {
+        "Cone": "Kegel",
+        "Cube": "Würfel",
+        "Cylinder": "Zylinder",
+        "Sphere": "Kugel"
+    },
+    "es": {
+        "Cone": "Cono",
+        "Cube": "Cubo",
+        "Cylinder": "Cilindro",
+        "Sphere": "Bola"
+    },
+    "fr": {
+        "Cone": "Quille",
+        "Cube": "Dé",
+        "Cylinder": "Cylindre",
+        "Sphere": "Boule"
+    }
+  }
+  
